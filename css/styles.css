@@ -49,7 +49,7 @@ body {
 }
 
 .logo-image {
-    height: 60px; /* Adjust height as needed */
+    height: 90px; /* Adjust height as needed */
 }
 
 .main-nav ul {
@@ -91,7 +91,7 @@ body {
 /* --- Hero Section --- */
 .hero-section {
     position: relative;
-    height: 90vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -293,4 +293,67 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.8rem;
     opacity: 0.6;
+}
+
+/* ==================
+   2. HEADER & NAVIGATION STYLES
+   ================== */
+
+.main-header {
+    position: fixed; /* Changed from default to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent; /* Initially transparent */
+    padding: 20px 0;
+    transition: background-color 0.4s ease-in-out, padding 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+/* This is our new class that JavaScript will add on scroll */
+.main-header.scrolled {
+    background-color: #ffffff; /* Becomes solid white */
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Adds a subtle shadow for depth */
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* We need to adjust link colors for the two states */
+.main-header .main-nav a {
+    color: #ffffff; /* White text for the hero section */
+    /* Add other nav styling here */
+    transition: color 0.4s ease-in-out;
+}
+
+.main-header.scrolled .main-nav a {
+    color: #333333; /* Dark text for the solid header */
+}
+
+/* Adjust the CTA button as well */
+.main-header .nav-cta {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #ffffff;
+     /* Add other button styling here */
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+}
+
+.main-header.scrolled .nav-cta {
+    background-color: #C0A975; /* Gold background */
+    color: #ffffff; /* White text */
+    border-color: #C0A975;
+}
+
+/* We need to push the main content down so it doesn't start hidden under the fixed header */
+main {
+    padding-top: 80px; /* Adjust this value based on your header's height */
+}
+
+.hero-section {
+    margin-top: -80px; /* This pulls the hero section back up to fill the space */
 }
