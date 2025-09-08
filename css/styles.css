@@ -336,12 +336,24 @@ body {
 }
 
 /* Adjust the CTA button as well */
+/* MODIFY this rule */
 .main-header .nav-cta {
     background-color: #ffffff;
     color: #333333;
     border: 1px solid #ffffff;
-     /* Add other button styling here */
-    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, transform 0.3s ease; /* <-- ADD transform HERE */
+}
+
+/* ADD THESE afrer the rule above */
+.main-header .nav-cta:hover {
+    background-color: var(--soft-gold);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.main-header.scrolled .nav-cta:hover {
+    background-color: #d4b981; /* Lighter gold for scrolled state */
+    transform: translateY(-2px);
 }
 
 .main-header.scrolled .nav-cta {
@@ -553,4 +565,98 @@ main {
     color: var(--charcoal);
     text-decoration: none;
     cursor: pointer;
+}
+
+/* =================================
+   3. NEW HEADER ACTIONS & HOVER EFFECTS
+   ================================= */
+
+/* --- Wrapper for CTA button and Login Icon --- */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Space between button and icon */
+}
+
+/* --- Login Icon General Styling --- */
+.login-icon {
+    font-size: 1.9rem;
+    line-height: 1; /* Helps with vertical alignment */
+    text-decoration: none;
+}
+.login-icon i {
+    display: block;
+    transition: color 0.4s ease-in-out, transform 0.3s ease;
+}
+
+/* --- Login Icon Color States --- */
+/* On transparent header, the icon inherits the white color from a rule below */
+/* On scrolled header, make it dark */
+.main-header.scrolled .login-icon i {
+    color: #333333;
+}
+
+/* On hover (in any state), make it gold */
+.login-icon:hover i {
+    color: var(--soft-gold) !important; /* Ensures hover color always applies */
+    transform: scale(1.1);
+}
+
+/* --- Nav Link Hover Effects --- */
+
+/* 1. Initial State (Transparent Header) - Simple Gold Hover */
+/* This rule is more specific than the default, so it applies correctly. */
+.main-header .main-nav a:hover {
+    color: var(--soft-gold);
+}
+
+/* 2. Scrolled State - Center-Out Wipe Effect */
+
+/* Prepare the link element for the effect */
+.main-header.scrolled .main-nav a {
+    position: relative;
+    z-index: 1; /* Keep text above the effect */
+    transition: color 0.4s ease;
+}
+
+/* The pseudo-element that creates the wipe effect */
+.main-header.scrolled .main-nav a::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--soft-gold);
+    
+    /* Start scaled to 0 from the center */
+    transform: scaleX(0);
+    transform-origin: center;
+    
+    /* Smooth transition for the wipe */
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+/* On hover, change text to white and expand the wipe */
+.main-header.scrolled .main-nav a:hover {
+    color: var(--white);
+}
+.main-header.scrolled .main-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* --- Color Adjustment for All Header Right-Side Items --- */
+
+/* Group the nav links and the new icon so they share the same color logic */
+.main-header .main-nav a,
+.main-header .login-icon i {
+    color: #ffffff; /* White text for the hero section */
+    transition: color 0.4s ease-in-out;
+}
+
+.main-header.scrolled .main-nav a,
+.main-header.scrolled .login-icon i {
+    color: #333333; /* Dark text for the solid header */
 }
