@@ -254,7 +254,7 @@ body {
 .footer-container {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    gap: 10px;
     padding-bottom: 40px;
 }
 
@@ -294,7 +294,8 @@ body {
     font-size: 0.8rem;
     opacity: 0.6;
 }
-
+ .footer-logo-image {
+    height: 15ch; /* Adjust height as needed */
 /* ==================
    2. HEADER & NAVIGATION STYLES
    ================== */
