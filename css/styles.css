@@ -502,6 +502,11 @@ main {
 .pricelist-cta {
     text-align: center;
     margin-top: 50px;
+    
+}
+.pricelist-cta .cta-button {
+    text-decoration: none;
+    border: none;
 }
 
 /* --- Modal (Price List) Styles --- */
@@ -659,4 +664,122 @@ main {
 .main-header.scrolled .main-nav a,
 .main-header.scrolled .login-icon i {
     color: #333333; /* Dark text for the solid header */
+}
+
+/* =================================
+   4. LOGIN PAGE STYLES
+   ================================= */
+
+.login-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--light-gray);
+    padding: 140px 20px 80px 20px; /* Generous padding top for header */
+}
+
+.login-form-wrapper {
+    max-width: 450px;
+    width: 100%;
+    background-color: var(--white);
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.login-form-wrapper h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--charcoal);
+}
+
+.login-form-wrapper p {
+    margin-bottom: 2.5rem;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--soft-gold);
+    box-shadow: 0 0 0 3px rgba(197, 167, 106, 0.3);
+}
+
+/* --- The Special Gradient Button --- */
+.login-btn {
+    width: 100%;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    position: relative; /* Crucial for positioning the pseudo-element */
+    z-index: 1;      /* Keeps the text on top */
+    overflow: hidden;  /* Hides the pseudo-element before animation */
+    background-color: white;
+    color: black;
+    border-color: lightgray; 
+}
+
+/* The pseudo-element that creates the gradient wipe */
+.login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e0d9cd 0%, var(--soft-gold) 100%); /* Beige-to-gold at 135deg */
+    z-index: -1;
+    
+    /* Start it off-screen to the left */
+    transform: translateX(-101%); 
+    
+    /* Smooth transition for the wipe effect */
+    transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+/* On hover, slide the gradient into view from left to right */
+.login-btn:hover::before {
+    transform: translateX(0);
+}
+
+
+.register-link {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.register-link a {
+    color: var(--soft-gold);
+    font-weight: bold;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
 }
