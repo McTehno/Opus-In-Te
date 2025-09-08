@@ -676,7 +676,7 @@ main {
     justify-content: center;
     height: 100vh;
     background-color: var(--light-gray);
-    padding: 140px 20px 80px 20px; /* Generous padding top for header */
+    padding: 30px 20px 20px 20px; /* Generous padding top for header */
 }
 
 .login-form-wrapper {
@@ -735,12 +735,13 @@ main {
     padding: 15px 25px;
     font-size: 1.1rem;
     margin-top: 10px;
-    position: relative; /* Crucial for positioning the pseudo-element */
-    z-index: 1;      /* Keeps the text on top */
-    overflow: hidden;  /* Hides the pseudo-element before animation */
-    background-color: white;
-    color: black;
-    border-color: lightgray; 
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background-color: transparent; /* Changed to transparent */
+    border: 2px solid var(--soft-gold); /* Add a border to define its shape initially */
+    color: var(--charcoal); /* Default text color */
+    transition: color 0.4s ease-out; /* Smooth text color transition */
 }
 
 /* The pseudo-element that creates the gradient wipe */
@@ -748,23 +749,28 @@ main {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: -10%; /* Start further left to cover the skewed shape */
+    width: 120%; /* Make it wider to ensure full coverage after skewing */
     height: 100%;
-    background: linear-gradient(135deg, #e0d9cd 0%, var(--soft-gold) 100%); /* Beige-to-gold at 135deg */
+    background: linear-gradient(135deg, #e0d9cd 0%, var(--soft-gold) 100%);
     z-index: -1;
     
-    /* Start it off-screen to the left */
-    transform: translateX(-101%); 
+    /* Skew the element and start it off-screen */
+    transform: skewX(-20deg) translateX(-100%); /* Adjusted for smoother wipe */
+    transform-origin: left; /* Ensures the skew pivots from the left edge */
     
-    /* Smooth transition for the wipe effect */
-    transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+    /* Smoother transition */
+    transition: transform 0.6s ease-out; /* Changed timing function */
 }
 
 /* On hover, slide the gradient into view from left to right */
 .login-btn:hover::before {
-    transform: translateX(0);
+    transform: skewX(-20deg) translateX(0);
 }
+
+.login-btn:hover {
+    color: var(--white); /* Text becomes white on hover */
+}   
 
 
 .register-link {
@@ -782,4 +788,37 @@ main {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+/* --- Login Page specific elements --- */
+
+.login-logo {
+    margin-bottom: 30px; /* Space below the logo */
+}
+
+.login-logo img {
+    max-width: 120px; /* Control logo size */
+    height: auto;
+}
+
+/* --- New "Nazad" Button Style --- */
+.back-btn {
+    width: 100%;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    margin-top: 15px; /* More space from the login button */
+    background-color: transparent; /* Start with transparent background */
+    border: 2px solid var(--charcoal); /* Darker border */
+    color: var(--charcoal); /* Darker text */
+    text-decoration: none; /* Ensure it looks like a button, not a link */
+    display: block; /* Make it a block element to take full width */
+    text-align: center; /* Center the text */
+    box-shadow: none; /* Remove any default cta-button shadow */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: var(--charcoal); /* Dark background on hover */
+    color: var(--white); /* White text on hover */
+    border-color: var(--charcoal); /* Keep border consistent */
 }
