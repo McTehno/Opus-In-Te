@@ -62,4 +62,49 @@ document.addEventListener('DOMContentLoaded', () => {
             .bindPopup('<b>Opus in te</b><br>Jevrejska 56, Banja Luka');
     }
 });
+
+// --- Smooth Scroll for Contact Page H1 Button ---
+document.addEventListener('DOMContentLoaded', () => {
+    const contactPageLink = document.querySelector('.page-title-link');
+
+    // Check if the link exists on the current page
+    if (contactPageLink) {
+        contactPageLink.addEventListener('click', function(e) {
+            // Prevent the default instant jump
+            e.preventDefault();
+
+            // Get the ID of the target section from the link's href
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            // Smoothly scroll to the target section
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start' // Aligns the top of the section to the top of the viewport
+                });
+            }
+        });
+    }
+});
+
+// --- Interactive Lines for Contact Page Header ---
+document.addEventListener('DOMContentLoaded', () => {
+    const contactButton = document.querySelector('.page-title-link');
+    const contactSection = document.querySelector('.page-title-section-kontakt');
+
+    // Check if both elements exist on the page to avoid errors
+    if (contactButton && contactSection) {
+        
+        // When the mouse enters the button, add the active class to the section
+        contactButton.addEventListener('mouseenter', () => {
+            contactSection.classList.add('lines-active');
+        });
+
+        // When the mouse leaves the button, remove the class
+        contactButton.addEventListener('mouseleave', () => {
+            contactSection.classList.remove('lines-active');
+        });
+    }
+});
 // Animations for Kontakt.html
