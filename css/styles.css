@@ -86,6 +86,8 @@ body {
 .cta-button:hover {
     background-color: #d4b981; /* Lighter gold */
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
 /* --- Hero Section --- */
@@ -606,6 +608,7 @@ main {
 .login-icon:hover i {
     color: var(--soft-gold) !important; /* Ensures hover color always applies */
     transform: scale(1.1);
+    transition: color 0.4s ease-in-out, transform 0.3s ease;
 }
 
 /* --- Nav Link Hover Effects --- */
@@ -832,6 +835,7 @@ main {
 
 .page-title-section-kontakt {
     background-color: var(--light-gray);
+    padding: 23vh 0;
 }
 
 .booking-prompt {
@@ -850,7 +854,6 @@ main {
     color: var(--soft-gold);
     font-weight: bold;
     text-decoration: none;
-    border-bottom: 2px solid var(--soft-gold);
     transition: color 0.3s ease, border-bottom-color 0.3s ease;
 }
 
@@ -868,6 +871,10 @@ main {
     grid-template-columns: 1fr 1.5fr;
     gap: 60px;
     align-items: start;
+}
+
+.contact-info {
+    padding-top: 38px;
 }
 
 .contact-info h3, .contact-form-wrapper h3 {
@@ -937,7 +944,14 @@ main {
 
 .map-section {
     padding-bottom: 80px;
+    padding-top: 40px;
     text-align: center;
+}
+
+.map-section-wrapper {
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.07);
 }
 
 #map-container {
@@ -970,4 +984,30 @@ main {
 /* Add a slight delay for the second element */
 .contact-container .fade-in:nth-child(2) {
     transition-delay: 0.2s;
+}
+
+/* =================================
+   7. CUSTOM MAP MARKER STYLES
+   ================================= */
+.custom-map-marker .marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: var(--soft-gold);
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+/* Creates a white inner circle for the pin */
+.custom-map-marker .marker-pin::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    margin: 8px 0 0 8px;
+    background: #FFFFFF;
+    position: absolute;
+    border-radius: 50%;
 }

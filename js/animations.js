@@ -31,4 +31,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 }); 
 
+// This code finds the map container and builds the map
+document.addEventListener('DOMContentLoaded', () => {
+
+    if (document.getElementById('map-container')) {
+        // The coordinates for Jevrejska 56, Banja Luka
+        const mapCoordinates = [44.7742, 17.1915];
+
+        // 1. Initialize map and set the view
+        const map = L.map('map-container', {
+            scrollWheelZoom: false // Prevents accidental zooming while scrolling the page
+        }).setView(mapCoordinates, 17); // 17 is a good zoom level
+
+        // 2. Add our styled tile layer from Stadia Maps
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+            maxZoom: 20,
+            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // 3. Create a custom, on-brand map marker icon
+        const customIcon = L.divIcon({
+            className: 'custom-map-marker',
+            html: `<div class="marker-pin"></div>`,
+            iconSize: [30, 42],
+            iconAnchor: [15, 42]
+        });
+
+        // 4. Add the marker to the map
+        L.marker(mapCoordinates, {icon: customIcon}).addTo(map)
+            .bindPopup('<b>Opus in te</b><br>Jevrejska 56, Banja Luka');
+    }
+});
 // Animations for Kontakt.html
