@@ -329,6 +329,7 @@ body {
     color: #ffffff; /* White text for the hero section */
     /* Add other nav styling here */
     transition: color 0.4s ease-in-out;
+    padding: 5px 15px;
 }
 
 .main-header.scrolled .main-nav a {
@@ -622,6 +623,7 @@ main {
     position: relative;
     z-index: 1; /* Keep text above the effect */
     transition: color 0.4s ease;
+    padding: 5px 15px;
 }
 
 /* The pseudo-element that creates the wipe effect */
@@ -641,6 +643,7 @@ main {
     
     /* Smooth transition for the wipe */
     transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    border-radius: 50px; /* <-- ADD THIS LINE */
 }
 
 /* On hover, change text to white and expand the wipe */
