@@ -31,34 +31,28 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgressBar();
     };
 
-    const updateProgressBar = () => {
-        steps.forEach((step, index) => {
-            const stepNumber = index + 1;
-            const stepCircle = step.querySelector('.step-circle');
+    // In js/booking.js
 
-            if (stepNumber < currentStep) {
-                step.classList.add('completed');
-                step.classList.remove('active');
-            } else if (stepNumber === currentStep) {
-                step.classList.add('active');
-                step.classList.remove('completed');
-            } else {
-                step.classList.remove('active', 'completed');
-            }
-        });
-        
-        // Update line width
-        const completedSteps = document.querySelectorAll('.step.completed').length;
-        const progressWidth = (completedSteps / (steps.length - 1)) * 100;
-        progressBarLine.style.width = `calc(${progressWidth}% - ${completedSteps > 0 ? '50px' : '0px'})`;
-
-        if (currentStep === 5) { // Final "satisfactory" animation
-             setTimeout(() => {
-                const finalProgress = ( (steps.length - 2) / (steps.length - 1)) * 100;
-                progressBarLine.style.width = `calc(${finalProgress}% + 50px)`;
-            }, 300);
+const updateProgressBar = () => {
+    steps.forEach((step, index) => {
+        const stepNumber = index + 1;
+        if (stepNumber < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (stepNumber === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
         }
-    };
+    });
+
+    // New, simpler width calculation
+    const progressWidth = ((currentStep - 1) / (steps.length - 1)) * 100;
+
+    // Set the CSS variable to trigger the smooth transition
+    progressBarLine.style.setProperty('--progress-width', `${progressWidth}%`);
+};
 
     const isStepCompleted = (stepNumber) => {
         switch(stepNumber) {

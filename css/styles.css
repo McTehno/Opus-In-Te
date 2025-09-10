@@ -1446,24 +1446,25 @@ main {
 }
 .progress-bar-line {
     position: absolute;
-    top: 17px;
-    left: 50px;
-    right: 50px;
+    top: 17.5px; /* Vertically centered with the bubbles */
+    left: 50px;  /* Aligned with container padding */
+    right: 50px; /* Aligned with container padding */
     height: 4px;
     background-color: #e0e0e0;
     z-index: 1;
-    transition: background-color 0.4s ease;
+    border-radius: 2px;
 }
-.progress-bar-line::after { /* The colored progress part */
+/* This is our new, animatable progress element */
+.progress-bar-line::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
-    width: 0;
-    background-color: var(--soft-gold);
-    z-index: 2;
-    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    background-color: var(--soft-gold); /* Correct gold color */
+    border-radius: 2px;
+    width: var(--progress-width, 0%); /* Controlled by JS */
+    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth transition */
 }
 
 .step {
@@ -1478,39 +1479,49 @@ main {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: #e0e0e0;
-    color: var(--white);
+    background-color: var(--white); /* Start as white */
+    color: #aaa;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1.1rem;
-    border: 3px solid #e0e0e0;
-    transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+    border: 3px solid #e0e0e0; /* Start with a grey border */
+    transition: background-color 0.4s ease 0.5s, border-color 0.4s ease 0.5s, color 0.4s ease 0.5s, transform 0.4s ease; /* Delayed color change */
 }
 .step-label {
     margin-top: 10px;
     font-size: 0.8rem;
     font-weight: bold;
     color: #aaa;
-    transition: color 0.4s ease;
+    transition: color 0.4s ease 0.5s;
 }
+
+/* When a step is active (the one we are on) */
 .step.active .step-circle {
-    background-color: var(--soft-gold);
     border-color: var(--soft-gold);
+    color: var(--soft-gold);
     transform: scale(1.1);
+    /* The color change is delayed until the line arrives */
+    background-color: var(--soft-gold);
+    color: var(--white);
 }
 .step.active .step-label {
     color: var(--charcoal);
 }
+
+/* When a step is completed (a previous step) */
 .step.completed .step-circle {
+    transition-delay: 0s; /* Completed steps should be colored instantly */
     background-color: var(--soft-gold);
     border-color: var(--soft-gold);
     color: var(--white);
 }
 .step.completed .step-label {
+    transition-delay: 0s;
     color: #888;
 }
+
 
 /* --- Content & Steps --- */
 .booking-content {
