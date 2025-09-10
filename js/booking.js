@@ -84,77 +84,108 @@ const updateProgressBar = () => {
         });
     });
 
-    // Step 2: Calendar & Time (Simplified version)
-    // NOTE: A real-world app would use a library like date-fns for robust date logic.
-    const calendarGrid = document.querySelector('.calendar-grid');
-    const monthYearEl = document.getElementById('monthYear');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    const timeSlotsContainer = document.querySelector('.time-slots');
+// Step 2: Calendar & Time (Refactored for Slide Animation)
+const dateTimeWrapper = document.querySelector('.date-time-wrapper');
+const calendarGrid = document.querySelector('.calendar-grid');
+const monthYearEl = document.getElementById('monthYear');
+const prevMonthBtn = document.getElementById('prevMonth');
+const nextMonthBtn = document.getElementById('nextMonth');
+const timeSlotsList = document.querySelector('.time-slots-list');
+const timeSlotsTitle = document.getElementById('timeSlotsTitle');
+const backToCalendarBtn = document.getElementById('backToCalendar');
 
-    let currentDate = new Date(2025, 8, 10); // September 10, 2025
+let currentDate = new Date(2025, 8, 10); // Today is Sep 10, 2025
 
-    const renderCalendar = () => {
-        calendarGrid.innerHTML = `<div class="day-name">Pon</div><div class="day-name">Uto</div><div class="day-name">Sri</div><div class="day-name">Čet</div><div class="day-name">Pet</div><div class="day-name">Sub</div><div class="day-name">Ned</div>`;
-        timeSlotsContainer.innerHTML = '<p>Izaberite datum da vidite termine.</p>';
-        const month = currentDate.getMonth();
-        const year = currentDate.getFullYear();
-        
-        monthYearEl.textContent = `${currentDate.toLocaleString('bs-BA', { month: 'long' })} ${year}`;
-
-        const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0=Sun, 1=Mon
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        
-        let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; // Adjust for Monday start
-
-        for(let i = 0; i < dayOffset; i++) {
-            calendarGrid.insertAdjacentHTML('beforeend', `<div></div>`);
-        }
-
-        for(let day = 1; day <= daysInMonth; day++) {
-            const isPast = new Date(year, month, day) < new Date(2025, 8, 10); // Disable days before today
-            const dayClass = isPast ? 'disabled' : '';
-            calendarGrid.insertAdjacentHTML('beforeend', `<div class="calendar-day ${dayClass}" data-day="${day}">${day}</div>`);
-        }
-    };
+const renderCalendar = () => {
+    calendarGrid.innerHTML = `<div class="day-name">Pon</div><div class="day-name">Uto</div><div class="day-name">Sri</div><div class="day-name">Čet</div><div class="day-name">Pet</div><div class="day-name">Sub</div><div class="day-name">Ned</div>`;
     
-    prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-    nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    monthYearEl.textContent = `${currentDate.toLocaleString('bs-BA', { month: 'long' })} ${year}`;
 
-    calendarGrid.addEventListener('click', e => {
-        if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
-            document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
-            e.target.classList.add('selected');
-            const day = e.target.dataset.day;
-            const month = currentDate.getMonth() + 1;
-            const year = currentDate.getFullYear();
-            bookingDetails.date = `${day}.${month}.${year}`;
-            
-            // Mock time slots
-            timeSlotsContainer.innerHTML = `
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+    for (let i = 0; i < dayOffset; i++) {
+        calendarGrid.insertAdjacentHTML('beforeend', `<div></div>`);
+    }
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const loopDate = new Date(year, month, day);
+        const isPast = loopDate < today;
+        const dayClass = isPast ? 'disabled' : '';
+        calendarGrid.insertAdjacentHTML('beforeend', `<div class="calendar-day ${dayClass}" data-day="${day}">${day}</div>`);
+    }
+};
+
+const changeMonth = (offset) => {
+    calendarGrid.classList.add('fading');
+    setTimeout(() => {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+        renderCalendar();
+        calendarGrid.classList.remove('fading');
+    }, 300); // Match CSS transition time
+};
+
+prevMonthBtn.addEventListener('click', () => changeMonth(-1));
+nextMonthBtn.addEventListener('click', () => changeMonth(1));
+backToCalendarBtn.addEventListener('click', () => dateTimeWrapper.classList.remove('show-times'));
+
+calendarGrid.addEventListener('click', e => {
+    if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
+        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+        e.target.classList.add('selected');
+        
+        const day = e.target.dataset.day;
+        const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        bookingDetails.date = selectedDate.toLocaleDateString('bs-BA');
+        
+        // Update the title to show which day was picked
+        timeSlotsTitle.textContent = `Termini za ${bookingDetails.date}`;
+
+        // Mock appointment data with availability
+        const appointments = [
+            { time: '09:00', available: true },
+            { time: '10:00', available: false },
+            { time: '11:00', available: true },
+            { time: '12:00', available: true },
+            { time: '13:00', available: false },
+            { time: '14:00', available: true },
+            { time: '15:00', available: false },
+            { time: '16:00', available: true },
+        ];
+        
+        timeSlotsList.innerHTML = appointments.map(app => `
+            <div class="appointment-slot ${!app.available ? 'disabled' : ''}" data-time="${app.time}">
                 <div class="therapist-info">
                     <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović">
                     <span>Vanja Dejanović</span>
                 </div>
-                <div class="time-slot" data-time="09:00">09:00</div>
-                <div class="time-slot" data-time="10:00">10:00</div>
-                <div class="time-slot" data-time="11:00">11:00</div>
-                <div class="time-slot" data-time="14:00">14:00</div>
-            `;
-        }
-    });
+                <div class="appointment-time">${app.time}</div>
+            </div>
+        `).join('');
+        
+        // Slide to show the times
+        dateTimeWrapper.classList.add('show-times');
+    }
+});
 
-    timeSlotsContainer.addEventListener('click', e => {
-        if (e.target.classList.contains('time-slot')) {
-            document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
-            e.target.classList.add('selected');
-            bookingDetails.time = e.target.dataset.time;
+timeSlotsList.addEventListener('click', e => {
+    const slot = e.target.closest('.appointment-slot');
+    if (slot && !slot.classList.contains('disabled')) {
+        bookingDetails.time = slot.dataset.time;
+        // Small delay to let the user see their selection before proceeding
+        setTimeout(() => {
             navigateToStep(3);
-        }
-    });
+        }, 300);
+    }
+});
 
-    renderCalendar();
-
+renderCalendar(); // Initial render
     // Step 3: Services
     document.querySelectorAll('.service-header').forEach(header => {
         header.addEventListener('click', () => {

@@ -1586,29 +1586,58 @@ main {
     color: var(--charcoal);
 }
 
+/* In css/styles.css */
+
 /* Step 2: Date & Time */
 .date-time-picker {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
+    position: relative;
+    min-height: 420px; /* Adjusted height */
+    overflow: hidden; /* Hide the sliding elements */
 }
-.therapist-info {
+
+/* We use this as a container for our two sliding views */
+.date-time-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex; /* We will slide the whole container */
+    transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+/* This class moves the wrapper left by 100% to show the time slots */
+.date-time-wrapper.show-times {
+    transform: translateX(-100%);
+}
+
+.calendar-container, .time-slots-container {
+    width: 100%;
+    flex-shrink: 0; /* Prevents containers from shrinking */
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.calendar-container {
+    background-color: var(--white);
+}
+.time-slots-container {
+    background-color: var(--light-gray);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+}
+
+/* Month change transition */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     gap: 10px;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    text-align: center;
+    transition: opacity 0.3s ease-in-out; /* Smooth fade for month changes */
 }
-.therapist-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
+.calendar-grid.fading {
+    opacity: 0.2;
 }
-.therapist-info span {
-    font-weight: bold;
-}
+
 
 .calendar-header {
     display: flex;
@@ -1620,80 +1649,105 @@ main {
     font-family: var(--font-heading);
 }
 .calendar-header button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--charcoal);
-    transition: color 0.3s ease;
+    background: none; border: none; font-size: 1.2rem; cursor: pointer;
+    color: var(--charcoal); transition: color 0.3s ease;
 }
 .calendar-header button:hover {
     color: var(--soft-gold);
 }
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    text-align: center;
-}
+
 .day-name {
-    font-weight: bold;
-    font-size: 0.9rem;
-    opacity: 0.6;
+    font-weight: bold; font-size: 0.9rem; opacity: 0.6;
 }
 .calendar-day {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 50%;
+    padding: 10px; cursor: pointer; border-radius: 50%;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 .calendar-day:not(.disabled):hover {
     background-color: var(--light-gray);
 }
 .calendar-day.selected {
-    background-color: var(--soft-gold);
-    color: var(--white);
-    font-weight: bold;
+    background-color: var(--soft-gold); color: var(--white); font-weight: bold;
 }
 .calendar-day.disabled {
-    color: #ccc;
-    cursor: not-allowed;
+    color: #ccc; cursor: not-allowed;
 }
-.time-slots-container {
-    background-color: var(--light-gray);
-    padding: 20px;
-    border-radius: 10px;
-}
-.time-slots-container h4 {
-    text-align: center;
+
+/* --- New Time Slot List Styles --- */
+.time-slots-header {
+    display: flex;
+    align-items: center;
     margin-bottom: 15px;
-    font-family: var(--font-heading);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
 }
-.time-slots {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.back-to-calendar-btn {
+    background: none; border: none; font-size: 0.9rem; font-weight: bold;
+    cursor: pointer; color: var(--charcoal); display: flex; align-items: center;
+    gap: 8px; transition: color 0.3s ease;
+}
+.back-to-calendar-btn:hover {
+    color: var(--soft-gold);
+}
+/* This title will show the selected date */
+.time-slots-header h4 {
+    flex-grow: 1; text-align: center; margin: 0; font-family: var(--font-heading);
+    font-size: 1.4rem;
+}
+
+.time-slots-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
-.time-slot {
+.appointment-slot {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     background-color: var(--white);
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #ddd; /* Start with a subtle border */
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.time-slot:hover {
+.appointment-slot:hover {
     border-color: var(--soft-gold);
+    transform: scale(1.02); /* Pop effect */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.appointment-slot.disabled {
+    background-color: #f9f9f9;
+    color: #bbb;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+.appointment-slot.disabled .appointment-time {
+    color: #bbb;
+}
+.appointment-slot.disabled:hover {
+    border-color: #ddd;
+    transform: none;
+    box-shadow: none;
+}
+.therapist-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.therapist-info span {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.appointment-time {
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 1.2rem;
     color: var(--soft-gold);
 }
-.time-slot.selected {
-    background-color: var(--soft-gold);
-    color: var(--white);
-    border-color: var(--soft-gold);
-    font-weight: bold;
-}
-
 /* Step 3: Service */
 .service-accordion {
     max-width: 600px;
