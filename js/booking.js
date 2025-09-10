@@ -84,41 +84,43 @@ const updateProgressBar = () => {
         });
     });
 
-// Step 2: Calendar & Time (Refactored for Slide Animation)
-const dateTimeWrapper = document.querySelector('.date-time-wrapper');
+// Step 2: Calendar & Time (New Two-Panel Logic)
 const calendarGrid = document.querySelector('.calendar-grid');
 const monthYearEl = document.getElementById('monthYear');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
-const timeSlotsList = document.querySelector('.time-slots-list');
+const timeSlotsList = document.getElementById('timeSlotsList');
 const timeSlotsTitle = document.getElementById('timeSlotsTitle');
-const backToCalendarBtn = document.getElementById('backToCalendar');
 
 let currentDate = new Date(2025, 8, 10); // Today is Sep 10, 2025
 
 const renderCalendar = () => {
-    calendarGrid.innerHTML = `<div class="day-name">Pon</div><div class="day-name">Uto</div><div class="day-name">Sri</div><div class="day-name">Čet</div><div class="day-name">Pet</div><div class="day-name">Sub</div><div class="day-name">Ned</div>`;
-    
+    calendarGrid.innerHTML = '';
+    const dayNames = ['Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub', 'Ned'];
+    dayNames.forEach(day => {
+        calendarGrid.insertAdjacentHTML('beforeend', `<div class="day-name">${day}</div>`);
+    });
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
     monthYearEl.textContent = `${currentDate.toLocaleString('bs-BA', { month: 'long' })} ${year}`;
-
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-
     for (let i = 0; i < dayOffset; i++) {
         calendarGrid.insertAdjacentHTML('beforeend', `<div></div>`);
     }
-
     const today = new Date();
-    today.setHours(0,0,0,0);
-
+    today.setHours(0, 0, 0, 0);
     for (let day = 1; day <= daysInMonth; day++) {
         const loopDate = new Date(year, month, day);
-        const isPast = loopDate < today;
-        const dayClass = isPast ? 'disabled' : '';
-        calendarGrid.insertAdjacentHTML('beforeend', `<div class="calendar-day ${dayClass}" data-day="${day}">${day}</div>`);
+        let classes = ['calendar-day'];
+        if (loopDate < today) {
+            classes.push('disabled');
+        }
+        if (loopDate.getTime() === today.getTime()) {
+            classes.push('today');
+        }
+        calendarGrid.insertAdjacentHTML('beforeend', `<div class="${classes.join(' ')}" data-day="${day}">${day}</div>`);
     }
 };
 
@@ -128,49 +130,54 @@ const changeMonth = (offset) => {
         currentDate.setMonth(currentDate.getMonth() + offset);
         renderCalendar();
         calendarGrid.classList.remove('fading');
-    }, 300); // Match CSS transition time
+    }, 300);
 };
 
 prevMonthBtn.addEventListener('click', () => changeMonth(-1));
 nextMonthBtn.addEventListener('click', () => changeMonth(1));
-backToCalendarBtn.addEventListener('click', () => dateTimeWrapper.classList.remove('show-times'));
 
 calendarGrid.addEventListener('click', e => {
     if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
-        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+        const currentSelection = document.querySelector('.calendar-day.selected');
+        if (currentSelection) {
+            currentSelection.classList.remove('selected');
+        }
         e.target.classList.add('selected');
         
         const day = e.target.dataset.day;
         const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         bookingDetails.date = selectedDate.toLocaleDateString('bs-BA');
         
-        // Update the title to show which day was picked
         timeSlotsTitle.textContent = `Termini za ${bookingDetails.date}`;
 
-        // Mock appointment data with availability
+        // MOCK DATA: In a real app, you would fetch this from a server
         const appointments = [
-            { time: '09:00', available: true },
-            { time: '10:00', available: false },
-            { time: '11:00', available: true },
-            { time: '12:00', available: true },
-            { time: '13:00', available: false },
-            { time: '14:00', available: true },
-            { time: '15:00', available: false },
+            { time: '09:00', available: true }, { time: '10:00', available: false },
+            { time: '11:00', available: true }, { time: '12:00', available: true },
+            { time: '14:00', available: true }, { time: '15:00', available: false },
             { time: '16:00', available: true },
         ];
         
-        timeSlotsList.innerHTML = appointments.map(app => `
-            <div class="appointment-slot ${!app.available ? 'disabled' : ''}" data-time="${app.time}">
-                <div class="therapist-info">
-                    <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović">
-                    <span>Vanja Dejanović</span>
-                </div>
-                <div class="appointment-time">${app.time}</div>
-            </div>
-        `).join('');
+        timeSlotsList.innerHTML = ''; // Clear placeholder or previous list
         
-        // Slide to show the times
-        dateTimeWrapper.classList.add('show-times');
+        if (appointments.filter(a => a.available).length > 0) {
+             appointments.forEach(app => {
+                const slotHTML = `
+                    <div class="appointment-slot ${!app.available ? 'disabled' : ''}" data-time="${app.time}">
+                        <div class="therapist-photo">
+                            <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović">
+                        </div>
+                        <div class="therapist-details">
+                            <span>Vanja Dejanović</span>
+                        </div>
+                        <div class="appointment-time">${app.time}</div>
+                    </div>
+                `;
+                timeSlotsList.insertAdjacentHTML('beforeend', slotHTML);
+            });
+        } else {
+             timeSlotsList.innerHTML = `<p style="text-align: center; padding: 20px;">Nažalost, nema slobodnih termina za izabrani dan.</p>`;
+        }
     }
 });
 
@@ -178,10 +185,7 @@ timeSlotsList.addEventListener('click', e => {
     const slot = e.target.closest('.appointment-slot');
     if (slot && !slot.classList.contains('disabled')) {
         bookingDetails.time = slot.dataset.time;
-        // Small delay to let the user see their selection before proceeding
-        setTimeout(() => {
-            navigateToStep(3);
-        }, 300);
+        setTimeout(() => navigateToStep(3), 300);
     }
 });
 

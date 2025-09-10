@@ -64,10 +64,10 @@
             </div>
 
             <div class="booking-step" data-step="2">
-                <h2 class="step-title">Izaberite Datum i Vrijeme</h2>
-                <div class="date-time-picker">
-    <div class="date-time-wrapper">
-        <div class="calendar-container">
+    <h2 class="step-title">Izaberite Datum i Vrijeme</h2>
+    <div class="date-time-container">
+        
+        <div class="calendar-panel">
             <div class="calendar-header">
                 <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
                 <h3 id="monthYear">Septembar 2025</h3>
@@ -76,25 +76,21 @@
             <div class="calendar-grid">
                 </div>
         </div>
-
-        <div class="time-slots-container">
+        
+        <div class="time-slots-panel">
             <div class="time-slots-header">
-                <button id="backToCalendar" class="back-to-calendar-btn" aria-label="Back to Calendar">
-                    <i class="fas fa-chevron-left"></i> Nazad
-                </button>
                 <h4 id="timeSlotsTitle">Slobodni Termini</h4>
             </div>
-            <div class="time-slots-list">
+            <div class="time-slots-list" id="timeSlotsList">
+                <div class="time-slots-placeholder">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p>Izaberite datum sa kalendara da vidite dostupne termine.</p>
                 </div>
+            </div>
         </div>
-    </div>
-</div>
-    </div>
 
-    
+    </div>
 </div>
-</div>
-            
             <div class="booking-step" data-step="3">
                 <h2 class="step-title">Izaberite Uslugu</h2>
                 <div class="service-accordion">
