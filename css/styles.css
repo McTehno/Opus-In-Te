@@ -87,7 +87,6 @@ body {
     background-color: #d4b981; /* Lighter gold */
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: none;
     transition: box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -687,9 +686,10 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
-    background-color: var(--light-gray);
-    padding: 30px 20px 20px 20px; /* Generous padding top for header */
+    min-height: 100vh; /* Changed from height: 80vh */
+    padding: 40px 20px; /* Adjusted for better vertical spacing */
+    position: relative; 
+    overflow: hidden;  
 }
 
 .login-form-wrapper {
@@ -700,6 +700,8 @@ main {
     border-radius: 10px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     text-align: center;
+    position: relative;
+    z-index: 10;  
 }
 
 .login-form-wrapper h2 {
@@ -835,6 +837,56 @@ main {
     color: var(--white); /* White text on hover */
     border-color: var(--charcoal); /* Keep border consistent */
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- Interactive Login/Register Background --- */
+
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits behind the form */
+    background-color: #e0d9cd; /* Fallback base color */
+}
+
+/* The ANIMATED GRADIENT layer (matches the login button) */
+.login-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(135deg, #e0d9cd 0%, var(--soft-gold) 100%);
+    z-index: 2; /* Sits on top of the base color */
+    transform: skewX(-20deg) translateX(-100%);
+    transform-origin: left;
+    transition: transform 0.6s ease-out; /* Same speed as the button */
+}
+
+/* The DARK OVERLAY layer (for the back button) */
+.login-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 61, 61, 0.2); /* Subtle dark charcoal */
+    z-index: 3; /* Sits on top of the gradient */
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+/* --- JS-Triggered Classes for Animation --- */
+.login-section.animate-gradient .login-background::before {
+    transform: skewX(-20deg) translateX(0);
+}
+
+.login-section.show-overlay .login-background::after {
+    opacity: 1;
 }
 
 /* =================================
