@@ -91,6 +91,10 @@ const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const timeSlotsList = document.getElementById('timeSlotsList');
 const timeSlotsTitle = document.getElementById('timeSlotsTitle');
+const bosnianMonths = [
+        "Januar", "Februar", "Mart", "April", "Maj", "Juni",
+        "Juli", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
+    ];
 
 let currentDate = new Date(2025, 8, 10); // Today is Sep 10, 2025
 
@@ -102,7 +106,7 @@ const renderCalendar = () => {
     });
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
-    monthYearEl.textContent = `${currentDate.toLocaleString('bs-BA', { month: 'long' })} ${year}`;
+    monthYearEl.textContent = `${bosnianMonths[month]} ${year}`;
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;

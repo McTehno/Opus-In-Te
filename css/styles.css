@@ -1633,7 +1633,7 @@ main {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 2px; /* Reduced gap */
     text-align: center;
     transition: opacity 0.3s ease-in-out;
 }
@@ -1645,7 +1645,7 @@ main {
 }
 
 .calendar-day {
-    font-size: 0.9rem; padding: 12px 0; cursor: pointer;
+    font-size: 0.9rem; padding: 8px 0; cursor: pointer; /* Reduced padding */
     border-radius: 50%; border: 2px solid transparent;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
@@ -1739,6 +1739,7 @@ main {
     padding: 5px 10px;
     border-radius: 5px;
 }
+
 /* Step 3: Service */
 .service-accordion {
     max-width: 600px;
