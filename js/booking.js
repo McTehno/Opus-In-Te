@@ -56,6 +56,7 @@ const updateProgressBar = () => {
 
     const isStepCompleted = (stepNumber) => {
         switch(stepNumber) {
+            case 0: return true;
             case 1: return !!bookingDetails.location;
             case 2: return !!bookingDetails.date && !!bookingDetails.time;
             case 3: return !!bookingDetails.service;

@@ -1446,9 +1446,9 @@ main {
 }
 .progress-bar-line {
     position: absolute;
-    top: 17.5px; /* Vertically centered with the bubbles */
-    left: 50px;  /* Aligned with container padding */
-    right: 50px; /* Aligned with container padding */
+    top: 17.5px;
+    left: 15%;  /* Your suggested value */
+    width: 70%; /* 100% - 15% left - 15% right */
     height: 4px;
     background-color: #e0e0e0;
     z-index: 1;
@@ -1474,6 +1474,7 @@ main {
     position: relative;
     z-index: 3;
     cursor: pointer;
+    flex: 1;
 }
 .step-circle {
     width: 35px;
