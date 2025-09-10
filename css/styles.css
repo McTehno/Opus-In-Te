@@ -87,6 +87,7 @@ body {
     background-color: #d4b981; /* Lighter gold */
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: none;
     transition: box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -678,11 +679,15 @@ main {
    4. LOGIN PAGE STYLES
    ================================= */
 
+.login-body {
+    background-color: var(--light-gray);
+}
+
 .login-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 80vh;
     background-color: var(--light-gray);
     padding: 30px 20px 20px 20px; /* Generous padding top for header */
 }
@@ -829,6 +834,7 @@ main {
     background-color: var(--charcoal); /* Dark background on hover */
     color: var(--white); /* White text on hover */
     border-color: var(--charcoal); /* Keep border consistent */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* =================================
