@@ -1671,8 +1671,10 @@ main {
 
 .time-slots-list {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Adds the scrollbar when needed */
     margin-top: 1rem;
+    max-height: 280px;  /* Control how many slots are visible before scroll */
+    padding-right: 10px; /* Space for the scrollbar */
 }
 
 .time-slots-placeholder {
@@ -1696,12 +1698,14 @@ main {
     align-items: center;
     gap: 15px;
     background-color: var(--white);
-    padding: 15px;
+    padding: 10px 15px; /* Reduced vertical padding */
     border-radius: 8px;
     border: 2px solid #ddd;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-bottom: 10px; /* Space between slots */
+    margin-bottom: 10px;
+    opacity: 0; /* Initially hidden for the animation */
+    animation: slideInFromTop 0.5s ease forwards; /* Apply the animation */
 }
 .appointment-slot:hover {
     border-color: var(--soft-gold);
@@ -1833,4 +1837,15 @@ main {
 }
 .confirm-btn {
     border: none;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
