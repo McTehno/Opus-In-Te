@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zakažite Termin | Opus in te</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="booking-body">
+
+    <div class="booking-modal">
+        <div class="booking-header">
+            <a href="Index.html" class="close-booking"><i class="fas fa-times"></i></a>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-line"></div>
+            <div class="step active" data-step="1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Lokacija</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Datum i Vrijeme</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Usluga</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Podaci</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-circle"><i class="fas fa-check"></i></div>
+                <div class="step-label">Potvrda</div>
+            </div>
+        </div>
+
+        <div class="booking-content">
+
+            <div class="booking-step active" data-step="1">
+                <h2 class="step-title">Izaberite Lokaciju</h2>
+                <div class="location-picker">
+    <button class="location-btn" data-location="Banja Luka">
+        <i class="fa-solid fa-map-marker-alt"></i>
+        <span>Banja Luka</span>
+    </button>
+    <button class="location-btn" data-location="Prijedor">
+        <i class="fa-solid fa-map-marker-alt"></i>
+        <span>Prijedor</span>
+    </button>
+    <button class="location-btn" data-location="Online">
+        <i class="fa-solid fa-laptop"></i>
+        <span>Online</span>
+    </button>
+</div>
+            </div>
+
+            <div class="booking-step" data-step="2">
+                <h2 class="step-title">Izaberite Datum i Vrijeme</h2>
+                <div class="date-time-picker">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                            <h3 id="monthYear">Septembar 2025</h3>
+                            <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="day-name">Pon</div><div class="day-name">Uto</div><div class="day-name">Sri</div><div class="day-name">Čet</div><div class="day-name">Pet</div><div class="day-name">Sub</div><div class="day-name">Ned</div>
+                            </div>
+                    </div>
+                    <div class="time-slots-container">
+                        <h4>Slobodni Termini</h4>
+                        <div class="time-slots">
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="booking-step" data-step="3">
+                <h2 class="step-title">Izaberite Uslugu</h2>
+                <div class="service-accordion">
+                     <div class="service-item">
+                        <button class="service-header">Psihoterapija <i class="fas fa-chevron-down icon"></i></button>
+                        <div class="service-content">
+                            <div class="service-option" data-service="Grupna psihoterapija" data-price="120 KM" data-duration="60min">
+                                <span>Grupna psihoterapija</span> <span>120 KM / 60min</span>
+                            </div>
+                            <div class="service-option" data-service="Individualna psihoterapija" data-price="100 KM" data-duration="60min">
+                                <span>Individualna psihoterapija</span> <span>100 KM / 60min</span>
+                            </div>
+                             <div class="service-option" data-service="Online psihoterapija" data-price="100 KM" data-duration="60min">
+                                <span>Online psihoterapija</span> <span>100 KM / 60min</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <button class="service-header">Psihološko Savjetovanje <i class="fas fa-chevron-down icon"></i></button>
+                        <div class="service-content">
+                            <div class="service-option" data-service="Psihološko savjetovanje za odrasle" data-price="60 KM" data-duration="30min">
+                                <span>Psihološko savjetovanje za odrasle</span> <span>60 KM / 30min</span>
+                            </div>
+                             <div class="service-option" data-service="Psihološko savjetovanje za djecu" data-price="60 KM" data-duration="30min">
+                                <span>Psihološko savjetovanje za djecu</span> <span>60 KM / 30min</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <button class="service-header">Opservacije i Izvještaji <i class="fas fa-chevron-down icon"></i></button>
+                        <div class="service-content">
+                           <div class="service-option" data-service="Psihološka opservacija odraslih" data-price="120 KM" data-duration="N/A">
+                                <span>Psihološka opservacija odraslih</span> <span>120 KM</span>
+                            </div>
+                             <div class="service-option" data-service="Psihološka opservacija djece" data-price="100 KM" data-duration="N/A">
+                                <span>Psihološka opservacija djece</span> <span>100 KM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-step" data-step="4">
+                <h2 class="step-title">Vaši Podaci</h2>
+                <form class="details-form">
+                    <div class="form-group">
+                        <label for="fullName">Ime i Prezime</label>
+                        <input type="text" id="fullName" placeholder="Unesite Vaše puno ime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Adresa</label>
+                        <input type="email" id="email" placeholder="npr. email@primjer.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Broj Telefona</label>
+                        <input type="tel" id="phone" placeholder="Vaš broj telefona" required>
+                    </div>
+                    <button type="button" class="cta-button form-next-btn">Dalje na potvrdu</button>
+                </form>
+            </div>
+
+            <div class="booking-step" data-step="5">
+                <div class="confirmation-content">
+                    <div class="confirmation-icon"><i class="fas fa-check-circle"></i></div>
+                    <h2 class="step-title">Pregled i Potvrda</h2>
+                    <p>Molimo Vas da pregledate detalje Vašeg termina prije potvrde.</p>
+                    <div class="summary">
+                        <div class="summary-item"><strong>Lokacija:</strong> <span id="summary-location"></span></div>
+                        <div class="summary-item"><strong>Datum:</strong> <span id="summary-date"></span></div>
+                        <div class="summary-item"><strong>Vrijeme:</strong> <span id="summary-time"></span></div>
+                        <div class="summary-item"><strong>Usluga:</strong> <span id="summary-service"></span></div>
+                        <div class="summary-item"><strong>Cijena:</strong> <span id="summary-price"></span></div>
+                        <div class="summary-item"><strong>Ime:</strong> <span id="summary-name"></span></div>
+                        <div class="summary-item"><strong>Email:</strong> <span id="summary-email"></span></div>
+                    </div>
+                    <button class="cta-button confirm-btn">Potvrdi Termin</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/booking.js"></script>
+</body>
+</html> 

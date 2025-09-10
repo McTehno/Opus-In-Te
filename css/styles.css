@@ -1394,3 +1394,385 @@ main {
 .categories-list a:hover {
     color: var(--soft-gold);
 }
+
+/* =================================
+   10. BOOKING PAGE STYLES
+   ================================= */
+
+.booking-body {
+    background-color: var(--light-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.booking-modal {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.booking-header {
+    text-align: right;
+    padding: 15px 25px;
+}
+
+.close-booking {
+    font-size: 1.5rem;
+    color: #aaa;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.close-booking:hover {
+    color: var(--charcoal);
+    transform: rotate(90deg);
+}
+
+/* --- Progress Bar --- */
+.progress-bar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 50px;
+    position: relative;
+}
+.progress-bar-line {
+    position: absolute;
+    top: 17px;
+    left: 50px;
+    right: 50px;
+    height: 4px;
+    background-color: #e0e0e0;
+    z-index: 1;
+    transition: background-color 0.4s ease;
+}
+.progress-bar-line::after { /* The colored progress part */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: var(--soft-gold);
+    z-index: 2;
+    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    cursor: pointer;
+}
+.step-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: 3px solid #e0e0e0;
+    transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+}
+.step-label {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #aaa;
+    transition: color 0.4s ease;
+}
+.step.active .step-circle {
+    background-color: var(--soft-gold);
+    border-color: var(--soft-gold);
+    transform: scale(1.1);
+}
+.step.active .step-label {
+    color: var(--charcoal);
+}
+.step.completed .step-circle {
+    background-color: var(--soft-gold);
+    border-color: var(--soft-gold);
+    color: var(--white);
+}
+.step.completed .step-label {
+    color: #888;
+}
+
+/* --- Content & Steps --- */
+.booking-content {
+    padding: 40px 50px;
+    min-height: 450px;
+    position: relative;
+}
+.booking-step {
+    position: absolute;
+    top: 40px;
+    left: 50px;
+    right: 50px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+}
+.booking-step.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.step-title {
+    font-family: var(--font-heading);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+/* Step 1: Location */
+.location-picker {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+.location-btn {
+    background-color: var(--light-gray);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 220px; /* Changed from 200px */
+    transition: all 0.3s ease;
+}
+.location-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--soft-gold);
+}
+.location-btn i {
+    font-size: 3rem;
+    color: var(--soft-gold);
+}
+.location-btn span {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--charcoal);
+}
+
+/* Step 2: Date & Time */
+.date-time-picker {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+}
+.therapist-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.therapist-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.therapist-info span {
+    font-weight: bold;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.calendar-header h3 {
+    font-family: var(--font-heading);
+}
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--charcoal);
+    transition: color 0.3s ease;
+}
+.calendar-header button:hover {
+    color: var(--soft-gold);
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    text-align: center;
+}
+.day-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    opacity: 0.6;
+}
+.calendar-day {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.calendar-day:not(.disabled):hover {
+    background-color: var(--light-gray);
+}
+.calendar-day.selected {
+    background-color: var(--soft-gold);
+    color: var(--white);
+    font-weight: bold;
+}
+.calendar-day.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+.time-slots-container {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 10px;
+}
+.time-slots-container h4 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-family: var(--font-heading);
+}
+.time-slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.time-slot {
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.time-slot:hover {
+    border-color: var(--soft-gold);
+    color: var(--soft-gold);
+}
+.time-slot.selected {
+    background-color: var(--soft-gold);
+    color: var(--white);
+    border-color: var(--soft-gold);
+    font-weight: bold;
+}
+
+/* Step 3: Service */
+.service-accordion {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.service-item {
+    border-bottom: 1px solid var(--light-gray);
+}
+.service-header {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 20px 10px;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+.service-header:hover {
+    color: var(--soft-gold);
+}
+.service-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+.service-item.active .service-content {
+    max-height: 500px; /* Adjust as needed */
+}
+.service-item.active .service-header .icon {
+    transform: rotate(180deg);
+}
+.service-option {
+    padding: 15px 20px;
+    background-color: var(--light-gray);
+    margin: 0 10px 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+}
+.service-option:hover {
+    background-color: #e0d9cd;
+}
+
+/* Step 4: Details */
+.details-form {
+    max-width: 450px;
+    margin: 0 auto;
+}
+.form-next-btn {
+    width: 100%;
+    border: none;
+    margin-top: 20px;
+}
+
+/* Step 5: Confirmation */
+.confirmation-content {
+    text-align: center;
+}
+.confirmation-icon {
+    font-size: 4rem;
+    color: var(--soft-gold);
+    margin-bottom: 20px;
+    transform: scale(0);
+    animation: popIn 0.5s 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+.confirmation-content p {
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+}
+.summary {
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+}
+.summary-item {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+.confirm-btn {
+    border: none;
+}
