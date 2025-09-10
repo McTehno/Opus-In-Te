@@ -848,7 +848,7 @@ main {
     width: 100%;
     height: 100%;
     z-index: 1; /* Sits behind the form */
-    background-color: #e0d9cd; /* Fallback base color */
+     background: linear-gradient(135deg, #e0d9cd 0%, #ecdbbe 100%); /* New subtle gradient */
 }
 
 /* The ANIMATED GRADIENT layer (matches the login button) */
