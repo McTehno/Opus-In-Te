@@ -72,6 +72,21 @@ body {
     color: var(--soft-gold);
 }
 
+/* --- Active Navigation Link Style --- */
+/* This handles the transparent header state at the top of the page */
+.main-header .main-nav a.active {
+    color: var(--soft-gold);
+}
+
+/* This specifically targets the active link in the scrolled header, ensuring it stays gold */
+.main-header.scrolled .main-nav a.active {
+    color: var(--soft-gold);
+}
+
+/* This ensures the hover effect (white text, gold background) still applies to the active link */
+.main-header.scrolled .main-nav a.active:hover {
+    color: var(--white);
+}
 /* --- Buttons --- */
 .cta-button {
     background-color: var(--soft-gold);
@@ -343,7 +358,6 @@ body {
 .main-header .nav-cta {
     background-color: #ffffff;
     color: #333333;
-    border: 1px solid #ffffff;
     transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, transform 0.3s ease; /* <-- ADD transform HERE */
 }
 
