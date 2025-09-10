@@ -1849,3 +1849,134 @@ main {
         transform: translateY(0);
     }
 }
+/* =================================
+   11. O MENI (ABOUT ME) PAGE STYLES - ARTISTIC REVISION
+   ================================= */
+
+.about-me-header {
+    background-color: var(--light-gray);
+    padding: 120px 0;
+}
+
+.about-me-main {
+    padding: 80px 0;
+    background-color: var(--off-white);
+    position: relative; /* Needed for positioning context */
+}
+
+.about-me-container {
+    display: grid;
+    grid-template-columns: 2fr 3fr; /* Adjust ratio for overlap */
+    gap: 30px;
+    align-items: center; 
+}
+
+/* --- The Overlapping Image & Text --- */
+.about-me-image-wrapper {
+    position: relative;
+    z-index: 2; /* Image wrapper is on top */
+}
+.about-me-image {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border: 6px solid var(--white);
+}
+.about-me-image img {
+    width: 100%;
+    display: block;
+}
+
+.about-me-text-wrapper {
+    position: relative;
+    z-index: 1; /* Text wrapper is behind */
+}
+.about-me-text {
+    background-color: var(--white);
+    padding: 40px 40px 40px 80px; /* Add left padding to account for overlap */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-left: -60px; /* Pull the text block to the left, behind the image */
+}
+.about-me-text .section-title {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+.about-me-text p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+/* --- The Pull Quote --- */
+.pull-quote-section {
+    padding: 80px 0;
+    text-align: center;
+    background-color: #e0d9cd; /* Earthy tone background */
+}
+.pull-quote-section blockquote {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+    border-left: 4px solid var(--soft-gold);
+    padding-left: 30px;
+    text-align: left;
+}
+
+/* --- Qualifications Section --- */
+.about-me-qualifications {
+    padding: 80px 0;
+}
+.qualifications-content h3 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.qualifications-content > p {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+.qualifications-list {
+    list-style: none;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.qualifications-list li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.1rem;
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.qualifications-list li i {
+    font-size: 1.5rem;
+    color: var(--soft-gold);
+    width: 30px; /* Ensure consistent alignment */
+    text-align: center;
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 900px) {
+    .about-me-container {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+    .about-me-text {
+        margin-left: 0;
+        padding: 40px;
+    }
+    .about-me-image {
+        margin-bottom: -40px; /* Pull text up to create overlap */
+        position: relative;
+        z-index: 2;
+    }
+}
