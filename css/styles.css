@@ -1527,7 +1527,7 @@ main {
 /* --- Content & Steps --- */
 .booking-content {
     padding: 40px 50px;
-    min-height: 500px;
+    min-height: 450px;
     position: relative;
 }
 .booking-step {
@@ -1796,23 +1796,17 @@ main {
 
 /* Step 4: Details */
 .details-form {
-    max-width: 700px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 30px;
+    max-width: 400px; /* Make form narrower */
+    margin: 0;      /* Align form to the left */
 }
-
-.form-inputs {
-    flex-grow: 1;
-}
-
 .form-next-btn {
-    width: auto;
+    position: absolute;
+    right: 50px; /* Align to the right padding of the container */
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto; /* Ensure button width is based on content */
     border: none;
     margin-top: 0;
-    flex-shrink: 0;
 }
 
 /* Step 5: Confirmation */
