@@ -1646,7 +1646,7 @@ main {
 
 .calendar-day {
     font-size: 0.9rem; padding: 8px 0; cursor: pointer; /* Reduced padding */
-    border-radius: 50%; border: 2px solid transparent;
+    border-radius: 8px; border: 2px solid transparent;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -1796,13 +1796,17 @@ main {
 
 /* Step 4: Details */
 .details-form {
-    max-width: 450px;
-    margin: 0 auto;
+    max-width: 400px; /* Make form narrower */
+    margin: 0;      /* Align form to the left */
 }
 .form-next-btn {
-    width: 100%;
+    position: absolute;
+    right: 50px; /* Align to the right padding of the container */
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto; /* Ensure button width is based on content */
     border: none;
-    margin-top: 20px;
+    margin-top: 0;
 }
 
 /* Step 5: Confirmation */
