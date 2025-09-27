@@ -58,8 +58,8 @@ const updateProgressBar = () => {
         switch(stepNumber) {
             case 0: return true;
             case 1: return !!bookingDetails.location;
-            case 2: return !!bookingDetails.date && !!bookingDetails.time;
-            case 3: return !!bookingDetails.service;
+            case 2: return !!bookingDetails.service;
+            case 3: return !!bookingDetails.date && !!bookingDetails.time;
             case 4: return !!bookingDetails.name && !!bookingDetails.email;
             default: return false;
         }
@@ -189,7 +189,7 @@ timeSlotsList.addEventListener('click', e => {
     const slot = e.target.closest('.appointment-slot');
     if (slot && !slot.classList.contains('disabled')) {
         bookingDetails.time = slot.dataset.time;
-        setTimeout(() => navigateToStep(3), 300);
+        setTimeout(() => navigateToStep(4), 300);
     }
 });
 
@@ -206,7 +206,7 @@ renderCalendar(); // Initial render
         option.addEventListener('click', () => {
             bookingDetails.service = option.dataset.service;
             bookingDetails.price = option.dataset.price;
-            navigateToStep(4);
+            navigateToStep(3);
         });
     });
 
