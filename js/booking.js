@@ -211,35 +211,19 @@ renderCalendar(); // Initial render
     });
 
     // Step 4: Details
-    document.querySelector('.form-next-btn').addEventListener('click', () => {
-        const name = document.getElementById('fullName').value;
-        const email = document.getElementById('email').value;
-        if(name && email) {
-            bookingDetails.name = name;
-            bookingDetails.email = email;
-            populateConfirmation();
-            navigateToStep(5);
-        } else {
-            alert('Molimo Vas popunite obavezna polja.');
-        }
-    });
+document.querySelector('.form-next-btn').addEventListener('click', () => {
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    if(name && email) {
+        bookingDetails.name = name;
+        bookingDetails.email = email;
+        navigateToStep(5);
+    } else {
+        alert('Molimo Vas popunite obavezna polja.');
+    }
+});
 
-    // Step 5: Confirmation
-    const populateConfirmation = () => {
-        document.getElementById('summary-location').textContent = bookingDetails.location;
-        document.getElementById('summary-date').textContent = bookingDetails.date;
-        document.getElementById('summary-time').textContent = bookingDetails.time;
-        document.getElementById('summary-service').textContent = bookingDetails.service;
-        document.getElementById('summary-price').textContent = bookingDetails.price;
-        document.getElementById('summary-name').textContent = bookingDetails.name;
-        document.getElementById('summary-email').textContent = bookingDetails.email;
-    };
     
-    document.querySelector('.confirm-btn').addEventListener('click', () => {
-        alert('Termin je potvrđen! (Ovo je demo - stvarna funkcionalnost bi slala email/podatke na server)');
-        // In a real app, you would submit the form data here.
-    });
-
 
     // Initialize first step
     updateProgressBar();
