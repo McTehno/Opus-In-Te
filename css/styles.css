@@ -1801,14 +1801,27 @@ main {
 }
 .form-next-btn {
     position: absolute;
-    right: 50px; /* Align to the right padding of the container */
+    right: 50px;
     top: 50%;
     transform: translateY(-50%);
-    width: auto; /* Ensure button width is based on content */
+    width: 200px;       /* Set a fixed width */
+    height: 50px;      /* Set a fixed height for a nice square shape */
+    padding: 0;        /* Remove the old text-based padding */
+    border-radius: 12px; /* This creates the rounded rectangle effect */
+    font-size: 1.5rem; /* Make the arrow icon larger and more prominent */
+    display: flex;     /* Use flexbox for perfect centering */
+    align-items: center;
+    justify-content: center;
     border: none;
-    margin-top: 0;
+    margin-top: 20px;
+    /* The transition is inherited from .cta-button, but we ensure it's smooth */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.form-next-btn:hover {
+    /* We combine the original vertical centering with our new horizontal slide */
+    transform: translateY(-50%) translateX(15px);
+}
 /* Step 5: Confirmation */
 .confirmation-content {
     text-align: center;
