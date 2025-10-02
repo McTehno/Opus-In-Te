@@ -1480,7 +1480,7 @@ main {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: var(--white); /* Start as white */
+    background-color: var(--light-gray); /* CHANGED to match the page background */
     color: #aaa;
     display: flex;
     justify-content: center;
@@ -1488,7 +1488,7 @@ main {
     font-weight: bold;
     font-size: 1.1rem;
     border: 3px solid #e0e0e0; /* Start with a grey border */
-    transition: background-color 0.4s ease 0.5s, border-color 0.4s ease 0.5s, color 0.4s ease 0.5s, transform 0.4s ease; /* Delayed color change */
+    transition: background-color 0.4s ease 0.5s, border-color 0.4s ease 0.5s, color 0.4s ease 0.5s, transform 0.4s ease;
 }
 .step-label {
     margin-top: 10px;
@@ -1523,6 +1523,28 @@ main {
     color: #888;
 }
 
+/* --- Styling for disabled progress bar steps --- */
+.step.disabled {
+    pointer-events: none; /* Disables click events */
+}
+
+/* --- Hide the original checkmark icon in the final step's circle --- */
+.step[data-step="5"].completed .step-circle i {
+    display: none;
+}
+/* --- Create the faded look for disabled steps using color instead of opacity --- */
+
+/* Style the circle of a completed & disabled step with a muted gold color */
+.step.completed.disabled .step-circle {
+    background-color: #d3cbbd; /* A muted, light tan color */
+    border-color: #d3cbbd;
+    color: var(--white);
+}
+
+/* Style the label of any disabled step to be a lighter grey */
+.step.disabled .step-label {
+    color: #ccc;
+}
 
 /* --- Content & Steps --- */
 .booking-content {

@@ -16,26 +16,64 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const navigateToStep = (stepNumber) => {
-        // Prevent going to a future step that isn't the next one
-        if (stepNumber > currentStep && !isStepCompleted(currentStep)) return;
-        
-        currentStep = stepNumber;
-        
-        // Animate Steps
-        bookingSteps.forEach(step => {
-            step.classList.remove('active');
-        });
-        document.querySelector(`.booking-step[data-step="${currentStep}"]`).classList.add('active');
-        
-        // Update Progress Bar
-        updateProgressBar();
-    };
+    // Prevent navigation away from the final step
+    if (currentStep === 5) return;
+
+    // Prevent going to a future step that isn't the next one
+    if (stepNumber > currentStep && !isStepCompleted(currentStep)) return;
+    
+    currentStep = stepNumber;
+    
+    // Animate Steps
+    bookingSteps.forEach(step => {
+        step.classList.remove('active');
+    });
+    document.querySelector(`.booking-step[data-step="${currentStep}"]`).classList.add('active');
+    
+    // Update Progress Bar
+    updateProgressBar();
+
+   // --- FINAL FIX: Trigger Confetti Animation ---
+// --- NEW: Trigger Canvas Confetti Animation ---
+if (currentStep === 5) {
+    // A little firework burst to celebrate!
+    const duration = 1.5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const brandColors = ['#C5A76A', '#FDFBF6', '#3D3D3D', '#FFFFFF'];
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: brandColors }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: brandColors }));
+    }, 250);
+}
+};
 
     // In js/booking.js
 
 const updateProgressBar = () => {
     steps.forEach((step, index) => {
         const stepNumber = index + 1;
+
+        // NEW: Disable past steps if on the final step
+        if (currentStep === 5 && stepNumber < 5) {
+            step.classList.add('disabled');
+        } else {
+            step.classList.remove('disabled');
+        }
+
         if (stepNumber < currentStep) {
             step.classList.add('completed');
             step.classList.remove('active');
@@ -47,10 +85,7 @@ const updateProgressBar = () => {
         }
     });
 
-    // New, simpler width calculation
     const progressWidth = ((currentStep - 1) / (steps.length - 1)) * 100;
-
-    // Set the CSS variable to trigger the smooth transition
     progressBarLine.style.setProperty('--progress-width', `${progressWidth}%`);
 };
 
@@ -66,15 +101,18 @@ const updateProgressBar = () => {
     };
 
     // --- Event Listeners ---
-    steps.forEach(step => {
-        step.addEventListener('click', () => {
-            const stepToGo = parseInt(step.dataset.step);
-            // Allow navigation only to completed steps or the current step
-            if (isStepCompleted(stepToGo - 1) || stepToGo === currentStep) {
-                navigateToStep(stepToGo);
-            }
-        });
+steps.forEach(step => {
+    step.addEventListener('click', () => {
+        // NEW: Check if the step is disabled
+        if (step.classList.contains('disabled')) return;
+
+        const stepToGo = parseInt(step.dataset.step);
+        // Allow navigation only to completed steps or the current step
+        if (isStepCompleted(stepToGo - 1) || stepToGo === currentStep) {
+            navigateToStep(stepToGo);
+        }
     });
+});
 
     // Step 1: Location
     document.querySelectorAll('.location-btn').forEach(btn => {
