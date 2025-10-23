@@ -2068,3 +2068,177 @@ main {
     transform: translateY(-3px); /* A slightly more pronounced lift */
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
+
+/* =================================
+   13. USER DASHBOARD STYLES
+   ================================= */
+
+.dashboard-body {
+    background-color: var(--light-gray);
+}
+
+/* Adjust main padding if header height changes */
+.dashboard-main {
+    padding-top: 100px; /* Space below fixed header */
+    padding-bottom: 80px;
+}
+
+.dashboard-welcome {
+    background-color: #e0d9cd; /* Earthy tone */
+    padding: 80px 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.dashboard-welcome h1 {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--charcoal);
+}
+
+.dashboard-welcome p {
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    opacity: 0.8;
+}
+
+.dashboard-content {
+    padding: 60px 0;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Calendar takes more space */
+    gap: 40px;
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+}
+
+/* Style calendar specifically for dashboard if needed */
+.dashboard-calendar {
+    border-right: 1px solid var(--light-gray);
+    padding-right: 40px;
+}
+
+/* Style for days that HAVE appointments */
+.calendar-day.has-appointment {
+    font-weight: bold;
+    position: relative;
+     border: 2px solid transparent; /* Keep size consistent */
+}
+/* Add a subtle dot indicator */
+.calendar-day.has-appointment::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--soft-gold);
+}
+/* Highlight with border on hover/selection */
+.calendar-day.has-appointment:hover {
+     border-color: #e0d9cd; /* Light border on hover */
+     background-color: var(--light-gray);
+}
+.calendar-day.has-appointment.selected {
+    background-color: var(--soft-gold);
+    color: var(--white);
+    border-color: var(--soft-gold);
+}
+.calendar-day.has-appointment.selected::after {
+    background-color: var(--white); /* Dot becomes white on gold */
+}
+/* Ensure disabled days don't get the hover effect */
+.calendar-day.disabled.has-appointment:hover {
+    border-color: transparent;
+    background-color: transparent;
+}
+.calendar-day.disabled.has-appointment::after {
+     background-color: #ccc; /* Grey dot for past appointments */
+}
+
+
+/* Appointment Details Panel */
+.appointment-details-panel {
+    padding-top: 10px;
+}
+
+.appointment-details-panel h3 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--soft-gold);
+    color: var(--charcoal);
+}
+
+#appointment-list {
+    max-height: 400px; /* Limit height if many appointments */
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+.no-appointments {
+    color: #888;
+    text-align: center;
+    padding: 40px 0;
+    font-style: italic;
+}
+
+.appointment-item {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.appointment-info span {
+    display: block;
+}
+
+.appointment-info .app-time {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--charcoal);
+    margin-bottom: 5px;
+}
+
+.appointment-info .app-service {
+    font-size: 1rem;
+    color: #555;
+}
+
+.remove-appointment-btn {
+    background-color: transparent;
+    border: 2px solid #d9534f; /* Red border */
+    color: #d9534f; /* Red text */
+    padding: 8px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.remove-appointment-btn:hover {
+    background-color: #d9534f; /* Red background */
+    color: var(--white); /* White text */
+    transform: scale(1.05);
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
