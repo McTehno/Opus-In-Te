@@ -2494,18 +2494,51 @@ main {
 }
 
 .profile-card-form .save-profile-btn {
-     background-color: var(--soft-gold);
-     border: none;
-     color: var(--white);
+    background-color: var(--soft-gold);
+    border: none;
+    color: var(--white);
+    padding: 16px 25px; /* Increased vertical padding */
+    font-size: 1.1rem; /* Slightly larger font */
+    display: flex; /* Enable flexbox for icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between text and icon */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Ensure smooth transitions */
 }
-.profile-card-form .save-profile-btn:hover {
-     background-color: #d4b981;
+.profile-card-form .save-profile-btn::before {
+    font-family: 'Font Awesome 6 Free'; /* Specify Font Awesome family */
+    font-weight: 900; /* Use the solid style */
+    font-size: 1rem; /* Adjust icon size if needed */
 }
 
+
+.profile-card-form .save-profile-btn:hover {
+     background-color: #d4b981; /* Lighter gold */
+     transform: translateY(-3px); /* Slightly more lift */
+     box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* Add subtle shadow on hover */
+}
+
+/* Style the 'Forgot Password' link container */
 .profile-card-form .forgot-password-link {
     margin-top: 30px;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Adjusted size slightly */
     text-align: center;
+}
+
+/* Style the 'Reset here' link */
+.profile-card-form .forgot-password-link a {
+    color: var(--soft-gold);
+    font-weight: 600; /* Slightly bolder */
+    text-decoration: none;
+    border-bottom: 1px dashed var(--soft-gold); /* Add a dashed underline */
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    padding-bottom: 2px; /* Small space for the underline */
+}
+
+.profile-card-form .forgot-password-link a:hover {
+    color: var(--charcoal);
+    border-bottom-color: var(--charcoal);
+    text-decoration: none; /* Remove default underline on hover */
 }
 
 /* --- Responsive Adjustments --- */
