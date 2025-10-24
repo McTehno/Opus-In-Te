@@ -2575,44 +2575,60 @@ main {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-/* --- Loading Screen Styles --- */
+/* --- Loading Screen Styles (Posodobljeno) --- */
 #loading-screen {
-    position: fixed; /* Cover the entire viewport */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--off-white); /* Match your site's light background */
+    /* Subtilnejši gradient, ki se ujema s paleto */
+    background: linear-gradient(135deg, var(--soft-gold) 0%, #f9f6ef 100%);
     display: flex;
-    flex-direction: column; /* Stack logo and text vertically */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Ensure it's on top of everything */
+    z-index: 9999;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.7s ease-out, visibility 0.7s ease-out; /* Smooth fade-out */
+    transition: opacity 0.8s ease-out 0.2s, visibility 0.8s ease-out 0.2s; /* Malce daljša in zakasnjena tranzicija */
 }
 
-/* Style for when the loading screen is hiding */
 #loading-screen.hidden {
     opacity: 0;
     visibility: hidden;
 }
 
-/* Style the logo/GIF within the loading screen */
-.loading-logo {
-    width: 100px; /* Adjust size as needed */
-    height: auto;
-    margin-bottom: 20px;
-    animation: pulse 1.5s infinite ease-in-out; /* Subtle pulsing animation */
+/* Novo: Dodatni ovoj za GIF za lažje obrezovanje */
+.loading-logo-wrapper {
+    width: 120px; /* Širina končnega izreza (80% od 150px) */
+    height: 100px; /* Prilagodite višino po potrebi */
+    overflow: hidden; /* Skrije dele GIF-a, ki segajo čez */
+    margin-bottom: 25px;
+    display: flex; /* Centriranje GIF-a znotraj ovoja */
+    justify-content: center;
+    align-items: center;
 }
 
-/* Style the loading text */
+.loading-logo {
+    /* Povečamo GIF, da lahko odrežemo robove */
+    width: 150px; /* (100% / 80%) * 120px = 150px */
+    height: auto;
+    /* Odstranimo prejšnjo animacijo, saj GIF že ima svojo */
+    animation: none;
+    /* Odstranimo margin-bottom, ker je zdaj na ovoju */
+    margin-bottom: 0;
+    /* Za natančnejše obrezovanje (če bi bilo potrebno z object-fit) */
+    /* object-fit: cover; - verjetno ni potrebno, če je GIF že centriran */
+}
+
 #loading-screen p {
     font-family: var(--font-body);
     font-size: 1.1rem;
     color: var(--charcoal);
-    font-weight: bold;
+    font-weight: 500; /* Malce tanjša pisava */
+    letter-spacing: 0.5px; /* Dodamo malo razmika med črkami */
+    opacity: 0.8; /* Malce prosojno */
 }
+
 
