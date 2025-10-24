@@ -2393,120 +2393,152 @@ main {
 }
 
 /* =================================
-   14. EDIT PROFILE PAGE STYLES
+   14. EDIT PROFILE PAGE STYLES (Revised Layout)
    ================================= */
 
-/* Wrapper for the edit form, similar to login */
-.edit-profile-wrapper {
-    max-width: 550px; /* Slightly wider than login maybe */
+/* --- The main card container --- */
+.edit-profile-card {
+    display: flex; /* Use flexbox for the two columns */
+    max-width: 850px; /* Wider card for the two columns */
     width: 100%;
     background-color: var(--white);
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 15px; /* Slightly larger radius */
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin: 60px auto; /* More vertical margin */
+    overflow: hidden; /* Ensure content respects border-radius */
+    animation: fadeIn 0.6s ease-out; /* Add a subtle fade-in */
+}
+
+/* --- Left Sidebar Section --- */
+.profile-card-sidebar {
+    flex: 0 0 280px; /* Fixed width for the sidebar */
+    background-color: var(--light-gray); /* Light background */
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin: 40px auto; /* Add some margin top/bottom */
+    border-right: 1px solid #e0e0e0; /* Subtle separator line */
 }
 
-.edit-profile-wrapper h2 {
+.profile-picture-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #e0d9cd; /* Earthy tone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.profile-picture-placeholder i {
+    font-size: 4rem;
+    color: var(--white);
+}
+
+.profile-card-sidebar h3 {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.6rem;
     color: var(--charcoal);
+    margin-bottom: 5px;
 }
 
-.edit-profile-wrapper p {
-    margin-bottom: 2.5rem;
+.profile-card-sidebar p {
+    font-size: 0.9rem;
     color: #666;
 }
 
-/* Ensure form groups have correct spacing and alignment */
-.edit-profile-wrapper .form-group {
-    margin-bottom: 25px;
+/* --- Right Form Section --- */
+.profile-card-form {
+    flex-grow: 1; /* Takes remaining space */
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
+.profile-card-form h2 {
+    font-family: var(--font-heading);
+    font-size: 2.3rem; /* Slightly smaller title */
+    margin-bottom: 0.5rem;
+    color: var(--charcoal);
+    text-align: left; /* Align title left */
+}
+
+.profile-card-form > p { /* Target the introductory paragraph */
+    margin-bottom: 2.5rem;
+    color: #666;
+    text-align: left; /* Align paragraph left */
+}
+
+.profile-card-form .form-group {
+    margin-bottom: 20px; /* Slightly less margin */
     text-align: left;
 }
 
-.edit-profile-wrapper .cta-button {
+/* --- Adjust Buttons & Links --- */
+.profile-card-form .cta-button {
     width: 100%;
-    margin-top: 10px; /* Space above first button */
+    margin-top: 15px; /* Space above first button */
 }
-.edit-profile-wrapper .back-btn {
-     margin-top: 15px; /* Space between buttons */
+.profile-card-form .back-btn {
+     margin-top: 10px; /* Space between buttons */
+     background-color: transparent;
+     border: 2px solid var(--charcoal);
+     color: var(--charcoal);
 }
-
-/* Style the "Save" button specifically if needed */
-.save-profile-btn {
-     background-color: var(--soft-gold); /* Example: Use primary CTA color */
-     border: none;
-}
-.save-profile-btn:hover {
-     background-color: #d4b981; /* Lighter gold on hover */
-}
-
-/* Style for the 'Forgot Password' link container */
-.forgot-password-link {
-    margin-top: 30px;
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.forgot-password-link a {
-    color: var(--soft-gold);
-    font-weight: bold;
-    text-decoration: none;
-    transition: text-decoration 0.3s ease;
-}
-
-.forgot-password-link a:hover {
-    text-decoration: underline;
-}
-
-
-/* --- Success Modal Styles --- */
-/* Reuse existing .modal styles for background and basic positioning */
-
-.confirmation-modal-content {
-    text-align: center;
-    padding: 40px 30px !important; /* Override default modal padding if needed */
-    max-width: 450px; /* Control modal width */
-}
-
-.success-icon {
-    font-size: 3.5rem;
-    color: var(--soft-gold);
-    margin-bottom: 20px;
-    display: block; /* Make it block to take up space */
-}
-
-.confirmation-modal-content h3 {
-     font-family: var(--font-heading);
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: var(--charcoal);
-}
-
-.confirmation-modal-content p {
-    margin-bottom: 30px;
-    color: #555;
-    line-height: 1.6;
-}
-
-/* Style the close button within this specific modal */
-.confirmation-modal-content .close-modal-btn {
-    width: auto; /* Allow button to size to content */
-    padding: 10px 30px;
-    margin: 0 auto; /* Center the button */
-    display: inline-block;
+.profile-card-form .back-btn:hover {
     background-color: var(--charcoal);
-    border: none;
-}
-.confirmation-modal-content .close-modal-btn:hover {
-     background-color: var(--soft-gold);
+    color: var(--white);
 }
 
-/* Adjust the position of the top-right close button if needed */
-.confirmation-modal-content .modal-close-btn {
-     top: 15px;
-     right: 15px;
-     font-size: 28px;
+.profile-card-form .save-profile-btn {
+     background-color: var(--soft-gold);
+     border: none;
+     color: var(--white);
+}
+.profile-card-form .save-profile-btn:hover {
+     background-color: #d4b981;
+}
+
+.profile-card-form .forgot-password-link {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .edit-profile-card {
+        flex-direction: column; /* Stack columns vertically */
+        max-width: 500px; /* Narrower card on mobile */
+        margin: 40px auto;
+    }
+    .profile-card-sidebar {
+        flex-basis: auto; /* Remove fixed width */
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0; /* Add bottom border */
+        padding: 40px 20px;
+    }
+    .profile-picture-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-picture-placeholder i {
+        font-size: 3rem;
+    }
+    .profile-card-form {
+        padding: 40px 30px;
+    }
+    .profile-card-form h2, .profile-card-form > p {
+        text-align: center; /* Center text on mobile */
+    }
+}
+
+/* Ensure the modal styles are still present (from previous CSS) */
+/* Add the fadeIn animation if not already present */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

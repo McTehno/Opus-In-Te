@@ -38,30 +38,35 @@
     <main class="dashboard-main">
         <section class="dashboard-content">
             <div class="container">
-                <div class="edit-profile-wrapper">
-                    <h2>Uredi Vaš Profil</h2>
-                    <p>Ažurirajte Vaše lične podatke.</p>
+                <div class="edit-profile-card"> <div class="profile-card-sidebar">
+                <div class="profile-picture-placeholder">
+                    <i class="fas fa-user-circle"></i> </div>
+                <h3 id="profile-card-name">[Ime Prezime]</h3> <p>Član od: [Datum]</p> </div>
+            <div class="profile-card-form">
+                <h2>Uredi Vaš Profil</h2>
+                <p>Ažurirajte Vaše lične podatke.</p>
 
-                    <form id="edit-profile-form">
-                        <div class="form-group">
-                            <label for="profile-name-edit">Ime i Prezime</label>
-                            <input type="text" id="profile-name-edit" name="name" required placeholder="Vaše ime i prezime" value="Ime Prezime"> 
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-email-edit">Email Adresa</label>
-                            <input type="email" id="profile-email-edit" name="email" required placeholder="Vaša email adresa" value="email@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-phone-edit">Broj Telefona</label>
-                            <input type="tel" id="profile-phone-edit" name="phone" placeholder="Unesite Vaš broj telefona" value="Broj telefona"> 
-                        </div>
-                        <button type="submit" class="cta-button save-profile-btn">Sačuvaj Promjene</button>
-                        <a href="UserDashboard.html" class="cta-button back-btn">Nazad na Profil</a>
-                    </form>
-                    <div class="forgot-password-link">
-                        <p>Imate problem sa lozinkom? <a href="#">Resetujte ovdje</a></p>
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label for="profile-name-edit">Ime i Prezime</label>
+                        <input type="text" id="profile-name-edit" name="name" required placeholder="Vaše ime i prezime" value="Ime Prezime">
                     </div>
+                    <div class="form-group">
+                        <label for="profile-email-edit">Email Adresa</label>
+                        <input type="email" id="profile-email-edit" name="email" required placeholder="Vaša email adresa" value="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone-edit">Broj Telefona</label>
+                        <input type="tel" id="profile-phone-edit" name="phone" placeholder="Unesite Vaš broj telefona" value="Broj telefona">
+                    </div>
+                    <button type="submit" class="cta-button save-profile-btn">Sačuvaj Promjene</button>
+                    <a href="UserDashboard.html" class="cta-button back-btn">Nazad na Profil</a>
+                </form>
+                <div class="forgot-password-link">
+                    <p>Imate problem sa lozinkom? <a href="#">Resetujte ovdje</a></p>
                 </div>
+            </div>
+        </div>
             </div>
         </section>
     </main>
