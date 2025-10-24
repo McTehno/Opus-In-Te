@@ -43,24 +43,53 @@
             </div>
         </section>
 
-        <section class="dashboard-content">
+       <section class="dashboard-content">
             <div class="container dashboard-container">
-                <div class="calendar-panel dashboard-calendar">
-                    <div class="calendar-header">
-                        <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
-                        <h3 id="monthYear">Oktobar 2025</h3>
-                        <button id="nextMonth" aria-label="Next Month"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <div class="calendar-grid">
+
+                <div class="user-profile-panel">
+                    <h3>Vaš Profil</h3>
+                    <div class="profile-details">
+                        <div class="profile-item">
+                            <label><i class="fas fa-user"></i> Ime i Prezime:</label>
+                            <span id="profile-name">[Ime Prezime]</span>
                         </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-envelope"></i> Email:</label>
+                            <span id="profile-email">[email@example.com]</span>
+                        </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-phone"></i> Telefon:</label>
+                            <span id="profile-phone">[Broj telefona]</span>
+                        </div>
+                        </div>
+                    <a href="#" id="edit-profile-btn" class="cta-button edit-profile-button">Uredi Profil</a>
                 </div>
 
-                <div class="appointment-details-panel">
-                    <h3 id="details-panel-title">Termini za Izabrani Dan</h3>
-                    <div id="appointment-list">
-                        <p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>
+                <div class="appointment-panel">
+                    <div class="appointment-view-container">
+                        <div class="calendar-view active-view">
+                            <h3>Vaši Termini</h3>
+                            <div class="calendar-panel dashboard-calendar">
+                                <div class="calendar-header">
+                                    <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
+                                    <h4 id="monthYear">Oktobar 2025</h4>
+                                    <button id="nextMonth" aria-label="Next Month"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="calendar-grid">
+                                    </div>
+                            </div>
                         </div>
+
+                        <div class="appointment-list-view">
+                            <button class="back-to-calendar-btn"><i class="fas fa-arrow-left"></i> Nazad na Kalendar</button>
+                            <h3 id="details-panel-title">Termini za Izabrani Dan</h3>
+                            <div id="appointment-list">
+                                <p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>
+                                </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </section>
     </main>

@@ -7,10 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const appointmentList = document.getElementById('appointment-list');
     const detailsPanelTitle = document.getElementById('details-panel-title');
     const welcomeMessage = document.getElementById('welcome-message');
+    const profileNameEl = document.getElementById('profile-name');
+    const profileEmailEl = document.getElementById('profile-email');
+    const profilePhoneEl = document.getElementById('profile-phone');
+    const calendarView = document.querySelector('.calendar-view');
+    const appointmentListView = document.querySelector('.appointment-list-view');
+    const backToCalendarBtn = document.querySelector('.back-to-calendar-btn');
 
     // --- Placeholder Data ---
-    const userName = "Vanja Dejanović"; // Replace with actual user data later
-    welcomeMessage.textContent = `Dobrodošli, ${userName}!`;
+    const user = { // Encapsulate user data
+        firstName: "Vanja",
+        lastName: "Dejanović",
+        email: "vanja.d@opusinte.ba", // Placeholder
+        phone: "+387 65 123 456" // Placeholder
+    };
+
+    // Populate Welcome & Profile
+    welcomeMessage.textContent = `Dobrodošli, ${user.firstName}!`;
+    profileNameEl.textContent = `${user.firstName} ${user.lastName}`;
+    profileEmailEl.textContent = user.email;
+    profilePhoneEl.textContent = user.phone || 'Nije unešeno'; // Handle missing phone
 
     // Placeholder Appointments (Date format: YYYY-MM-DD)
     const userAppointments = {
@@ -24,10 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
          "2025-11-15": [
             { time: "09:00", service: "Online psihoterapija", id: 4 }
         ]
-        // Add more placeholder dates/appointments as needed
     };
 
-    // --- Calendar Logic ---
+    // --- Calendar Logic (Mostly Unchanged) ---
     const bosnianMonths = [
         "Januar", "Februar", "Mart", "April", "Maj", "Juni",
         "Juli", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
@@ -47,29 +62,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; // Adjust for Monday start
+        let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
-        // Add empty divs for offset
         for (let i = 0; i < dayOffset; i++) {
             calendarGrid.insertAdjacentHTML('beforeend', `<div></div>`);
         }
 
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalize today's date
+        today.setHours(0, 0, 0, 0);
 
-        // Add day elements
         for (let day = 1; day <= daysInMonth; day++) {
             const loopDate = new Date(year, month, day);
-            const dateString = loopDate.toISOString().split('T')[0]; // Format YYYY-MM-DD
+            const dateString = loopDate.toISOString().split('T')[0];
 
             let classes = ['calendar-day'];
             if (loopDate < today) {
-                classes.push('disabled'); // Mark past dates
+                classes.push('disabled');
             }
              if (loopDate.getTime() === today.getTime()) {
-                classes.push('today'); // Mark today
+                classes.push('today');
             }
-            // Check if there's an appointment on this day
             if (userAppointments[dateString]) {
                 classes.push('has-appointment');
             }
@@ -81,18 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const changeMonth = (offset) => {
-        calendarGrid.classList.add('fading'); // For visual transition
+        calendarGrid.classList.add('fading');
         setTimeout(() => {
             currentDate.setMonth(currentDate.getMonth() + offset);
             renderCalendar();
-            // Clear appointment details when month changes
-            appointmentList.innerHTML = `<p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>`;
-            detailsPanelTitle.textContent = `Termini za Izabrani Dan`;
-             // Remove selected state from any previously selected day
-            const currentSelection = document.querySelector('.calendar-day.selected');
-            if (currentSelection) {
-                currentSelection.classList.remove('selected');
-            }
+            // --- Reset to Calendar View when month changes ---
+            switchToCalendarView();
+            // --- ---
             calendarGrid.classList.remove('fading');
         }, 300);
     };
@@ -100,28 +107,48 @@ document.addEventListener('DOMContentLoaded', () => {
     prevMonthBtn.addEventListener('click', () => changeMonth(-1));
     nextMonthBtn.addEventListener('click', () => changeMonth(1));
 
-    // --- Appointment Display Logic ---
-    calendarGrid.addEventListener('click', e => {
-        if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
+    // --- View Switching Logic ---
+    const switchToAppointmentView = () => {
+        calendarView.classList.remove('active-view');
+        appointmentListView.classList.add('active-view');
+    };
 
-             // Remove selected state from previously selected day
+    const switchToCalendarView = () => {
+        appointmentListView.classList.remove('active-view');
+        calendarView.classList.add('active-view');
+        // Clear details when going back
+        appointmentList.innerHTML = `<p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>`;
+        detailsPanelTitle.textContent = `Termini za Izabrani Dan`;
+        // Remove selection highlight from calendar
+        const currentSelection = document.querySelector('.calendar-day.selected');
+        if (currentSelection) {
+            currentSelection.classList.remove('selected');
+        }
+    };
+
+    backToCalendarBtn.addEventListener('click', switchToCalendarView);
+
+    // --- Appointment Display & Transition Trigger ---
+    calendarGrid.addEventListener('click', e => {
+        // Only proceed if a non-disabled day with appointments is clicked
+        if (e.target.classList.contains('calendar-day') &&
+            !e.target.classList.contains('disabled') &&
+            e.target.classList.contains('has-appointment')) { // Added check for appointments
+
             const currentSelection = document.querySelector('.calendar-day.selected');
             if (currentSelection) {
                 currentSelection.classList.remove('selected');
             }
-
-            // Add selected state to clicked day
             e.target.classList.add('selected');
 
             const selectedDateStr = e.target.dataset.date;
-            const selectedDateObj = new Date(selectedDateStr + 'T00:00:00'); // Ensure correct date object
+            const selectedDateObj = new Date(selectedDateStr + 'T00:00:00');
             const formattedDate = selectedDateObj.toLocaleDateString('bs-BA', { day: 'numeric', month: 'long', year: 'numeric' });
 
             detailsPanelTitle.textContent = `Termini za ${formattedDate}`;
 
             const appointments = userAppointments[selectedDateStr];
-
-            appointmentList.innerHTML = ''; // Clear previous list or placeholder
+            appointmentList.innerHTML = ''; // Clear previous
 
             if (appointments && appointments.length > 0) {
                 appointments.forEach((app, index) => {
@@ -136,48 +163,69 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     appointmentList.insertAdjacentHTML('beforeend', appointmentHTML);
                 });
+                // --- Switch to the appointment list view ---
+                switchToAppointmentView();
+                // --- ---
             } else {
+                 // Should not happen due to the 'has-appointment' check, but good fallback
                 appointmentList.innerHTML = `<p class="no-appointments">Nema zakazanih termina za ovaj dan.</p>`;
+                // Don't switch view if there are no appointments to show
+                 switchToAppointmentView(); // Or maybe keep calendar view? Your choice. Added for consistency.
             }
+        } else if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('disabled')) {
+            // Handle clicking a day *without* appointments (optional)
+            // Maybe just highlight it briefly or clear the details panel if it was open?
+            const currentSelection = document.querySelector('.calendar-day.selected');
+            if (currentSelection) {
+                currentSelection.classList.remove('selected');
+            }
+             e.target.classList.add('selected'); // Select the day even if no appointments
+            // If the appointment list view is active, switch back
+            if (appointmentListView.classList.contains('active-view')) {
+                 switchToCalendarView();
+            }
+             // Optionally display a message in the (hidden) appointment list area
+             appointmentList.innerHTML = `<p class="no-appointments">Nema zakazanih termina za ovaj dan.</p>`;
+             detailsPanelTitle.textContent = `Termini za ${new Date(e.target.dataset.date + 'T00:00:00').toLocaleDateString('bs-BA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+
+
         }
     });
 
-    // --- Appointment Removal Logic (Frontend Only) ---
+    // --- Appointment Removal Logic (Unchanged) ---
     appointmentList.addEventListener('click', e => {
         if (e.target.classList.contains('remove-appointment-btn')) {
             const appointmentItem = e.target.closest('.appointment-item');
-            const appointmentId = appointmentItem.dataset.id; // Get the ID
+            const appointmentId = appointmentItem.dataset.id;
 
-            // Confirmation (optional but recommended)
             if (confirm("Da li ste sigurni da želite otkazati ovaj termin?")) {
-                // TODO: Add backend call here later to actually delete
-
-                // --- Frontend removal ---
-                appointmentItem.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease 0.3s';
+                // TODO: Add backend call here later
+                appointmentItem.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease 0.3s, margin 0.3s ease 0.3s, padding 0.3s ease 0.3s';
                 appointmentItem.style.opacity = '0';
                 appointmentItem.style.transform = 'scale(0.95)';
-                 appointmentItem.style.maxHeight = '0';
-                 appointmentItem.style.padding = '0 20px';
-                 appointmentItem.style.marginBottom = '0';
-
+                appointmentItem.style.maxHeight = '0';
+                appointmentItem.style.padding = '0 20px';
+                appointmentItem.style.marginBottom = '0';
 
                 console.log(`Placeholder: Remove appointment with ID: ${appointmentId}`);
 
-                // Optionally, update the userAppointments object (frontend state)
-                // This requires finding the date and filtering the array
-                 setTimeout(() => {
+                setTimeout(() => {
                     appointmentItem.remove();
-                     // Check if list is now empty
                     if (appointmentList.children.length === 0) {
-                         appointmentList.innerHTML = `<p class="no-appointments">Nema više termina za ovaj dan.</p>`;
-                         // Optional: remove highlight from calendar day if no appointments left for it
-                         // (Requires slightly more complex state management)
+                        appointmentList.innerHTML = `<p class="no-appointments">Nema više termina za ovaj dan.</p>`;
+                        // Optional: Go back to calendar if list becomes empty
+                        // switchToCalendarView();
                     }
-                }, 600); // Wait for animations to finish
+                }, 600);
             }
         }
     });
 
     // --- Initial Render ---
     renderCalendar();
+    // Ensure Calendar view is active on load
+    calendarView.classList.add('active-view');
+    appointmentListView.classList.remove('active-view');
+
+
 });

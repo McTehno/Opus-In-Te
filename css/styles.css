@@ -2109,12 +2109,14 @@ main {
 
 .dashboard-container {
     display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Calendar takes more space */
+    /* Grid layout: Left profile panel, Right appointment panel */
+    grid-template-columns: 300px 1fr; /* Fixed width for profile, rest for appointments */
     gap: 40px;
     background-color: var(--white);
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+    align-items: start; /* Align items to the top */
 }
 
 /* Style calendar specifically for dashboard if needed */
@@ -2163,6 +2165,96 @@ main {
      background-color: #ccc; /* Grey dot for past appointments */
 }
 
+/* Right Panel: Appointments & Transitions */
+.appointment-panel {
+    position: relative;
+    overflow: hidden; /* Important for containing the sliding views */
+    min-height: 500px; /* Ensure panel has some height */
+}
+
+.appointment-view-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.calendar-view,
+.appointment-list-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white); /* Ensure background covers content below */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%); /* Start off-screen to the right */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+    padding: 1px; /* Prevents margin collapse issues */
+}
+
+.calendar-view {
+    transform: translateX(0); /* Calendar starts on-screen */
+}
+
+.calendar-view.active-view,
+.appointment-list-view.active-view {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* Slide into view */
+}
+/* When calendar slides out */
+.calendar-view:not(.active-view) {
+     transform: translateX(-100%); /* Slide out to the left */
+     opacity: 0;
+     visibility: hidden;
+}
+
+
+/* Adjust headings inside the views */
+.calendar-view h3, .appointment-list-view h3 {
+     font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--soft-gold);
+    color: var(--charcoal);
+}
+
+.dashboard-calendar {
+    border-right: none; /* Remove border from previous layout */
+    padding-right: 0;
+}
+.dashboard-calendar .calendar-header h4 { /* Target h4 now */
+     font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--charcoal);
+    margin: 0;
+}
+
+.back-to-calendar-btn {
+    background: none;
+    border: none;
+    color: var(--soft-gold);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+.back-to-calendar-btn i {
+    margin-right: 5px;
+}
+.back-to-calendar-btn:hover {
+    color: var(--charcoal);
+}
+
+/* Remove border from appointment details title as it's now inside a view */
+.appointment-details-panel h3 {
+    border-bottom: none;
+    padding-bottom: 0;
+}
 
 /* Appointment Details Panel */
 .appointment-details-panel {
@@ -2235,6 +2327,63 @@ main {
     background-color: #d9534f; /* Red background */
     color: var(--white); /* White text */
     transform: scale(1.05);
+}
+.user-profile-panel {
+    background-color: var(--light-gray);
+    padding: 30px;
+    border-radius: 10px;
+    height: 100%; /* Make it fill the grid cell height */
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-panel h3 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--soft-gold);
+    color: var(--charcoal);
+}
+
+.profile-details {
+    margin-bottom: 30px;
+    flex-grow: 1; /* Allows details to push button down */
+}
+
+.profile-item {
+    margin-bottom: 20px;
+}
+
+.profile-item label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+.profile-item label i {
+    margin-right: 8px;
+    color: var(--soft-gold);
+    width: 15px; /* Ensure icon alignment */
+    text-align: center;
+}
+
+.profile-item span {
+    font-size: 1rem;
+    color: var(--charcoal);
+}
+
+.edit-profile-button {
+    width: 100%;
+    text-align: center;
+    background-color: var(--charcoal);
+    border: none;
+    font-size: 1rem;
+    margin-top: auto; /* Pushes button to the bottom */
+}
+.edit-profile-button:hover {
+    background-color: var(--soft-gold);
 }
 
 /* Simple fade-in animation */
