@@ -113,12 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
         appointmentListView.classList.add('active-view');
     };
 
-    const switchToCalendarView = () => {
+   const switchToCalendarView = () => {
+        // Just toggle the classes - CSS handles the transition
         appointmentListView.classList.remove('active-view');
         calendarView.classList.add('active-view');
-        // Clear details when going back
+
+        // Clear details (can happen immediately now)
         appointmentList.innerHTML = `<p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>`;
         detailsPanelTitle.textContent = `Termini za Izabrani Dan`;
+
         // Remove selection highlight from calendar
         const currentSelection = document.querySelector('.calendar-day.selected');
         if (currentSelection) {
@@ -143,7 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const selectedDateStr = e.target.dataset.date;
             const selectedDateObj = new Date(selectedDateStr + 'T00:00:00');
-            const formattedDate = selectedDateObj.toLocaleDateString('bs-BA', { day: 'numeric', month: 'long', year: 'numeric' });
+            // --- Manual Date Formatting ---
+            const day = String(selectedDateObj.getDate()).padStart(2, '0'); // Get day with leading zero
+            const monthIndex = selectedDateObj.getMonth(); // Get month index (0-11)
+            const year = selectedDateObj.getFullYear();
+            const formattedDate = `${day}. ${bosnianMonths[monthIndex]} ${year}`; // Construct the string
+            // --- End Manual Date Formatting ---
 
             detailsPanelTitle.textContent = `Termini za ${formattedDate}`;
 
