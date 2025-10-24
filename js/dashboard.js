@@ -114,15 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
    const switchToCalendarView = () => {
-        // Just toggle the classes - CSS handles the transition
+        // 1. Start the transition by removing the active class from the list view
         appointmentListView.classList.remove('active-view');
+        // 2. Add the active class to the calendar view so it starts sliding in
         calendarView.classList.add('active-view');
 
-        // Clear details (can happen immediately now)
-        appointmentList.innerHTML = `<p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>`;
-        detailsPanelTitle.textContent = `Termini za Izabrani Dan`;
+        // 3. IMPORTANT: Delay clearing the list content and title until *after*
+        //    the transition duration (500ms as defined in CSS).
+        setTimeout(() => {
+            appointmentList.innerHTML = `<p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>`;
+            detailsPanelTitle.textContent = `Termini za Izabrani Dan`;
+        }, 500); // Match this duration to your CSS transition time
 
-        // Remove selection highlight from calendar
+        // 4. Remove selection highlight from calendar (can happen immediately)
         const currentSelection = document.querySelector('.calendar-day.selected');
         if (currentSelection) {
             currentSelection.classList.remove('selected');
