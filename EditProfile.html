@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vaš Profil | Opus in te</title>
+    <title>Uredi Profil | Opus in te</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -14,7 +14,7 @@
 </head>
 <body class="dashboard-body">
 
-    <header class="main-header scrolled">
+    <header class="main-header scrolled"> 
         <div class="container">
             <a href="Index.html" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
@@ -36,65 +36,50 @@
     </header>
 
     <main class="dashboard-main">
-        <section class="dashboard-welcome">
+        <section class="dashboard-content">
             <div class="container">
-                <h1 id="welcome-message">Dobrodošli, [Ime]!</h1>
-                <p>Pregledajte Vaše zakazane termine.</p>
-            </div>
-        </section>
+                <div class="edit-profile-wrapper">
+                    <h2>Uredi Vaš Profil</h2>
+                    <p>Ažurirajte Vaše lične podatke.</p>
 
-       <section class="dashboard-content">
-            <div class="container dashboard-container">
-
-                <div class="user-profile-panel">
-                    <h3>Vaš Profil</h3>
-                    <div class="profile-details">
-                        <div class="profile-item">
-                            <label><i class="fas fa-user"></i> Ime i Prezime:</label>
-                            <span id="profile-name">[Ime Prezime]</span>
+                    <form id="edit-profile-form">
+                        <div class="form-group">
+                            <label for="profile-name-edit">Ime i Prezime</label>
+                            <input type="text" id="profile-name-edit" name="name" required placeholder="Vaše ime i prezime" value="Ime Prezime"> 
                         </div>
-                        <div class="profile-item">
-                            <label><i class="fas fa-envelope"></i> Email:</label>
-                            <span id="profile-email">[email@example.com]</span>
+                        <div class="form-group">
+                            <label for="profile-email-edit">Email Adresa</label>
+                            <input type="email" id="profile-email-edit" name="email" required placeholder="Vaša email adresa" value="email@example.com">
                         </div>
-                        <div class="profile-item">
-                            <label><i class="fas fa-phone"></i> Telefon:</label>
-                            <span id="profile-phone">[Broj telefona]</span>
+                        <div class="form-group">
+                            <label for="profile-phone-edit">Broj Telefona</label>
+                            <input type="tel" id="profile-phone-edit" name="phone" placeholder="Unesite Vaš broj telefona" value="Broj telefona"> 
                         </div>
-                        </div>
-                    <a href="EditProfile.html" id="edit-profile-btn" class="cta-button edit-profile-button">Uredi Profil</a>
-                </div>
-
-                <div class="appointment-panel">
-                    <div class="appointment-view-container">
-                        <div class="calendar-view active-view">
-                            <h3>Vaši Termini</h3>
-                            <div class="calendar-panel dashboard-calendar">
-                                <div class="calendar-header">
-                                    <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
-                                    <h4 id="monthYear">Oktobar 2025</h4>
-                                    <button id="nextMonth" aria-label="Next Month"><i class="fas fa-chevron-right"></i></button>
-                                </div>
-                                <div class="calendar-grid">
-                                    </div>
-                            </div>
-                        </div>
-
-                        <div class="appointment-list-view">
-                            <button class="back-to-calendar-btn"><i class="fas fa-arrow-left"></i> Nazad na Kalendar</button>
-                            <h3 id="details-panel-title">Termini za Izabrani Dan</h3>
-                            <div id="appointment-list">
-                                <p class="no-appointments">Izaberite dan na kalendaru sa označenim terminom.</p>
-                                </div>
-                        </div>
+                        <button type="submit" class="cta-button save-profile-btn">Sačuvaj Promjene</button>
+                        <a href="UserDashboard.html" class="cta-button back-btn">Nazad na Profil</a>
+                    </form>
+                    <div class="forgot-password-link">
+                        <p>Imate problem sa lozinkom? <a href="#">Resetujte ovdje</a></p>
                     </div>
                 </div>
-
             </div>
         </section>
     </main>
 
-    <footer class="main-footer">
+    <div id="success-modal" class="modal">
+        <div class="modal-content confirmation-modal-content"> 
+             <span class="close-button modal-close-btn"></span> 
+             <div class="success-icon">
+                <i class="fas fa-envelope-open-text"></i> 
+             </div>
+            <h3>Potvrda putem Emaila</h3>
+            <p>Poslali smo Vam email za potvrdu izmjena. Molimo provjerite Vaš inbox.</p>
+            <button class="cta-button close-modal-btn">Zatvori</button>
+        </div>
+    </div>
+
+
+    <footer class="main-footer"> 
          <div class="container footer-container">
             <div class="footer-col">
                 <a href="Index.html" class="footer-logo-link">
@@ -131,6 +116,8 @@
         </div>
     </footer>
 
-    <script src="js/dashboard.js"></script>
-</body>
+
+    <script src="js/edit_profile.js"></script>
+
+    </body>
 </html>
