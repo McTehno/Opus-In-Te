@@ -15,7 +15,7 @@
 
     <div class="booking-modal">
         <div class="booking-header">
-            <a href="Index.html" class="close-booking"><i class="fas fa-times"></i></a>
+            <a href="Index.php" class="close-booking"><i class="fas fa-times"></i></a>
         </div>
 
         <div class="progress-bar-container">
@@ -158,7 +158,7 @@
         </div>
         <h2 class="step-title">Hvala!</h2>
         <p>Vaša rezervacija je uspješno primljena. Uskoro ćete na Vašu email adresu dobiti poruku sa potvrdom i svim detaljima Vašeg termina.</p>
-        <a href="Index.html" class="cta-button home-btn">Vrati se na početnu</a>
+        <a href="Index.php" class="cta-button home-btn">Vrati se na početnu</a>
     </div>
 </div>
 

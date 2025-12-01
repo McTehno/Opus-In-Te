@@ -107,4 +107,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// Animations for Contact.html
+// Animations for Contact.php

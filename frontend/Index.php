@@ -24,16 +24,16 @@
             </a>
             <nav class="main-nav">
                  <ul>
-                    <li><a href="Index.html" class="active">Početna</a></li>
-                    <li><a href="Services.html">Usluge</a></li>
-                    <li><a href="About.html">O Meni</a></li>
-                    <li><a href="Blog.html">Blog</a></li>
-                   <li><a href="Contact.html">Kontakt</a></li>
+                    <li><a href="Index.php" class="active">Početna</a></li>
+                    <li><a href="Services.php">Usluge</a></li>
+                    <li><a href="About.php">O Meni</a></li>
+                    <li><a href="Blog.php">Blog</a></li>
+                   <li><a href="Contact.php">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="booking.html" class="cta-button nav-cta">Zakažite termin</a>
-                <a href="Login.html" class="login-icon" aria-label="Korisnički nalog"><i class="fa-solid fa-circle-user"></i></a>
+                <a href="booking.php" class="cta-button nav-cta">Zakažite termin</a>
+                <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i class="fa-solid fa-circle-user"></i></a>
             </div>
             </div>
     </header>
@@ -117,7 +117,7 @@
                 <ul>
                     <li><a href="#">Početna</a></li>
                     <li><a href="#">Usluge</a></li>
-                    <li><a href="About.html">O Meni</a></li>
+                    <li><a href="About.php">O Meni</a></li>
                     <li><a href="#">Kontakt</a></li>
                 </ul>
             </div>

@@ -31,10 +31,10 @@
         </div>
         <button type="submit" class="cta-button login-btn">Prijavite se</button>
         
-        <a href="Index.html" class="cta-button back-btn">Nazad</a> 
+        <a href="Index.php" class="cta-button back-btn">Nazad</a> 
     </form>
     <div class="register-link">
-        <p>Nemate profil? <a href="Register.html">Registrujte se</a></p>
+        <p>Nemate profil? <a href="Register.php">Registrujte se</a></p>
     </div>
 
 </div>
