@@ -1,0 +1,10 @@
+
+# Ignore environment variables (security best practice)
+.env
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore node modules
+node_modules/
