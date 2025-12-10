@@ -138,5 +138,8 @@
 
 <script src="js/navbar.js"></script>
 <script src="js/loading_screen.js"></script>
+<?php
+require_once 'backend/connect.php';
+?>
 </body>
 </html>
