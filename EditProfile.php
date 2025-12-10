@@ -16,12 +16,12 @@
 
     <header class="main-header scrolled"> 
         <div class="container">
-            <a href="Index.php" class="logo-link">
+            <a href="index.php" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
             </a>
            <nav class="main-nav">
                  <ul>
-                    <li><a href="Index.php">Početna</a></li>
+                    <li><a href="index.php">Početna</a></li>
                     <li><a href="Services.php">Usluge</a></li>
                     <li><a href="About.php">O Meni</a></li>
                     <li><a href="Blog.php">Blog</a></li>
@@ -87,7 +87,7 @@
     <footer class="main-footer"> 
          <div class="container footer-container">
             <div class="footer-col">
-                <a href="Index.php" class="footer-logo-link">
+                <a href="index.php" class="footer-logo-link">
                     <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
                 </a>
             </div>
@@ -100,7 +100,7 @@
             <div class="footer-col">
                 <h4>Brzi Linkovi</h4>
                 <ul>
-                    <li><a href="Index.php">Početna</a></li>
+                    <li><a href="index.php">Početna</a></li>
                     <li><a href="Services.php">Usluge</a></li>
                     <li><a href="About.php">O Meni</a></li>
                     <li><a href="Contact.php">Kontakt</a></li>

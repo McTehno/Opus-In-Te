@@ -30,7 +30,7 @@
                     <input type="password" id="password" name="password" required placeholder="Najmanje 8 karaktera">
                 </div>
                 <button type="submit" class="cta-button login-btn">Registrujte se</button>
-                <a href="Index.php" class="cta-button back-btn">Nazad</a> 
+                <a href="index.php" class="cta-button back-btn">Nazad</a> 
             </form>
 
             <div class="register-link">

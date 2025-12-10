@@ -24,7 +24,7 @@
             </a>
             <nav class="main-nav">
                  <ul>
-                    <li><a href="Index.php" class="active">Početna</a></li>
+                    <li><a href="index.php" class="active">Početna</a></li>
                     <li><a href="Services.php">Usluge</a></li>
                     <li><a href="About.php">O Meni</a></li>
                     <li><a href="Blog.php">Blog</a></li>
