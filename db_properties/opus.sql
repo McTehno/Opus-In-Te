@@ -131,16 +131,25 @@ CREATE TABLE Blog_Post_Category (
     PRIMARY KEY (idBlog_Post_Category)
 );
 
+CREATE TABLE Blog_Post_Status (
+    idBlog_Post_Status INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL UNIQUE, 
+    PRIMARY KEY (idBlog_Post_Status)
+);
+
 CREATE TABLE Blog_Post (
     idBlog_Post INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL, 
     contents TEXT NOT NULL,
     date DATE NOT NULL,
-    status VARCHAR(45) NOT NULL DEFAULT 'draft', 
     viewcount INT NOT NULL DEFAULT 0,
     User_idUser INT NOT NULL, 
+    Blog_Post_Status_idBlog_Post_Status INT NOT NULL,
     PRIMARY KEY (idBlog_Post),
     FOREIGN KEY (User_idUser) REFERENCES User(idUser)
+        ON DELETE RESTRICT 
+        ON UPDATE CASCADE,
+	FOREIGN KEY (Blog_Post_Status_idBlog_Post_Status) REFERENCES Blog_Post_Status(idBlog_Post_Status)
         ON DELETE RESTRICT 
         ON UPDATE CASCADE
 );
@@ -209,8 +218,7 @@ INSERT INTO Appointment_Status (status_name) VALUES
 INSERT INTO Appointment (datetime, Address_idAddress, Appointment_Type_idAppointment_Type, Appointment_Status_idAppointment_Status) VALUES 
 ('2025-10-15 14:00:00', 1, 1, 2); 
 
--- Link Users to Appointment 1
--- UPDATED: Removed 'role' value
+-- Link Users to Appointment 
 INSERT INTO Appointment_User (Appointment_idAppointment, User_idUser) VALUES 
 (1, 2), -- Iva (Worker/Doctor)
 (1, 3); -- Marko (User/Client)
@@ -222,10 +230,16 @@ INSERT INTO Blog_Post_Category (name) VALUES
 ('Self-Care'),
 ('News');
 
+-- Blog Post Statuses
+INSERT INTO Blog_Post_Status (name) VALUES 
+('draft'),      -- ID 1
+('published'),  -- ID 2
+('archived');   -- ID 3
+
 -- Blog Posts
-INSERT INTO Blog_Post (title, contents, date, status, viewcount, User_idUser) VALUES 
-('Welcome to OpusInTe', 'We are happy to announce our new website opening...', '2025-10-01', 'published', 120, 1),
-('Dealing with Autumn Blues', 'As the seasons change, our mood often changes with them...', '2025-10-05', 'published', 45, 2);
+INSERT INTO Blog_Post (title, contents, date, viewcount, User_idUser, Blog_Post_Status_idBlog_Post_Status) VALUES 
+('Welcome to OpusInTe', 'We are happy to announce our new website opening...', '2025-10-01', 120, 1, 2),
+('Dealing with Autumn Blues', 'As the seasons change, our mood often changes with them...', '2025-10-05', 45, 2, 2);
 
 -- Link Blog Posts to Categories
 INSERT INTO Blog_Post_Blog_Post_Category (Blog_Post_idBlog_Post, Blog_Post_Category_idBlog_Post_Category) VALUES 
