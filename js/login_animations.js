@@ -23,4 +23,54 @@ document.addEventListener('DOMContentLoaded', () => {
             loginSection.classList.remove('show-overlay');
         });
     }
+    // Common elements
+    const emailInput = document.getElementById('email');
+    const registerLink = document.querySelector('.register-link a');
+    
+    // Logic for Login Page: Update Register link with email
+    if (document.title.includes('Prijava') && emailInput && registerLink) {
+        emailInput.addEventListener('input', () => {
+            const email = encodeURIComponent(emailInput.value);
+            registerLink.href = `Register.php?email=${email}`;
+        });
+    }
+
+    // Logic for Register Page: Prefill email and Animate
+    if (document.title.includes('Registracija')) {
+        // Prefill Email
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        if (email && emailInput) {
+            emailInput.value = email;
+            emailInput.style.borderColor = 'var(--soft-gold)';
+        }
+
+        // Animation
+        const wrapper = document.querySelector('.login-form-wrapper');
+        const newFields = document.querySelectorAll('.form-group.new-field');
+        
+        if (wrapper && newFields.length > 0) {
+            // Set initial state for animation
+            newFields.forEach(field => {
+                field.style.opacity = '0';
+                field.style.transform = 'translateY(-20px)';
+                field.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                field.style.height = '0';
+                field.style.margin = '0';
+                field.style.overflow = 'hidden';
+            });
+
+            // Trigger animation after a short delay
+            setTimeout(() => {
+                newFields.forEach((field, index) => {
+                    setTimeout(() => {
+                        field.style.height = '90px'; // Approximate height
+                        field.style.margin = '0 0 25px 0'; // Restore margin
+                        field.style.opacity = '1';
+                        field.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 300);
+        }
+    }
 });

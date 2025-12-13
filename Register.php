@@ -11,6 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class ="login-body">
+<div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
+        </div> 
+        <p>Učitavanje...</p>
+</div>
 
     <main class="login-section">
         <div class="login-background"></div>
@@ -21,6 +27,18 @@
             <p>Pridružite nam se i zakažite Vaš prvi termin.</p>
 
             <form action="#" method="POST">
+                <div class="form-group new-field">
+                    <label for="name">Ime</label>
+                    <input type="text" id="name" name="name" required placeholder="Vaše ime">
+                </div>
+                <div class="form-group new-field">
+                    <label for="lastname">Prezime</label>
+                    <input type="text" id="lastname" name="lastname" required placeholder="Vaše prezime">
+                </div>
+                <div class="form-group new-field">
+                    <label for="phone">Broj telefona</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="06x xxx xxx">
+                </div>
                 <div class="form-group">
                     <label for="email">Email Adresa</label>
                     <input type="email" id="email" name="email" required placeholder="npr. email@example.com">
@@ -41,5 +59,6 @@
         </div>
     </main>
 <script src="js/login_animations.js"></script>
+<script src="js/loading_screen.js"></script>
 </body>
 </html>

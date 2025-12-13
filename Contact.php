@@ -15,6 +15,12 @@
 
 </head>
 <body>
+<div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
+        </div> 
+        <p>Učitavanje...</p>
+</div>
 
     <header class="main-header scrolled"> 
         <div class="container">
@@ -169,5 +175,6 @@
 
 <script src="js/kontakt_animations.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/loading_screen.js"></script>
 </body>
 </html>

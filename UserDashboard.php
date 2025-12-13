@@ -13,6 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
+<div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
+        </div> 
+        <p>Učitavanje...</p>
+</div>
 
     <header class="main-header scrolled">
         <div class="container">
@@ -132,5 +138,6 @@
     </footer>
 
     <script src="js/dashboard.js"></script>
+    <script src="js/loading_screen.js"></script>
 </body>
 </html>
