@@ -10,6 +10,7 @@ require 'backend/login.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prijava | Opus in te</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,12 +32,6 @@ require 'backend/login.php';
 
     <h3>Prijava</h2>
         <p>Unesite svoje podatke</p>
-
-    <?php if (!empty($error_message)): ?>
-        <div style="color: red; margin-bottom: 15px; text-align: center;">
-            <?php echo htmlspecialchars($error_message); ?>
-        </div>
-    <?php endif; ?>
 
     <form action="#" method="POST">
         <div class="form-group">
@@ -61,5 +56,13 @@ require 'backend/login.php';
     
 <script src="js/login_animations.js"></script>
 <script src="js/loading_screen.js"></script>
+<script src="js/notifications.js"></script>
+<?php if (!empty($error_message)): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        showNotification("<?php echo htmlspecialchars($error_message); ?>", "error");
+    });
+</script>
+<?php endif; ?>
 </body>
 </html>
