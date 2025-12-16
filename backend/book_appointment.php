@@ -2,6 +2,28 @@
 session_start();
 require_once 'connect.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
+// Load mail configuration
+if (file_exists('mail_config.php')) {
+    require_once 'mail_config.php';
+} else {
+    // Fallback defaults or error handling
+    define('SMTP_HOST', 'mailhog');
+    define('SMTP_USERNAME', '');
+    define('SMTP_PASSWORD', '');
+    define('SMTP_PORT', 1025);
+    define('SMTP_SECURE', '');
+    define('SMTP_FROM_EMAIL', 'info@opusinte.ba');
+    define('SMTP_FROM_NAME', 'Opus In Te');
+}
+
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -54,8 +76,12 @@ try {
         if ($existingUser) {
             $userId = $existingUser['idUser'];
             // Update info
-            $stmt = $pdo->prepare("UPDATE User SET name = ?, phone = ? WHERE idUser = ?");
-            $stmt->execute([$name, $phone, $userId]);
+            $parts = explode(' ', $name, 2);
+            $firstName = $parts[0];
+            $lastName = $parts[1] ?? '';
+
+            $stmt = $pdo->prepare("UPDATE User SET name = ?, last_name = ?, phone = ? WHERE idUser = ?");
+            $stmt->execute([$firstName, $lastName, $phone, $userId]);
         } else {
             // Create new user
             $stmt = $pdo->prepare("INSERT INTO User (name, last_name, email, phone, Role_idRole, pass) VALUES (?, ?, ?, ?, 3, NULL)");
@@ -99,43 +125,78 @@ try {
 
     $pdo->commit();
 
-    // Send Confirmation Email
-    $to = $email;
-    $subject = "Potvrda rezervacije termina - Opus in te";
-    
-    // Fetch service name for email
+    // Fetch service details for email
     $stmt = $pdo->prepare("SELECT name, price FROM Appointment_Type WHERE idAppointment_Type = ?");
     $stmt->execute([$serviceId]);
-    $serviceData = $stmt->fetch(PDO::FETCH_ASSOC);
-    $serviceName = $serviceData['name'] ?? 'Usluga';
-    $servicePrice = $serviceData['price'] ?? '0';
+    $serviceDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+    $serviceName = $serviceDetails['name'] ?? 'Usluga';
+    $servicePrice = $serviceDetails['price'] ?? '0';
 
-    $message = "
-    Poštovani/a $name,
+    $mail = new PHPMailer(true);
 
-    Hvala Vam na rezervaciji termina u Opus in te.
+    try {
+        // Server settings
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();                                            
+        $mail->Host       = SMTP_HOST;
+        $mail->SMTPAuth   = !empty(SMTP_USERNAME); // Only auth if username is set
+        $mail->Username   = SMTP_USERNAME;
+        $mail->Password   = SMTP_PASSWORD;
+        
+        if (SMTP_SECURE === 'tls') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        } elseif (SMTP_SECURE === 'ssl') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } else {
+            $mail->SMTPSecure = '';
+        }
+        
+        $mail->Port       = SMTP_PORT;
 
-    Detalji Vašeg termina:
-    Usluga: $serviceName
-    Datum: $date
-    Vrijeme: $time
-    Cijena: $servicePrice KM
-    Lokacija: $location
+        // Character encoding
+        $mail->CharSet = 'UTF-8';
 
-    Ukoliko imate bilo kakvih pitanja ili želite otkazati termin, molimo Vas da nas kontaktirate.
+        // Recipients
+        $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+        $mail->addAddress($email, $name);     // Add the client
 
-    Srdačan pozdrav,
-    Opus in te Tim
-    ";
+        // Content
+        $mail->isHTML(true);                                  
+        $mail->Subject = 'Potvrda rezervacije termina - Opus in te';
+        
+        // Let's make the email look a bit more "sleek" with HTML
+        $mail->Body    = "
+        <div style='font-family: Arial, sans-serif; color: #333;'>
+            <h2 style='color: #C5A76A;'>Hvala Vam na rezervaciji, $name!</h2>
+            <p>Vaš termin u <strong>Opus in te</strong> je uspješno rezervisan.</p>
+            <hr>
+            <p><strong>Detalji termina:</strong></p>
+            <ul>
+                <li><strong>Usluga:</strong> $serviceName</li>
+                <li><strong>Datum:</strong> $date</li>
+                <li><strong>Vrijeme:</strong> $time</li>
+                <li><strong>Cijena:</strong> $servicePrice KM</li>
+                <li><strong>Lokacija:</strong> $location</li>
+            </ul>
+            <hr>
+            <p>Ukoliko imate bilo kakvih pitanja ili želite otkazati termin, molimo Vas da nas kontaktirate.</p>
+            <p><em>Srdačan pozdrav,<br>Opus in te Tim</em></p>
+        </div>";
+        
+        $mail->AltBody = "Poštovani $name, Hvala Vam na rezervaciji... (plain text version)";
 
-    $headers = "From: no-reply@opusinte.ba" . "\r\n" .
-               "Reply-To: info@opusinte.ba" . "\r\n" .
-               "X-Mailer: PHP/" . phpversion();
+        $mail->send();
+        
+        // Success response
+        echo json_encode(['success' => true]);
 
-    // Attempt to send email (suppress errors to avoid breaking JSON response)
-    @mail($to, $subject, $message, $headers);
-
-    echo json_encode(['success' => true]);
+    } catch (Exception $e) {
+        // If mail fails, we still consider the booking successful, but warn the frontend? 
+        // Or just log it. For now, let's return success but log error internally.
+        // Ideally, you shouldn't tell the user 'Failed' if the DB insert worked.
+        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        echo json_encode(['success' => true, 'mail_error' => $mail->ErrorInfo]); 
+    }
 
 } catch (Exception $e) {
     $pdo->rollBack();

@@ -8,3 +8,5 @@ Thumbs.db
 
 # Ignore node modules
 node_modules/
+
+backend/mail_config.php

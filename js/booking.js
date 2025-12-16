@@ -307,6 +307,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    if (data.mail_error) {
+                        console.warn('Email sending failed:', data.mail_error);
+                        alert('Rezervacija je uspješna, ali slanje emaila nije uspjelo: ' + data.mail_error);
+                    }
                     navigateToStep(5);
                 } else {
                     alert('Greška prilikom rezervacije: ' + (data.message || 'Nepoznata greška'));
