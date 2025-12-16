@@ -1,3 +1,7 @@
+<?php
+require_once 'backend/connect.php';
+session_start(); 
+?>
 <!DOCTYPE html>
 <html lang="bs">
 <head>
@@ -46,7 +50,7 @@
             <div class="hero-content container">
                 <h1>Mjesto za Vaš lični rast i razvoj.</h1>
                 <p>Dobrodošli u Opus in te. Pronađite podršku, razumijevanje i put ka unutrašnjem balansu.</p>
-                <a href="#kontakt" class="cta-button hero-cta">Započnite Svoje Putovanje</a>
+                <a href="Contact.php" class="cta-button hero-cta">Započnite Svoje Putovanje</a>
             </div>
         </section>
 
@@ -57,7 +61,7 @@
                     <p>
                         U Opus in te, vjerujemo da svaka osoba nosi u sebi snagu za promjenu i iscjeljenje. Kroz psihološko savjetovanje i psihoterapiju, ja, Vanja Dejanović, posvećena sam pružanju stručne i empatične podrške na Vašem putu. Ovdje možete istražiti svoje misli i osjećaje u povjerljivom i sigurnom okruženju.
                     </p>
-                    <a href="#" class="learn-more-link">Saznajte više o mom pristupu →</a>
+                    <a href="About.php" class="learn-more-link">Saznajte više o mom pristupu →</a>
                 </div>
                 <div class="intro-image">
                     <div class="image-frame">
@@ -94,7 +98,7 @@
             <div class="container">
                 <h2>"Opus in te" znači "Djelo u tebi".</h2>
                 <p>Spremni da otkrijete i oblikujete svoje unutrašnje djelo? Prvi korak je najvažniji.</p>
-                <a href="#kontakt" class="cta-button">Kontaktirajte me</a>
+                <a href="Contact.php" class="cta-button">Kontaktirajte me</a>
             </div>
         </section>
     </main>
@@ -138,8 +142,5 @@
 
 <script src="js/navbar.js"></script>
 <script src="js/loading_screen.js"></script>
-<?php
-require_once 'backend/connect.php';
-?>
 </body>
 </html>

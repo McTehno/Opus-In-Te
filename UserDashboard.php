@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: Login.php");
+    exit;
+}
+require_once 'backend/connect.php';
+?>
 <!DOCTYPE html>
 <html lang="bs">
 <head>

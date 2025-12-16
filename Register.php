@@ -1,3 +1,7 @@
+<?php
+require_once 'backend/connect.php';
+require 'backend/register.php';
+?>
 <!DOCTYPE html>
 <html lang="bs">
 <head>
@@ -25,6 +29,17 @@
             
             <h3>Kreirajte Vaš Nalog</h2>
             <p>Pridružite nam se i zakažite Vaš prvi termin.</p>
+
+            <?php if (!empty($error_message)): ?>
+                <div style="color: red; margin-bottom: 15px; text-align: center;">
+                    <?php echo htmlspecialchars($error_message); ?>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($success_message)): ?>
+                <div style="color: green; margin-bottom: 15px; text-align: center;">
+                    <?php echo htmlspecialchars($success_message); ?>
+                </div>
+            <?php endif; ?>
 
             <form action="#" method="POST">
                 <div class="form-group new-field">

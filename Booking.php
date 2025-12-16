@@ -1,3 +1,6 @@
+<?php
+require_once 'backend/connect.php';
+?>
 <!DOCTYPE html>
 <html lang="bs">
 <head>

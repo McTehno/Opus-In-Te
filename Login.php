@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once 'backend/connect.php';
+require 'backend/login.php';
+?>
 <!DOCTYPE html>
 <html lang="bs">
 <head>
@@ -26,6 +31,13 @@
 
     <h3>Prijava</h2>
         <p>Unesite svoje podatke</p>
+
+    <?php if (!empty($error_message)): ?>
+        <div style="color: red; margin-bottom: 15px; text-align: center;">
+            <?php echo htmlspecialchars($error_message); ?>
+        </div>
+    <?php endif; ?>
+
     <form action="#" method="POST">
         <div class="form-group">
             <label for="email">Email Adresa</label>
