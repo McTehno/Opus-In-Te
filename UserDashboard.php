@@ -5,6 +5,37 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 require_once 'backend/connect.php';
+
+// Fetch user details
+$user_id = $_SESSION['user_id'];
+$stmt = $pdo->prepare("SELECT name, last_name, email, phone FROM User WHERE idUser = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
+
+if (!$user) {
+    // Handle case where user is not found (shouldn't happen if session is valid)
+    session_destroy();
+    header("Location: Login.php");
+    exit;
+}
+
+// Fetch user appointments
+// Assuming appointments are linked via Appointment_User table based on opus.sql
+$sql = "
+    SELECT a.idAppointment, a.datetime, at.name as type_name, at.duration, ast.status_name
+    FROM Appointment a
+    JOIN Appointment_User au ON a.idAppointment = au.Appointment_idAppointment
+    JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type
+    JOIN Appointment_Status ast ON a.Appointment_Status_idAppointment_Status = ast.idAppointment_Status
+    WHERE au.User_idUser = ?
+    ORDER BY a.datetime ASC
+";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$user_id]);
+$appointments = $stmt->fetchAll();
+
+// Convert appointments to JSON for JS
+$appointments_json = json_encode($appointments);
 ?>
 <!DOCTYPE html>
 <html lang="bs">
@@ -25,7 +56,7 @@ require_once 'backend/connect.php';
         <div class="loading-logo-wrapper">
             <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
         </div> 
-        <p>Učitavanje...</p>
+        
 </div>
 
     <header class="main-header scrolled">
@@ -44,7 +75,7 @@ require_once 'backend/connect.php';
             </nav>
             <div class="header-actions">
                 <a href="booking.php" class="cta-button nav-cta">Zakažite Termin</a>
-                <a href="#" id="logout-link" class="login-icon" aria-label="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="backend/logout.php" id="logout-link" class="login-icon" aria-label="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
     </header>
@@ -52,7 +83,7 @@ require_once 'backend/connect.php';
     <main class="dashboard-main">
         <section class="dashboard-welcome">
             <div class="container">
-                <h1 id="welcome-message">Dobrodošli, [Ime]!</h1>
+                <h1 id="welcome-message">Dobrodošli, <?php echo htmlspecialchars($user['name']); ?>!</h1>
                 <p>Pregledajte Vaše zakazane termine.</p>
             </div>
         </section>
@@ -65,15 +96,15 @@ require_once 'backend/connect.php';
                     <div class="profile-details">
                         <div class="profile-item">
                             <label><i class="fas fa-user"></i> Ime i Prezime:</label>
-                            <span id="profile-name">[Ime Prezime]</span>
+                            <span id="profile-name"><?php echo htmlspecialchars($user['name'] . ' ' . $user['last_name']); ?></span>
                         </div>
                         <div class="profile-item">
                             <label><i class="fas fa-envelope"></i> Email:</label>
-                            <span id="profile-email">[email@example.com]</span>
+                            <span id="profile-email"><?php echo htmlspecialchars($user['email']); ?></span>
                         </div>
                         <div class="profile-item">
                             <label><i class="fas fa-phone"></i> Telefon:</label>
-                            <span id="profile-phone">[Broj telefona]</span>
+                            <span id="profile-phone"><?php echo htmlspecialchars($user['phone']); ?></span>
                         </div>
                         </div>
                     <a href="EditProfile.php" id="edit-profile-btn" class="cta-button edit-profile-button">Uredi Profil</a>
@@ -86,7 +117,7 @@ require_once 'backend/connect.php';
                             <div class="calendar-panel dashboard-calendar">
                                 <div class="calendar-header">
                                     <button id="prevMonth" aria-label="Previous Month"><i class="fas fa-chevron-left"></i></button>
-                                    <h4 id="monthYear">Oktobar 2025</h4>
+                                    <h4 id="monthYear"></h4>
                                     <button id="nextMonth" aria-label="Next Month"><i class="fas fa-chevron-right"></i></button>
                                 </div>
                                 <div class="calendar-grid">
@@ -108,6 +139,10 @@ require_once 'backend/connect.php';
         </section>
     </main>
 
+<script>
+    // Pass PHP data to JS
+    const userAppointments = <?php echo $appointments_json; ?>;
+</script>
     <footer class="main-footer">
          <div class="container footer-container">
             <div class="footer-col">
@@ -145,7 +180,7 @@ require_once 'backend/connect.php';
         </div>
     </footer>
 
-    <script src="js/dashboard.js"></script>
-    <script src="js/loading_screen.js"></script>
+<script src="js/dashboard_calendar.js"></script>
+<script src="js/loading_screen.js"></script>
 </body>
 </html>

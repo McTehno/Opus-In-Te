@@ -20,7 +20,7 @@ require 'backend/register.php';
         <div class="loading-logo-wrapper">
             <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
         </div> 
-        <p>Učitavanje...</p>
+        
 </div>
 
     <main class="login-section">

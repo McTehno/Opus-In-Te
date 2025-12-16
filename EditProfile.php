@@ -1,5 +1,16 @@
 <?php
+session_start();
+// Prevent caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: Login.php");
+    exit;
+}
 require_once 'backend/connect.php';
+require_once 'backend/edit_profile.php';
 ?>
 <!DOCTYPE html>
 <html lang="bs">
@@ -11,6 +22,7 @@ require_once 'backend/connect.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -20,7 +32,7 @@ require_once 'backend/connect.php';
         <div class="loading-logo-wrapper">
             <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
         </div> 
-        <p>Učitavanje...</p>
+        
 </div>
 
     <header class="main-header scrolled"> 
@@ -39,7 +51,7 @@ require_once 'backend/connect.php';
             </nav>
             <div class="header-actions">
                 <a href="booking.php" class="cta-button nav-cta">Zakažite Termin</a>
-                <a href="#" id="logout-link" class="login-icon" aria-label="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="backend/logout.php" id="logout-link" class="login-icon" aria-label="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
     </header>
@@ -47,35 +59,42 @@ require_once 'backend/connect.php';
     <main class="dashboard-main">
         <section class="dashboard-content">
             <div class="container">
-                <div class="edit-profile-card"> <div class="profile-card-sidebar">
-                <div class="profile-picture-placeholder">
-                    <i class="fas fa-user-circle"></i> </div>
-                <h3 id="profile-card-name">[Ime Prezime]</h3> <p>Član od: [Datum]</p> </div>
-            <div class="profile-card-form">
-                <h2>Uredite Vaš Profil</h2>
-                <p>Ažurirajte Vaše lične podatke.</p>
+                <div class="edit-profile-card">
+                    <div class="profile-card-sidebar">
+                        <div class="profile-picture-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h3 id="profile-card-name"><?php echo htmlspecialchars($form_values['name'] . ' ' . $form_values['last_name']); ?></h3>
+                    </div>
+                    <div class="profile-card-form">
+                        <h2>Uredite Vaš Profil</h2>
+                        <p>Ažurirajte Vaše lične podatke.</p>
 
-                <form id="edit-profile-form">
-                    <div class="form-group">
-                        <label for="profile-name-edit">Ime i Prezime</label>
-                        <input type="text" id="profile-name-edit" name="name" required placeholder="Vaše ime i prezime" value="Ime Prezime">
+                        <form id="edit-profile-form" action="EditProfile.php" method="POST">
+                            <div class="form-group">
+                                <label for="profile-name-edit">Ime</label>
+                                <input type="text" id="profile-name-edit" name="name" required placeholder="Vaše ime" value="<?php echo htmlspecialchars($form_values['name']); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-lastname-edit">Prezime</label>
+                                <input type="text" id="profile-lastname-edit" name="lastname" required placeholder="Vaše prezime" value="<?php echo htmlspecialchars($form_values['last_name']); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-email-edit">Email Adresa</label>
+                                <input type="email" id="profile-email-edit" name="email" required placeholder="Vaša email adresa" value="<?php echo htmlspecialchars($form_values['email']); ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-phone-edit">Broj Telefona</label>
+                                <input type="tel" id="profile-phone-edit" name="phone" required placeholder="Unesite Vaš broj telefona" value="<?php echo htmlspecialchars($form_values['phone']); ?>">
+                            </div>
+                            <button type="submit" class="cta-button save-profile-btn">Sačuvaj Promjene</button>
+                            <a href="UserDashboard.php" class="cta-button back-btn">Nazad na Profil</a>
+                        </form>
+                        <div class="forgot-password-link">
+                            <p>Imate problem sa lozinkom? <a href="#">Resetujte ovdje</a></p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="profile-email-edit">Email Adresa</label>
-                        <input type="email" id="profile-email-edit" name="email" required placeholder="Vaša email adresa" value="email@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="profile-phone-edit">Broj Telefona</label>
-                        <input type="tel" id="profile-phone-edit" name="phone" placeholder="Unesite Vaš broj telefona" value="Broj telefona">
-                    </div>
-                    <button type="submit" class="cta-button save-profile-btn">Sačuvaj Promjene</button>
-                    <a href="UserDashboard.php" class="cta-button back-btn">Nazad na Profil</a>
-                </form>
-                <div class="forgot-password-link">
-                    <p>Imate problem sa lozinkom? <a href="#">Resetujte ovdje</a></p>
                 </div>
-            </div>
-        </div>
             </div>
         </section>
     </main>
@@ -84,10 +103,10 @@ require_once 'backend/connect.php';
         <div class="modal-content confirmation-modal-content"> 
              <span class="close-button modal-close-btn"></span> 
              <div class="success-icon">
-                <i class="fas fa-envelope-open-text"></i> 
+                <i class="fas fa-check-circle"></i> 
              </div>
-            <h3>Potvrda putem Emaila</h3>
-            <p>Poslali smo Vam email za potvrdu izmjena. Molimo provjerite Vaš inbox.</p>
+            <h3>Izmjene sačuvane</h3>
+            <p>Vaši podaci su uspješno ažurirani.</p>
             <button class="cta-button close-modal-btn">Zatvori</button>
         </div>
     </div>
@@ -132,7 +151,24 @@ require_once 'backend/connect.php';
 
 
     <script src="js/edit_profile.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/loading_screen.js"></script>
+
+<?php if (!empty($error_message)): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    showNotification("<?php echo htmlspecialchars($error_message); ?>", "error");
+});
+</script>
+<?php endif; ?>
+<?php if (!empty($success_message)): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    showNotification("<?php echo htmlspecialchars($success_message); ?>", "success");
+    window.showProfileSuccessModal = true;
+});
+</script>
+<?php endif; ?>
 
     </body>
 </html>
