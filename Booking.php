@@ -1,5 +1,39 @@
 <?php
+session_start();
 require_once 'backend/connect.php';
+
+// Fetch User Data if logged in
+$userData = null;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT name, last_name, email, phone FROM User WHERE idUser = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fetch Services
+$services = [];
+try {
+    $stmt = $pdo->query("SELECT * FROM Appointment_Type ORDER BY name");
+    $allServices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Group manually based on name keywords or exact matches
+    foreach ($allServices as $service) {
+        $category = 'Ostalo';
+        $name = $service['name'];
+        
+        if (stripos($name, 'psihoterapija') !== false || stripos($name, 'rad sa djecom') !== false) {
+            $category = 'Psihoterapija';
+        } elseif (stripos($name, 'savjetovanje') !== false) {
+            $category = 'Psihološko Savjetovanje';
+        } elseif (stripos($name, 'opservacija') !== false || stripos($name, 'nalaza') !== false) {
+            $category = 'Opservacije i Izvještaji';
+        }
+        
+        $services[$category][] = $service;
+    }
+} catch (PDOException $e) {
+    // Handle error
+}
 ?>
 <!DOCTYPE html>
 <html lang="bs">
@@ -74,42 +108,34 @@ require_once 'backend/connect.php';
             <div class="booking-step" data-step="2">
                 <h2 class="step-title">Izaberite Uslugu</h2>
                 <div class="service-accordion">
-                     <div class="service-item">
-                        <button class="service-header">Psihoterapija <i class="fas fa-chevron-down icon"></i></button>
-                        <div class="service-content">
-                            <div class="service-option" data-service="Grupna psihoterapija" data-price="120 KM" data-duration="60min">
-                                <span>Grupna psihoterapija</span> <span>120 KM / 60min</span>
-                            </div>
-                            <div class="service-option" data-service="Individualna psihoterapija" data-price="100 KM" data-duration="60min">
-                                <span>Individualna psihoterapija</span> <span>100 KM / 60min</span>
-                            </div>
-                             <div class="service-option" data-service="Online psihoterapija" data-price="100 KM" data-duration="60min">
-                                <span>Online psihoterapija</span> <span>100 KM / 60min</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                    // Define preferred order of categories
+                    $categoryOrder = ['Psihoterapija', 'Psihološko Savjetovanje', 'Opservacije i Izvještaji', 'Ostalo'];
+                    
+                    foreach ($categoryOrder as $category) {
+                        if (!empty($services[$category])) {
+                            $items = $services[$category];
+                    ?>
                     <div class="service-item">
-                        <button class="service-header">Psihološko Savjetovanje <i class="fas fa-chevron-down icon"></i></button>
+                        <button class="service-header"><?php echo htmlspecialchars($category); ?> <i class="fas fa-chevron-down icon"></i></button>
                         <div class="service-content">
-                            <div class="service-option" data-service="Psihološko savjetovanje za odrasle" data-price="60 KM" data-duration="30min">
-                                <span>Psihološko savjetovanje za odrasle</span> <span>60 KM / 30min</span>
+                            <?php foreach ($items as $item): ?>
+                            <div class="service-option" 
+                                 data-id="<?php echo $item['idAppointment_Type']; ?>"
+                                 data-service="<?php echo htmlspecialchars($item['name']); ?>" 
+                                 data-price="<?php echo number_format($item['price'], 0); ?> KM" 
+                                 data-duration="<?php echo $item['duration'] ? $item['duration'] . 'min' : 'N/A'; ?>"
+                                 data-duration-val="<?php echo $item['duration']; ?>">
+                                <span><?php echo htmlspecialchars($item['name']); ?></span> 
+                                <span><?php echo number_format($item['price'], 0); ?> KM <?php echo $item['duration'] ? '/ ' . $item['duration'] . 'min' : ''; ?></span>
                             </div>
-                             <div class="service-option" data-service="Psihološko savjetovanje za djecu" data-price="60 KM" data-duration="30min">
-                                <span>Psihološko savjetovanje za djecu</span> <span>60 KM / 30min</span>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                    <div class="service-item">
-                        <button class="service-header">Opservacije i Izvještaji <i class="fas fa-chevron-down icon"></i></button>
-                        <div class="service-content">
-                           <div class="service-option" data-service="Psihološka opservacija odraslih" data-price="120 KM" data-duration="N/A">
-                                <span>Psihološka opservacija odraslih</span> <span>120 KM</span>
-                            </div>
-                             <div class="service-option" data-service="Psihološka opservacija djece" data-price="100 KM" data-duration="N/A">
-                                <span>Psihološka opservacija djece</span> <span>100 KM</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                        }
+                    } 
+                    ?>
                 </div>
             </div>
 
@@ -174,6 +200,9 @@ require_once 'backend/connect.php';
         </div>
     </div>
 
+    <script>
+        const loggedInUser = <?php echo json_encode($userData); ?>;
+    </script>
     <script src="js/booking.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="js/loading_screen.js"></script>

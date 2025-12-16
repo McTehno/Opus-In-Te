@@ -32,7 +32,7 @@ CREATE TABLE User (
     idUser INT NOT NULL AUTO_INCREMENT,
     phone VARCHAR(45) NOT NULL, 
     email VARCHAR(100) NOT NULL,
-    pass VARCHAR(255) NOT NULL, 
+    pass VARCHAR(255) NULL, 
     name VARCHAR(45) NOT NULL,
     last_name VARCHAR(45) NOT NULL,
     picture_path VARCHAR(225) NULL, 
@@ -72,7 +72,7 @@ CREATE TABLE Appointment_Type (
     idAppointment_Type INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL, 
     price DECIMAL(10, 2) NOT NULL, 
-    duration INT NOT NULL, 
+    duration INT NULL, -- Duration in minutes, NULL its a report/observation
     PRIMARY KEY (idAppointment_Type)
 );
 
@@ -177,6 +177,7 @@ INSERT INTO State (name) VALUES
 -- Cities
 INSERT INTO City (name, zip, State_idState) VALUES 
 ('Banja Luka', 78000, 1),
+('Prijedor', 79000, 1),
 ('Sarajevo', 71000, 2);
 
 -- Roles
@@ -186,10 +187,10 @@ INSERT INTO Role (name) VALUES
 ('user');   
 
 -- Users
-INSERT INTO User (phone, email, pass, name, last_name, Role_idRole) VALUES 
-('065111222', 'admin@opusinte.com', 'hashed_secret_pass', 'Admin', 'User', 1),
-('065333444', 'doctor@opusinte.com', 'hashed_worker_pass', 'Iva', 'Ivanovic', 2),
-('065555666', 'client@gmail.com', 'hashed_client_pass', 'Marko', 'Markovic', 3);
+INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole) VALUES 
+('065111222', 'admin@opusinte.com', 'hashed_secret_pass', 'Admin', 'User', NULL, 1),
+('065333444', 'doctor@opusinte.com', 'hashed_worker_pass', 'Vanja', 'Dejanovic', "C:\Users\Nitro\Desktop\OpusInTe\Site\opus\data\www\img\vanjapic\indexpic-removebg-preview.png", 2),
+('065555666', 'client@gmail.com', 'hashed_client_pass', 'Marko', 'Markovic', NULL, 3);
 
 -- Location Types
 INSERT INTO Location_Type (name) VALUES 
@@ -198,14 +199,28 @@ INSERT INTO Location_Type (name) VALUES
 
 -- Addresses
 INSERT INTO Address (street, street_number, City_idCity, Location_Type_idLocation_Type, User_idUser) VALUES 
-('Glavna Ulica', '10A', 1, 1, NULL), 
+('Vidovdanska Ulica', '2', 1, 1, NULL), 
+('Vožda Karađorđa', '2', 2, 1, NULL),
 ('Sporedna Ulica', '5', 1, 2, 3);    
 
 -- Appointment Types
 INSERT INTO Appointment_Type (name, price, duration) VALUES 
-('Individual Therapy', 50.00, 60),
-('Couples Therapy', 80.00, 90),
-('Initial Consultation', 0.00, 15);
+-- Psihoterapija
+('Individualna psihoterapija', 100.00, 60),
+('Individualna psihoterapija', 80.00, 45),
+('Grupna psihoterapija', 120.00, 60),
+('Online psihoterapija', 100.00, 60),
+('Psihoterapijski rad sa djecom', 100.00, 60),
+('Psihoterapijski rad sa djecom', 80.00, 45),
+
+-- Psihološko Savjetovanje
+('Psihološko savjetovanje', 60.00, 30),
+('Psihološko savjetovanje djece', 60.00, 30),
+
+-- Opservacije i Izvještaji
+('Psihološka opservacija', 120.00, NULL),
+('Psihološka opservacija djece', 100.00, NULL),
+('Pisanje nalaza u pojedinačne svrhe', 50.00, NULL);
 
 -- Appointment Statuses
 INSERT INTO Appointment_Status (status_name) VALUES 
@@ -220,7 +235,7 @@ INSERT INTO Appointment (datetime, Address_idAddress, Appointment_Type_idAppoint
 
 -- Link Users to Appointment 
 INSERT INTO Appointment_User (Appointment_idAppointment, User_idUser) VALUES 
-(1, 2), -- Iva (Worker/Doctor)
+(1, 2), -- Vanja (Worker)
 (1, 3); -- Marko (User/Client)
 
 -- Blog Categories
