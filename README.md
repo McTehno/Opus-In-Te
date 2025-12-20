@@ -270,7 +270,7 @@ docker-compose up -d
 docker-compose ps
 ```
 
-You should see three containers running:
+You should see four containers running:
 - `spletni-streznik` (Web Server on port 8000)
 - `mysql` (Database Server)
 - `phpmyadmin` (Database UI on port 8001)
