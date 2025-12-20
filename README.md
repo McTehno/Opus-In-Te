@@ -732,6 +732,15 @@ Opus-In-Te/
 
 ## ⚙️ Configuration
 
+### Important Notes
+
+⚠️ **Before Production Deployment:**
+- Update the database password from the default `superVarnoGeslo`
+- Replace placeholder contact information (phone: +387 65 123 456)
+- Update email addresses to real contact emails
+- Configure actual SMTP settings for email delivery
+- Update social media links to actual profiles
+
 ### Database Configuration
 
 Located in `backend/connect.php`:
@@ -1574,7 +1583,7 @@ Banja Luka, Bosnia and Herzegovina
 info@opusinte.ba
 
 📱 **Phone:**  
-+387 65 123 456
++387 65 123 456 *(placeholder - update before production deployment)*
 
 🌐 **Website:**  
 [www.opusinte.ba](http://www.opusinte.ba)
