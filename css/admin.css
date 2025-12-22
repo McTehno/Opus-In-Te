@@ -12,6 +12,10 @@
     --font-body: 'Montserrat', sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body.admin-body {
     background-color: var(--bg-color);
     font-family: var(--font-body);
@@ -183,6 +187,29 @@ body.admin-body {
     color: var(--primary-color);
 }
 
+/* Appointments Header */
+.appointments-header {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--secondary-color);
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #95a5a6;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header-col {
+    padding: 0 5px;
+}
+
+.col-doctor { width: 22%; }
+.col-patient { width: 18%; }
+.col-details { width: 20%; }
+.col-type { width: 20%; }
+.col-time { width: 20%; text-align: center; }
+
 .appointments-list {
     list-style: none;
     padding: 0;
@@ -209,6 +236,7 @@ body.admin-body {
     display: flex;
     align-items: center;
     width: 22%;
+    padding: 0 5px;
 }
 
 .doctor-pic {
@@ -245,6 +273,7 @@ body.admin-body {
 
 .patient-info {
     width: 18%;
+    padding: 0 5px;
     font-weight: 500;
 }
 
@@ -254,6 +283,7 @@ body.admin-body {
     flex-direction: column;
     font-size: 0.9rem;
     color: #555;
+    padding: 0 5px;
 }
 
 .appt-type-col {
@@ -261,18 +291,30 @@ body.admin-body {
     font-size: 0.9rem;
     color: #3D3D3D;
     font-weight: 500;
+    padding: 0 5px;
 }
 
 .appt-price {
     font-weight: 600;
     color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.appt-duration {
+    display: flex;
+    align-items: center;
+    color: #777;
+    font-size: 0.85rem;
+    margin-top: 2px;
 }
 
 .appt-time {
     width: 20%;
-    text-align: right;
+    text-align: center;
     font-size: 0.9rem;
     color: #777;
+    padding: 0 5px;
 }
 
 .expand-btn-container {
@@ -313,10 +355,12 @@ body.admin-body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
 /* Responsive */
 @media (max-width: 768px) {
+    .appointments-header {
+        display: none;
+    }
+
     .charts-grid {
         grid-template-columns: 1fr;
     }
@@ -330,6 +374,7 @@ body.admin-body {
         width: 100%;
         margin-bottom: 5px;
         text-align: left;
+        padding: 0;
     }
     
     .appt-time {

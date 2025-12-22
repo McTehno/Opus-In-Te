@@ -186,6 +186,16 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Recent Appointments -->
             <div class="recent-appointments">
                 <h3>Nedavni Termini</h3>
+                
+                <!-- Header Row -->
+                <div class="appointments-header">
+                    <div class="header-col col-doctor">Doktor</div>
+                    <div class="header-col col-patient">Pacijent</div>
+                    <div class="header-col col-details">Cijena / Trajanje</div>
+                    <div class="header-col col-type">Tip Usluge</div>
+                    <div class="header-col col-time">Vrijeme</div>
+                </div>
+
                 <ul class="appointments-list">
                     <?php foreach ($recent_appointments as $index => $appt): 
                         $isHidden = $index >= 10 ? 'hidden' : '';
@@ -228,18 +238,19 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
                         <div class="patient-info">
+                            <i class="fa-regular fa-user" style="margin-right: 5px; color: #C5A76A;"></i>
                             <?php echo htmlspecialchars($appt['pat_name'] . ' ' . $appt['pat_lastname']); ?>
                         </div>
                         <div class="appt-details">
-                            <span class="appt-price"><?php echo $appt['price']; ?> KM</span>
-                            <span>Trajanje: <?php echo !empty($appt['duration']) ? $appt['duration'] . ' min' : '/'; ?></span>
+                            <span class="appt-price"><i class="fa-solid fa-tag" style="font-size: 0.8rem; margin-right: 5px; color: #aaa;"></i> <?php echo $appt['price']; ?> KM</span>
+                            <span class="appt-duration"><i class="fa-regular fa-clock" style="font-size: 0.8rem; margin-right: 5px; color: #aaa;"></i> <?php echo !empty($appt['duration']) ? $appt['duration'] . ' min' : '/'; ?></span>
                         </div>
                         <div class="appt-type-col">
                             <?php echo htmlspecialchars($appt['type_name']); ?>
                         </div>
                         <div class="appt-time">
-                            <div><?php echo $dateStr; ?></div>
-                            <div><?php echo $timeStr; ?></div>
+                            <div><i class="fa-regular fa-calendar" style="margin-right: 5px;"></i> <?php echo $dateStr; ?></div>
+                            <div style="font-size: 0.85rem; color: #999; margin-top: 2px;"><?php echo $timeStr; ?></div>
                         </div>
                     </li>
                     <?php endforeach; ?>
