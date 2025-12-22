@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
     fadeInElements.forEach(el => {
         observer.observe(el);
     });
-}); 
+});
 
 // This code finds the map container and builds the map
 document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById('map-container')) {
-        // The coordinates for Jevrejska 56, Banja Luka
-        const mapCoordinates = [44.7742, 17.1915];
+        // The coordinates for Vidovdanska Ulica 2, Banja Luka
+        const mapCoordinates = [44.773338, 17.190143];
 
         // 1. Initialize map and set the view
         const map = L.map('map-container', {
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 4. Add the marker to the map
-        L.marker(mapCoordinates, {icon: customIcon}).addTo(map)
-            .bindPopup('<b>Opus in te</b><br>Jevrejska 56, Banja Luka');
+        L.marker(mapCoordinates, { icon: customIcon }).addTo(map)
+            .bindPopup('<b>Opus in te</b><br>Vidovdanska Ulica 2, Banja Luka');
     }
 });
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check if the link exists on the current page
     if (contactPageLink) {
-        contactPageLink.addEventListener('click', function(e) {
+        contactPageLink.addEventListener('click', function (e) {
             // Prevent the default instant jump
             e.preventDefault();
 
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check if both elements exist on the page to avoid errors
     if (contactButton && contactSection) {
-        
+
         // When the mouse enters the button, add the active class to the section
         contactButton.addEventListener('mouseenter', () => {
             contactSection.classList.add('lines-active');

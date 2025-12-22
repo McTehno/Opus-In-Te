@@ -1,51 +1,58 @@
 <?php
 require_once 'backend/connect.php';
-session_start(); 
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="bs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opus in te | Psihološko savjetovanje | Banja Luka</title>
     <link rel="stylesheet" href="css/styles.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-<div id="loading-screen">
+    <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
-        </div> 
-        
-</div>
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+        </div>
+
+    </div>
     <header class="main-header">
         <div class="container">
             <a href="#" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
-                 <ul>
+                <ul>
                     <li><a href="index.php" class="active">Početna</a></li>
                     <li><a href="Services.php">Usluge</a></li>
                     <li><a href="About.php">O Meni</a></li>
                     <li><a href="Blog.php">Blog</a></li>
-                   <li><a href="Contact.php">Kontakt</a></li>
+                    <li><a href="Contact.php">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
                 <a href="booking.php" class="cta-button nav-cta">Zakažite termin</a>
-                <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i class="fa-solid fa-circle-user"></i></a>
+                <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i
+                        class="fa-solid fa-circle-user"></i></a>
             </div>
-            </div>
+        </div>
     </header>
 
     <main>
         <section class="hero-section">
             <div class="hero-video-bg">
-                </div>
+            </div>
             <div class="hero-overlay"></div>
             <div class="hero-content container">
                 <h1>Mjesto za Vaš lični rast i razvoj.</h1>
@@ -59,7 +66,10 @@ session_start();
                 <div class="intro-text">
                     <h2>Upoznajte Vaš siguran prostor</h2>
                     <p>
-                        U Opus in te, vjerujemo da svaka osoba nosi u sebi snagu za promjenu i iscjeljenje. Kroz psihološko savjetovanje i psihoterapiju, ja, Vanja Dejanović, posvećena sam pružanju stručne i empatične podrške na Vašem putu. Ovdje možete istražiti svoje misli i osjećaje u povjerljivom i sigurnom okruženju.
+                        U Opus in te, vjerujemo da svaka osoba nosi u sebi snagu za promjenu i iscjeljenje. Kroz
+                        psihološko savjetovanje i psihoterapiju, ja, Vanja Dejanović, posvećena sam pružanju stručne i
+                        empatične podrške na Vašem putu. Ovdje možete istražiti svoje misli i osjećaje u povjerljivom i
+                        sigurnom okruženju.
                     </p>
                     <a href="About.php" class="learn-more-link">Saznajte više o mom pristupu →</a>
                 </div>
@@ -112,9 +122,9 @@ session_start();
             </div>
             <div class="footer-col">
                 <h4>Opus in te</h4>
-                <p>Jevrejska 56, Banja Luka<br>
-                   info@opusinte.ba<br>
-                   +387 65 123 456</p>
+                <p>Vidovdanska Ulica 2, Banja Luka<br>
+                    info@opusinte.ba<br>
+                    +387 65 123 456</p>
             </div>
             <div class="footer-col">
                 <h4>Brzi Linkovi</h4>
@@ -125,12 +135,15 @@ session_start();
                     <li><a href="#">Kontakt</a></li>
                 </ul>
             </div>
-           <div class="footer-col">
+            <div class="footer-col">
                 <h4>Pratite nas</h4>
                 <ul class="social-links">
-                    <li><a href="#" aria-label="Posjetite našu Facebook stranicu"><i class="fa-brands fa-facebook-f"></i></a></li>
-                    <li><a href="#" aria-label="Posjetite naš Instagram profil"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" aria-label="Posjetite naš TikTok profil"><i class="fa-brands fa-tiktok"></i></a></li>
+                    <li><a href="#" aria-label="Posjetite našu Facebook stranicu"><i
+                                class="fa-brands fa-facebook-f"></i></a></li>
+                    <li><a href="#" aria-label="Posjetite naš Instagram profil"><i
+                                class="fa-brands fa-instagram"></i></a></li>
+                    <li><a href="#" aria-label="Posjetite naš TikTok profil"><i class="fa-brands fa-tiktok"></i></a>
+                    </li>
                     <li><a href="#" aria-label="Posjetite naš X profil"><i class="fa-brands fa-x-twitter"></i></a></li>
                 </ul>
             </div>
@@ -140,7 +153,8 @@ session_start();
         </div>
     </footer>
 
-<script src="js/navbar.js"></script>
-<script src="js/loading_screen.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/loading_screen.js"></script>
 </body>
+
 </html>

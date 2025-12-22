@@ -10,3 +10,4 @@ Thumbs.db
 node_modules/
 
 backend/mail_config.php
+backend/admin_config.php

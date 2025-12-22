@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Map and Contact Page Scripts from before ---
-    
+
     // Map Logic
     if (document.getElementById('map-container')) {
-        const mapCoordinates = [44.7742, 17.1915];
+        const mapCoordinates = [44.773338, 17.190143];
         const map = L.map('map-container', { scrollWheelZoom: false }).setView(mapCoordinates, 17);
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
             maxZoom: 20,
@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
             iconSize: [30, 42],
             iconAnchor: [15, 42]
         });
-        L.marker(mapCoordinates, {icon: customIcon}).addTo(map)
-            .bindPopup('<b>Opus in te</b><br>Jevrejska 56, Banja Luka');
+        L.marker(mapCoordinates, { icon: customIcon }).addTo(map)
+            .bindPopup('<b>Opus in te</b><br>Vidovdanska Ulica 2, Banja Luka');
     }
 
     // Smooth Scroll for Contact Page H1
     const contactPageLink = document.querySelector('.page-title-link');
     if (contactPageLink) {
-        contactPageLink.addEventListener('click', function(e) {
+        contactPageLink.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
