@@ -42,16 +42,9 @@ function initCharts() {
     // Data is injected from PHP into global variables: adminChartData
     if (typeof adminChartData === 'undefined') return;
 
-    const dataPoints = adminChartData.dates.length;
-    const minWidthPerPoint = 60; // px per day
-    const totalWidth = Math.max(dataPoints * minWidthPerPoint, 600); // Min 600px
-
     // Appointments Graph (Line)
     const ctxAppt = document.getElementById('appointmentsChart').getContext('2d');
     
-    // Set width dynamically for scrolling
-    ctxAppt.canvas.parentNode.style.width = `${totalWidth}px`;
-
     new Chart(ctxAppt, {
         type: 'line',
         data: {
@@ -85,7 +78,8 @@ function initCharts() {
                     ticks: { stepSize: 1 }
                 },
                 x: {
-                    grid: { display: false }
+                    grid: { display: false },
+                    ticks: { display: false }
                 }
             },
             interaction: {
@@ -99,9 +93,6 @@ function initCharts() {
     // Income Graph (Column/Bar)
     const ctxIncome = document.getElementById('incomeChart').getContext('2d');
     
-    // Set width dynamically for scrolling
-    ctxIncome.canvas.parentNode.style.width = `${totalWidth}px`;
-
     new Chart(ctxIncome, {
         type: 'bar',
         data: {
@@ -129,7 +120,8 @@ function initCharts() {
                     }
                 },
                 x: {
-                    grid: { display: false }
+                    grid: { display: false },
+                    ticks: { display: false }
                 }
             }
         }

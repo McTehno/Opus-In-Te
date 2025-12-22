@@ -30,10 +30,22 @@ $stmt = $pdo->query("
 ");
 $monthly_income = $stmt->fetchColumn() ?: 0;
 
-// 4. Graphs Data (Last 30 days for example, or all time? "scroll throughout the days" implies a lot of data. Let's get last 30 days for now to keep it manageable, or maybe current month + future?)
-// User said "x axis is the dates... scroll throughout the days". Let's fetch a range, e.g., -30 days to +30 days or just this month.
-// Let's fetch data for the current month and the previous month to have some data points.
-// Actually, let's just get all appointments grouped by date.
+// 4. Graphs Data (Last 10 work days)
+// Generate last 10 work days (Mon-Fri)
+$dates_last_10 = [];
+$count = 0;
+$i = 0;
+while ($count < 10) {
+    $timestamp = strtotime("-$i days");
+    $dayOfWeek = date('N', $timestamp);
+    if ($dayOfWeek <= 5) { // Mon-Fri
+        $dates_last_10[] = date('Y-m-d', $timestamp);
+        $count++;
+    }
+    $i++;
+}
+$dates_last_10 = array_reverse($dates_last_10);
+
 $stmt = $pdo->query("
     SELECT 
         DATE(a.datetime) as date, 
@@ -42,19 +54,31 @@ $stmt = $pdo->query("
     FROM Appointment a
     JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type
     WHERE a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'cancelled')
+    AND DATE(a.datetime) >= DATE_SUB(CURRENT_DATE, INTERVAL 20 DAY) -- Fetch enough back to cover weekends
     GROUP BY DATE(a.datetime)
     ORDER BY DATE(a.datetime) ASC
 ");
-$graph_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$fetched_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Map fetched data by date
+$data_map = [];
+foreach ($fetched_data as $row) {
+    $data_map[$row['date']] = $row;
+}
 
 $dates = [];
 $daily_counts = [];
 $daily_income = [];
 
-foreach ($graph_data as $row) {
-    $dates[] = $row['date'];
-    $daily_counts[] = $row['count'];
-    $daily_income[] = $row['income'];
+foreach ($dates_last_10 as $date) {
+    $dates[] = $date;
+    if (isset($data_map[$date])) {
+        $daily_counts[] = $data_map[$date]['count'];
+        $daily_income[] = $data_map[$date]['income'];
+    } else {
+        $daily_counts[] = 0;
+        $daily_income[] = 0;
+    }
 }
 
 // 5. Recent Appointments List
@@ -65,6 +89,7 @@ $stmt = $pdo->query("
         a.datetime,
         at.price,
         at.duration,
+        at.name as type_name,
         ast.status_name,
         u_doc.name as doc_name,
         u_doc.last_name as doc_lastname,
@@ -207,7 +232,10 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="appt-details">
                             <span class="appt-price"><?php echo $appt['price']; ?> KM</span>
-                            <span>Trajanje: <?php echo $appt['duration']; ?> min</span>
+                            <span>Trajanje: <?php echo !empty($appt['duration']) ? $appt['duration'] . ' min' : '/'; ?></span>
+                        </div>
+                        <div class="appt-type-col">
+                            <?php echo htmlspecialchars($appt['type_name']); ?>
                         </div>
                         <div class="appt-time">
                             <div><?php echo $dateStr; ?></div>
