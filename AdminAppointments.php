@@ -50,7 +50,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <ul>
                     <li><a href="#">Korisnici</a></li>
                     <li><a href="AdminAppointments.php" class="active">Termini</a></li>
-                    <li><a href="#">Proizvodi</a></li>
+                    <li><a href="AdminServices.php">Usluge</a></li>
                     <li><a href="#">Blog</a></li>
                 </ul>
             </nav>
