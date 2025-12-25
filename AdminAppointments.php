@@ -57,7 +57,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </a>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="#">Korisnici</a></li>
+                    <li><a href="AdminUsers.php">Korisnici</a></li>
                     <li><a href="AdminAppointments.php" class="active">Termini</a></li>
                     <li><a href="AdminServices.php">Usluge</a></li>
                     <li><a href="#">Blog</a></li>

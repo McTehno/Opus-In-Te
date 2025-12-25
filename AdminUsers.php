@@ -13,7 +13,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upravljanje Uslugama | Opus in te</title>
+    <title>Upravljanje Korisnicima | Opus in te</title>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/admin_modals.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -34,9 +34,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             </a>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="AdminUsers.php">Korisnici</a></li>
+                    <li><a href="AdminUsers.php" class="active">Korisnici</a></li>
                     <li><a href="AdminAppointments.php">Termini</a></li>
-                    <li><a href="AdminServices.php" class="active">Usluge</a></li>
+                    <li><a href="AdminServices.php">Usluge</a></li>
                     <li><a href="#">Blog</a></li>
                 </ul>
             </nav>
@@ -51,43 +51,40 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         <div class="container">
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h1 style="margin-bottom: 0;">Pregled Usluga</h1>
-                <button id="addServiceBtn" class="services-btn-save"><i class="fa-solid fa-plus"></i> Nova Usluga</button>
+                <h1 style="margin-bottom: 0;">Pregled Korisnika</h1>
+                <!-- Optional: Add User Button if needed, but usually users register themselves -->
             </div>
 
             <!-- Stats Cards -->
             <div class="services-stats-cards">
                 <div class="services-stat-card profitable">
-                    <h3>Najprofitabilnija Usluga</h3>
-                    <div class="value" id="mostProfitableName">-</div>
-                    <div class="sub-value" id="mostProfitableAmount">-</div>
+                    <h3>Ukupno Korisnika</h3>
+                    <div class="value" id="totalUsers">-</div>
                 </div>
                 <div class="services-stat-card common">
-                    <h3>Najčešća Usluga</h3>
-                    <div class="value" id="mostCommonName">-</div>
-                    <div class="sub-value" id="mostCommonCount">-</div>
+                    <h3>Korisnici sa Nalogom</h3>
+                    <div class="value" id="usersWithAccount">-</div>
                 </div>
                 <div class="services-stat-card least">
-                    <h3>Najrjeđa Usluga</h3>
-                    <div class="value" id="leastCommonName">-</div>
-                    <div class="sub-value" id="leastCommonCount">-</div>
+                    <h3>Korisnici bez Naloga</h3>
+                    <div class="value" id="usersWithoutAccount">-</div>
                 </div>
             </div>
 
-            <!-- Services Table -->
+            <!-- Users Table -->
             <div class="services-table-container">
                 <table class="services-table">
                     <thead>
                         <tr>
-                            <th>Naziv Usluge</th>
-                            <th>Cijena</th>
-                            <th>Trajanje</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
                             <th>Broj Termina</th>
-                            <th>Ukupna Zarada</th>
                             <th>Akcije</th>
                         </tr>
                     </thead>
-                    <tbody id="servicesTableBody">
+                    <tbody id="usersTableBody">
                         <!-- Populated by JS -->
                     </tbody>
                 </table>
@@ -100,32 +97,30 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <div id="editModal" class="modal-overlay">
         <div class="modal-content" style="padding: 0; overflow: hidden;">
             <div class="modal-header" style="padding: 20px 30px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9;">
-                <h2 id="modalTitle" style="margin: 0; font-size: 1.2rem;">Uredi Uslugu</h2>
+                <h2 id="modalTitle" style="margin: 0; font-size: 1.2rem;">Uredi Korisnika</h2>
                 <button class="close-modal" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color: #999;"><i class="fa-solid fa-times"></i></button>
             </div>
-            <form id="editServiceForm" style="padding: 30px;">
-                <input type="hidden" id="editServiceId" name="id">
+            <form id="editUserForm" style="padding: 30px;">
+                <input type="hidden" id="editUserId" name="id">
                 
                 <div class="services-form-group">
-                    <label for="editName">Naziv Usluge</label>
+                    <label for="editName">Ime</label>
                     <input type="text" id="editName" name="name" required>
                 </div>
 
                 <div class="services-form-group">
-                    <label for="editPrice">Cijena (KM)</label>
-                    <input type="number" id="editPrice" name="price" step="0.01" required>
+                    <label for="editLastName">Prezime</label>
+                    <input type="text" id="editLastName" name="lastname" required>
                 </div>
 
                 <div class="services-form-group">
-                    <label for="editDuration">Trajanje</label>
-                    <select id="editDuration" name="duration">
-                        <option value="null">Neodredjeno</option>
-                        <?php 
-                        for($i=15; $i<=180; $i+=15) {
-                            echo "<option value='$i'>$i min</option>";
-                        }
-                        ?>
-                    </select>
+                    <label for="editPhone">Telefon</label>
+                    <input type="text" id="editPhone" name="phone" required>
+                </div>
+
+                <div class="services-form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" name="email" required>
                 </div>
 
                 <div class="form-actions">
@@ -142,8 +137,8 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <div class="modal-icon delete-icon">
                 <i class="fa-solid fa-trash-can"></i>
             </div>
-            <h3>Brisanje Usluge</h3>
-            <p>Da li ste sigurni da želite obrisati uslugu <strong id="deleteServiceName"></strong>? Ova akcija je nepovratna.</p>
+            <h3>Brisanje Korisnika</h3>
+            <p>Da li ste sigurni da želite obrisati korisnika <strong id="deleteUserName"></strong>? Ova akcija je nepovratna.</p>
             
             <div class="modal-actions">
                 <button class="services-btn-cancel close-modal-btn">Odustani</button>
@@ -152,7 +147,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         </div>
     </div>
 
-    <script src="js/admin_services.js"></script>
+    <script src="js/admin_users.js"></script>
     <script src="js/loading_screen.js"></script>
 </body>
 </html>
