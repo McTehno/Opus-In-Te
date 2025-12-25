@@ -5,6 +5,7 @@ header('Content-Type: application/json');
 
 $date = $_GET['date'] ?? '';
 $duration = (int)($_GET['duration'] ?? 60);
+$requestedWorkerId = $_GET['worker_id'] ?? null;
 
 if (!$date) {
     echo json_encode(['error' => 'Date is required']);
@@ -26,8 +27,14 @@ $endHour = 17;
 $interval = 15; // minutes
 
 // Fetch Workers (Role 2 = worker)
-// In a real scenario, we might filter by service capability, but for now assume all workers do all services
-$stmt = $pdo->query("SELECT idUser, name, last_name, picture_path FROM User WHERE Role_idRole = 2");
+$sql = "SELECT idUser, name, last_name, picture_path FROM User WHERE Role_idRole = 2";
+$params = [];
+if ($requestedWorkerId) {
+    $sql .= " AND idUser = ?";
+    $params[] = $requestedWorkerId;
+}
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (empty($workers)) {

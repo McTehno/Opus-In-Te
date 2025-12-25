@@ -26,6 +26,10 @@ $prices = $stmt->fetchAll(PDO::FETCH_COLUMN);
 $stmt = $pdo->query("SELECT idAppointment_Status, status_name FROM Appointment_Status");
 $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// 5. Workers (Doctors)
+$stmt = $pdo->query("SELECT idUser, name, last_name FROM User WHERE Role_idRole = 2 ORDER BY name");
+$workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="bs">
@@ -70,6 +74,8 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <i class="fa-solid fa-search"></i>
                     <input type="text" id="searchInput" placeholder="Pretraži po doktoru ili pacijentu...">
                 </div>
+
+                <button id="createAppointmentBtn" class="create-btn" onclick="openCreateModal()" style="background-color: #C5A76A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;"><i class="fa-solid fa-plus"></i> Novi Termin</button>
 
                 <!-- Filters Toggle (Mobile) -->
                 <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
@@ -171,6 +177,108 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <!-- Modals -->
+
+    <!-- Create Appointment Modal -->
+    <div id="createModal" class="modal-overlay">
+        <div class="modal-content edit-modal">
+            <div class="modal-header">
+                <h3>Novi Termin</h3>
+                <button class="close-modal" onclick="closeModal('createModal')"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Doktor</label>
+                            <select id="createWorker" class="form-control">
+                                <option value="">Izaberite doktora</option>
+                                <?php foreach ($workers as $worker): ?>
+                                <option value="<?php echo $worker['idUser']; ?>">
+                                    <?php echo htmlspecialchars($worker['name'] . ' ' . $worker['last_name']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tip Usluge</label>
+                            <select id="createType" class="form-control">
+                                <option value="">Izaberite uslugu</option>
+                                <?php foreach ($appointment_types as $type): ?>
+                                <option value="<?php echo $type['idAppointment_Type']; ?>" data-duration="<?php echo $type['duration']; ?>">
+                                    <?php echo htmlspecialchars($type['name']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ime i Prezime Pacijenta</label>
+                            <input type="text" id="createName" class="form-control" placeholder="Unesite ime i prezime">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="createEmail" class="form-control" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Telefon</label>
+                            <input type="text" id="createPhone" class="form-control" placeholder="06x xxx xxx">
+                        </div>
+                        <div class="form-group">
+                            <label>Lokacija</label>
+                            <select id="createLocation" class="form-control">
+                                <option value="1">Banja Luka</option>
+                                <option value="2">Prijedor</option>
+                                <option value="NULL">Online</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="createStatus" class="form-control">
+                            <?php foreach ($statuses as $status): 
+                                $statusLabel = $status['status_name'];
+                                $map = ['confirmed' => 'Potvrđeno', 'completed' => 'Završeno', 'cancelled' => 'Otkazano', 'unconfirmed' => 'Nepotvrđeno'];
+                                if (isset($map[$statusLabel])) $statusLabel = $map[$statusLabel];
+                            ?>
+                            <option value="<?php echo $status['idAppointment_Status']; ?>" <?php if($status['status_name'] == 'confirmed') echo 'selected'; ?>>
+                                <?php echo ucfirst($statusLabel); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="calendar-section">
+                        <label>Datum i Vrijeme</label>
+                        <div class="calendar-wrapper">
+                            <div class="calendar-header">
+                                <button type="button" id="createPrevMonth"><i class="fas fa-chevron-left"></i></button>
+                                <span id="createMonthYear"></span>
+                                <button type="button" id="createNextMonth"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid" id="createCalendarGrid"></div>
+                        </div>
+                        
+                        <div class="time-slots-section">
+                            <h5 id="createTimeSlotsTitle">Izaberite datum</h5>
+                            <div id="createTimeSlotsList" class="time-slots-list"></div>
+                            <input type="hidden" id="createDate">
+                            <input type="hidden" id="createTime">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel-edit" onclick="closeModal('createModal')"><i class="fa-solid fa-times"></i></button>
+                <button class="btn-save-edit" id="saveCreateBtn"><i class="fa-solid fa-check"></i> Kreiraj</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal-overlay">

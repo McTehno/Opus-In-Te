@@ -340,3 +340,60 @@
         height: 95vh;
     }
 }
+
+/* --- Admin Services Modal Styles --- */
+.services-form-group {
+    margin-bottom: 15px;
+}
+.services-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+.services-form-group input, .services-form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: inherit;
+}
+.services-form-group input:focus, .services-form-group select:focus {
+    border-color: #C5A76A;
+    outline: none;
+}
+.services-btn-save {
+    background-color: #C5A76A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.services-btn-save:hover {
+    background-color: #A0864C;
+}
+.services-btn-cancel {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.services-btn-cancel:hover {
+    background-color: #e0e0e0;
+}
+.services-modal-delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.services-modal-delete-btn:hover {
+    background-color: #c0392b;
+}

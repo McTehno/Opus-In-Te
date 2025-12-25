@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const editModal = document.getElementById('editModal');
     const deleteModal = document.getElementById('deleteModal');
     const closeButtons = document.querySelectorAll('.close-modal, .close-modal-btn');
+    const modalTitle = document.getElementById('modalTitle');
 
     // Edit Form
     const editServiceForm = document.getElementById('editServiceForm');
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const editName = document.getElementById('editName');
     const editPrice = document.getElementById('editPrice');
     const editDuration = document.getElementById('editDuration');
+
+    // Add Service Button
+    const addServiceBtn = document.getElementById('addServiceBtn');
 
     // Delete Actions
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
@@ -90,16 +94,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${service.appointment_count}</td>
                 <td>${formatCurrency(service.total_income)}</td>
                 <td>
-                    <button class="action-btn edit-btn" data-id="${service.idAppointment_Type}" title="Uredi"><i class="fa-solid fa-pen"></i></button>
-                    <button class="action-btn delete-btn" data-id="${service.idAppointment_Type}" title="Obriši"><i class="fa-solid fa-trash"></i></button>
+                    <button class="services-action-btn services-edit-btn" data-id="${service.idAppointment_Type}" title="Uredi"><i class="fa-solid fa-pen"></i></button>
+                    <button class="services-action-btn services-delete-btn" data-id="${service.idAppointment_Type}" title="Obriši"><i class="fa-solid fa-trash"></i></button>
                 </td>
             `;
 
             // Attach event listeners to buttons
-            const editBtn = tr.querySelector('.edit-btn');
+            const editBtn = tr.querySelector('.services-edit-btn');
             editBtn.addEventListener('click', () => openEditModal(service));
 
-            const deleteBtn = tr.querySelector('.delete-btn');
+            const deleteBtn = tr.querySelector('.services-delete-btn');
             deleteBtn.addEventListener('click', () => openDeleteModal(service));
 
             servicesTableBody.appendChild(tr);
@@ -112,6 +116,17 @@ document.addEventListener('DOMContentLoaded', function() {
         editPrice.value = service.price;
         editDuration.value = service.duration !== null ? service.duration : 'null';
         
+        modalTitle.textContent = 'Uredi Uslugu';
+        editModal.classList.add('active');
+    }
+
+    function openAddModal() {
+        editServiceId.value = '';
+        editName.value = '';
+        editPrice.value = '';
+        editDuration.value = 'null';
+        
+        modalTitle.textContent = 'Nova Usluga';
         editModal.classList.add('active');
     }
 
@@ -136,7 +151,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target == deleteModal) deleteModal.classList.remove('active');
     });
 
-    // Handle Edit Submit
+    // Add Service Button
+    if (addServiceBtn) {
+        addServiceBtn.addEventListener('click', openAddModal);
+    }
+
+    // Handle Edit/Add Submit
     editServiceForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -147,7 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
             duration: editDuration.value
         };
 
-        fetch('backend/admin_update_service.php', {
+        const url = editServiceId.value ? 'backend/admin_update_service.php' : 'backend/admin_add_service.php';
+
+        fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)

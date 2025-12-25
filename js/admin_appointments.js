@@ -389,20 +389,149 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCalendar();
     });
 
-    function loadTimeSlots(date, duration, preselectedTime = null) {
-        const list = document.getElementById('timeSlotsList');
+    // --- Create Modal Logic ---
+    let currentCreateDate = new Date();
+    let currentCreateDuration = 60;
+
+    window.openCreateModal = function() {
+        openModal('createModal');
+        renderCreateCalendar();
+    };
+
+    const createCalendarGrid = document.getElementById('createCalendarGrid');
+    const createMonthYearEl = document.getElementById('createMonthYear');
+    const createPrevMonthBtn = document.getElementById('createPrevMonth');
+    const createNextMonthBtn = document.getElementById('createNextMonth');
+
+    function renderCreateCalendar() {
+        createCalendarGrid.innerHTML = '';
+        const dayNames = ['Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub', 'Ned'];
+        dayNames.forEach(day => {
+            createCalendarGrid.insertAdjacentHTML('beforeend', `<div class="day-name">${day}</div>`);
+        });
+
+        const year = currentCreateDate.getFullYear();
+        const month = currentCreateDate.getMonth();
+        createMonthYearEl.textContent = `${bosnianMonths[month]} ${year}`;
+
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let dayOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+        for (let i = 0; i < dayOffset; i++) {
+            createCalendarGrid.insertAdjacentHTML('beforeend', `<div></div>`);
+        }
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const selectedDateStr = document.getElementById('createDate').value;
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const loopDate = new Date(year, month, day);
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            
+            let classes = ['calendar-day'];
+            if (selectedDateStr === dateStr) classes.push('selected');
+            if (loopDate.getTime() === today.getTime()) classes.push('today');
+
+            const dayEl = document.createElement('div');
+            dayEl.className = classes.join(' ');
+            dayEl.textContent = day;
+            dayEl.dataset.date = dateStr;
+            
+            dayEl.addEventListener('click', function() {
+                document.querySelectorAll('#createCalendarGrid .calendar-day').forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                document.getElementById('createDate').value = this.dataset.date;
+                document.getElementById('createTimeSlotsTitle').textContent = `Termini za ${this.dataset.date}`;
+                
+                const workerId = document.getElementById('createWorker').value;
+                loadTimeSlots(this.dataset.date, currentCreateDuration, null, 'createTimeSlotsList', 'createTime', workerId);
+            });
+
+            createCalendarGrid.appendChild(dayEl);
+        }
+    }
+
+    createPrevMonthBtn.addEventListener('click', () => {
+        currentCreateDate.setMonth(currentCreateDate.getMonth() - 1);
+        renderCreateCalendar();
+    });
+
+    createNextMonthBtn.addEventListener('click', () => {
+        currentCreateDate.setMonth(currentCreateDate.getMonth() + 1);
+        renderCreateCalendar();
+    });
+
+    // Create Form Listeners
+    document.getElementById('createType').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const duration = selectedOption.getAttribute('data-duration');
+        currentCreateDuration = duration ? parseInt(duration) : 60;
+        
+        const dateVal = document.getElementById('createDate').value;
+        const workerId = document.getElementById('createWorker').value;
+        if (dateVal) {
+            loadTimeSlots(dateVal, currentCreateDuration, null, 'createTimeSlotsList', 'createTime', workerId);
+        }
+    });
+
+    document.getElementById('createWorker').addEventListener('change', function() {
+        const dateVal = document.getElementById('createDate').value;
+        if (dateVal) {
+            loadTimeSlots(dateVal, currentCreateDuration, null, 'createTimeSlotsList', 'createTime', this.value);
+        }
+    });
+
+    document.getElementById('saveCreateBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const data = {
+            workerId: document.getElementById('createWorker').value,
+            typeId: document.getElementById('createType').value,
+            patientName: document.getElementById('createName').value,
+            patientEmail: document.getElementById('createEmail').value,
+            patientPhone: document.getElementById('createPhone').value,
+            locationId: document.getElementById('createLocation').value,
+            statusId: document.getElementById('createStatus').value,
+            date: document.getElementById('createDate').value,
+            time: document.getElementById('createTime').value
+        };
+
+        if (!data.workerId || !data.typeId || !data.patientName || !data.patientEmail || !data.date || !data.time) {
+            alert('Molimo popunite sva obavezna polja.');
+            return;
+        }
+
+        fetch('backend/admin_create_appointment.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                closeModal('createModal');
+                fetchAppointments();
+                // Reset form
+                document.getElementById('createForm').reset();
+                document.getElementById('createDate').value = '';
+                document.getElementById('createTime').value = '';
+                document.getElementById('createTimeSlotsList').innerHTML = '';
+            } else {
+                alert('Greška: ' + data.message);
+            }
+        });
+    });
+
+    function loadTimeSlots(date, duration, preselectedTime = null, listId = 'timeSlotsList', inputId = 'editTime', workerId = null) {
+        const list = document.getElementById(listId);
         list.innerHTML = '<div style="grid-column: 1/-1; text-align: center;"><i class="fas fa-spinner fa-spin"></i></div>';
         
-        // Use existing get_slots.php but we might need to handle the fact that we are editing
-        // and the current slot is occupied by US.
-        // Ideally, we should filter out our own appointment from "occupied" list in backend.
-        // But get_slots.php is public.
-        // For now, let's just fetch slots. If the current time is "taken" (by us), it won't show up?
-        // Actually, if we are editing, we want to keep our current time as an option even if it's taken (by us).
-        // This is tricky with the public get_slots.php.
-        // Workaround: Just list generated slots. If a slot matches our current time, force it to be available/selected.
-        
-        fetch(`backend/get_slots.php?date=${date}&duration=${duration}`)
+        let url = `backend/get_slots.php?date=${date}&duration=${duration}`;
+        if (workerId) url += `&worker_id=${workerId}`;
+
+        fetch(url)
             .then(res => res.json())
             .then(slots => {
                 list.innerHTML = '';
@@ -411,10 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // If preselectedTime is passed (e.g. on load), we want to make sure it appears even if "taken"
-                // But get_slots might not return it if it's taken.
-                // However, get_slots usually returns all slots and marks available=false.
-                
                 slots.forEach(slot => {
                     const btn = document.createElement('div');
                     btn.className = 'time-slot-btn';
@@ -424,7 +549,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (preselectedTime && slot.time === preselectedTime) {
                         isSelected = true;
                         btn.classList.add('selected');
-                        // Force available if it's our time
                         slot.available = true; 
                     }
                     
@@ -432,9 +556,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         btn.classList.add('disabled');
                     } else {
                         btn.addEventListener('click', function() {
-                            document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+                            list.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
                             this.classList.add('selected');
-                            document.getElementById('editTime').value = slot.time;
+                            document.getElementById(inputId).value = slot.time;
                         });
                     }
                     
