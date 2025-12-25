@@ -20,6 +20,11 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="admin-body">
+    <div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+        </div>
+    </div>
 
     <!-- Header -->
     <header class="admin-header">
@@ -148,5 +153,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     </div>
 
     <script src="js/admin_services.js"></script>
+    <script src="js/loading_screen.js"></script>
 </body>
 </html>

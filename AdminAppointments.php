@@ -43,6 +43,11 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="admin-body">
+    <div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+        </div>
+    </div>
 
     <!-- Header -->
     <header class="admin-header">
@@ -68,6 +73,10 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <main class="admin-dashboard">
         <div class="container">
             
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="margin-bottom: 0;">Upravljanje Terminima</h1>
+            </div>
+
             <div class="appointments-controls">
                 <!-- Search -->
                 <div class="search-bar">
@@ -75,7 +84,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="text" id="searchInput" placeholder="Pretraži po doktoru ili pacijentu...">
                 </div>
 
-                <button id="createAppointmentBtn" class="create-btn" onclick="openCreateModal()" style="background-color: #C5A76A; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;"><i class="fa-solid fa-plus"></i> Novi Termin</button>
+                <button id="createAppointmentBtn" class="services-btn-save" onclick="openCreateModal()" style="margin-left: 10px;"><i class="fa-solid fa-plus"></i> Novi Termin</button>
 
                 <!-- Filters Toggle (Mobile) -->
                 <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
@@ -387,5 +396,6 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const appointmentTypes = <?php echo json_encode($appointment_types); ?>;
     </script>
     <script src="js/admin_appointments.js"></script>
+    <script src="js/loading_screen.js"></script>
 </body>
 </html>

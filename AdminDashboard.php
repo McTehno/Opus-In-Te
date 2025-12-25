@@ -120,11 +120,17 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Opus in te</title>
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin_modals.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="admin-body">
+    <div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+        </div>
+    </div>
 
     <!-- Header -->
     <header class="admin-header">
@@ -150,6 +156,10 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <main class="admin-dashboard">
         <div class="container">
             
+            <div style="margin-bottom: 20px;">
+                <h1 style="margin-bottom: 0;">Kontrolna Tabla</h1>
+            </div>
+
             <!-- Stats Cards -->
             <div class="stats-grid">
                 <div class="stat-card">
@@ -279,5 +289,6 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         };
     </script>
     <script src="js/admin.js"></script>
+    <script src="js/loading_screen.js"></script>
 </body>
 </html>
