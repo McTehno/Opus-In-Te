@@ -175,9 +175,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 closeModal('deleteModal');
                 fetchAppointments(); // Refresh list
+                showNotification('Termin uspješno obrisan.', 'success');
             } else {
-                alert('Greška pri brisanju: ' + data.message);
+                showNotification('Greška pri brisanju: ' + data.message, 'error');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
         });
     });
 
@@ -188,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         // Validate
         if (!document.getElementById('editDate').value || !document.getElementById('editTime').value) {
-            alert('Molimo izaberite datum i vrijeme.');
+            showNotification('Molimo izaberite datum i vrijeme.', 'warning');
             return;
         }
         openModal('saveConfirmModal');
@@ -215,10 +220,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeModal('saveConfirmModal');
                 closeModal('editModal');
                 fetchAppointments();
+                showNotification('Termin uspješno ažuriran.', 'success');
             } else {
-                alert('Greška pri čuvanju: ' + data.message);
+                showNotification('Greška pri čuvanju: ' + data.message, 'error');
                 closeModal('saveConfirmModal');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
         });
     });
 
@@ -261,9 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadTimeSlots(appt.date, currentDuration, appt.time);
 
             } else {
-                alert('Greška: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
                 closeModal('editModal');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
         });
     }
 
@@ -499,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         if (!data.workerId || !data.typeId || !data.patientName || !data.patientEmail || !data.date || !data.time) {
-            alert('Molimo popunite sva obavezna polja.');
+            showNotification('Molimo popunite sva obavezna polja.', 'warning');
             return;
         }
 
@@ -518,9 +532,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('createDate').value = '';
                 document.getElementById('createTime').value = '';
                 document.getElementById('createTimeSlotsList').innerHTML = '';
+                showNotification('Termin uspješno kreiran.', 'success');
             } else {
-                alert('Greška: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
         });
     });
 

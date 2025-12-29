@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     renderStats(data.stats);
                     renderTable(data.users);
                 } else {
-                    alert('Error fetching users: ' + data.message);
+                    showNotification('Error fetching users: ' + data.message, 'error');
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -143,12 +143,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 closeModal();
                 fetchUsers(); // Refresh table
-                // Optional: Show success message
+                showNotification('Korisnik uspješno ažuriran.', 'success');
             } else {
-                alert('Greška: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
+        });
     });
 
     // Handle Delete Confirmation
@@ -167,11 +170,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 closeModal();
                 fetchUsers(); // Refresh table
+                showNotification('Korisnik uspješno obrisan.', 'success');
             } else {
-                alert('Greška: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
                 closeModal();
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
+        });
     });
 });

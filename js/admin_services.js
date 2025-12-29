@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     renderStats(data.stats);
                     renderTable(data.services);
                 } else {
-                    alert('Error fetching services: ' + data.message);
+                    showNotification('Error fetching services: ' + data.message, 'error');
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -179,11 +179,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 editModal.classList.remove('active');
                 fetchServices(); // Refresh data
+                showNotification('Usluga uspješno sačuvana.', 'success');
             } else {
-                alert('Error: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
+        });
     });
 
     // Handle Delete Confirm
@@ -200,12 +204,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 deleteModal.classList.remove('active');
                 fetchServices(); // Refresh data
+                showNotification('Usluga uspješno obrisana.', 'success');
             } else {
-                alert('Error: ' + data.message);
+                showNotification('Greška: ' + data.message, 'error');
                 deleteModal.classList.remove('active');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Došlo je do greške.', 'error');
+        });
     });
 
     // Helpers
