@@ -14,6 +14,7 @@ require_once 'backend/connect.php';
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/notifications.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -192,6 +193,8 @@ require_once 'backend/connect.php';
     </footer>
 
     <script src="js/kontakt_animations.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/contact_form.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="js/loading_screen.js"></script>
