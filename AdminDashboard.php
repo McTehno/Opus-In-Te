@@ -143,7 +143,7 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <li><a href="AdminUsers.php">Korisnici</a></li>
                     <li><a href="AdminAppointments.php">Termini</a></li>
                     <li><a href="AdminServices.php">Usluge</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="AdminBlog.php">Blog</a></li>
                 </ul>
             </nav>
             <div class="admin-actions">

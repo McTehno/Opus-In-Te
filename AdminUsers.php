@@ -38,7 +38,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     <li><a href="AdminUsers.php" class="active">Korisnici</a></li>
                     <li><a href="AdminAppointments.php">Termini</a></li>
                     <li><a href="AdminServices.php">Usluge</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="AdminBlog.php">Blog</a></li>
                 </ul>
             </nav>
             <div class="admin-actions">
