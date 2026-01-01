@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let resolveLoadingGate;
+    let loadingGateReleased = false;
+    const loadingGate = new Promise((resolve) => {
+        resolveLoadingGate = resolve;
+    });
+    window.loadingScreenGate = () => loadingGate;
+
+    const releaseLoadingGate = () => {
+        if (loadingGateReleased) return;
+        loadingGateReleased = true;
+        resolveLoadingGate();
+    };
+
     const searchInput = document.getElementById('searchInput');
     const categoryFilters = document.getElementById('categoryFilters');
     const statusFilters = document.getElementById('statusFilters');
@@ -9,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogGrid = document.getElementById('blogGrid');
     const noResults = document.getElementById('noResults');
     const resetBtn = document.getElementById('resetFilters');
-    const loadingScreen = document.getElementById('loading-screen');
     const toggleFiltersBtn = document.getElementById('toggleFilters');
     const filtersSidebar = document.getElementById('filtersSidebar');
 
@@ -55,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch Data
     async function fetchBlogs() {
-        // Show loading only on first load or major changes if needed
-        // loadingScreen.style.display = 'flex'; 
-
         const params = new URLSearchParams();
         if (filters.search) params.append('search', filters.search);
         if (filters.categories.length) params.append('categories', filters.categories.join(','));
@@ -79,10 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching blogs:', error);
         } finally {
-            // Only hide if it's not the first load, or let loading_screen.js handle it
-            if (!isFirstLoad) {
-                loadingScreen.style.display = 'none';
-            }
+            releaseLoadingGate();
         }
     }
 
