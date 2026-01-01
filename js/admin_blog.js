@@ -10,6 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const noResults = document.getElementById('noResults');
     const resetBtn = document.getElementById('resetFilters');
     const loadingScreen = document.getElementById('loading-screen');
+    const toggleFiltersBtn = document.getElementById('toggleFilters');
+    const filtersSidebar = document.getElementById('filtersSidebar');
+
+    // Toggle Filters on Mobile
+    if (toggleFiltersBtn) {
+        toggleFiltersBtn.addEventListener('click', () => {
+            filtersSidebar.classList.toggle('active');
+        });
+    }
 
     // View Elements
     const blogLayout = document.querySelector('.blog-layout');
@@ -70,7 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching blogs:', error);
         } finally {
-            loadingScreen.style.display = 'none';
+            // Only hide if it's not the first load, or let loading_screen.js handle it
+            if (!isFirstLoad) {
+                loadingScreen.style.display = 'none';
+            }
         }
     }
 

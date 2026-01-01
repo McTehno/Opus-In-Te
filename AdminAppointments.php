@@ -76,6 +76,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Upravljanje Terminima</h1>
+                <button id="createAppointmentBtn" class="btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> Novi Termin</button>
             </div>
 
             <div class="appointments-controls">
@@ -85,42 +86,44 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="text" id="searchInput" placeholder="Pretraži po doktoru ili pacijentu...">
                 </div>
 
-                <button id="createAppointmentBtn" class="services-btn-save" onclick="openCreateModal()" style="margin-left: 10px;"><i class="fa-solid fa-plus"></i> Novi Termin</button>
-
                 <!-- Filters Toggle (Mobile) -->
                 <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
             </div>
 
-            <div class="content-grid">
-                <!-- Filters Sidebar -->
-                <aside class="filters-sidebar" id="filtersSidebar">
+            <div class="blog-layout">
+                <!-- Sidebar Filters -->
+                <aside class="blog-sidebar" id="filtersSidebar">
                     <div class="filter-group">
-                        <h4>Lokacija</h4>
-                        <label><input type="checkbox" class="filter-location" value="1"> Banja Luka</label>
-                        <label><input type="checkbox" class="filter-location" value="2"> Prijedor</label>
-                        <label><input type="checkbox" class="filter-location" value="NULL"> Online</label>
+                        <h3>Lokacija</h3>
+                        <div class="checkbox-list">
+                            <label class="checkbox-label"><input type="checkbox" class="filter-location" value="1"> Banja Luka</label>
+                            <label class="checkbox-label"><input type="checkbox" class="filter-location" value="2"> Prijedor</label>
+                            <label class="checkbox-label"><input type="checkbox" class="filter-location" value="NULL"> Online</label>
+                        </div>
                     </div>
 
                     <div class="filter-group">
-                        <h4>Status</h4>
-                        <?php foreach ($statuses as $status): 
-                            $statusLabel = $status['status_name'];
-                            // Translate common statuses
-                            $map = ['confirmed' => 'Potvrđeno', 'completed' => 'Završeno', 'cancelled' => 'Otkazano', 'unconfirmed' => 'Nepotvrđeno'];
-                            if (isset($map[$statusLabel])) $statusLabel = $map[$statusLabel];
-                        ?>
-                        <label>
-                            <input type="checkbox" class="filter-status" value="<?php echo $status['idAppointment_Status']; ?>"> 
-                            <?php echo ucfirst($statusLabel); ?>
-                        </label>
-                        <?php endforeach; ?>
+                        <h3>Status</h3>
+                        <div class="checkbox-list">
+                            <?php foreach ($statuses as $status): 
+                                $statusLabel = $status['status_name'];
+                                // Translate common statuses
+                                $map = ['confirmed' => 'Potvrđeno', 'completed' => 'Završeno', 'cancelled' => 'Otkazano', 'unconfirmed' => 'Nepotvrđeno'];
+                                if (isset($map[$statusLabel])) $statusLabel = $map[$statusLabel];
+                            ?>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="filter-status" value="<?php echo $status['idAppointment_Status']; ?>"> 
+                                <?php echo ucfirst($statusLabel); ?>
+                            </label>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
                     <div class="filter-group">
-                        <h4>Tip Usluge</h4>
-                        <div class="scrollable-filter">
+                        <h3>Tip Usluge</h3>
+                        <div class="checkbox-list">
                             <?php foreach ($appointment_types as $type): ?>
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" class="filter-type" value="<?php echo $type['idAppointment_Type']; ?>"> 
                                 <?php echo htmlspecialchars($type['name']); ?>
                             </label>
@@ -129,13 +132,13 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="filter-group">
-                        <h4>Trajanje (min)</h4>
-                        <div class="scrollable-filter">
-                            <label><input type="checkbox" class="filter-duration" value="NULL"> Nije definisano (/)</label>
+                        <h3>Trajanje (min)</h3>
+                        <div class="checkbox-list">
+                            <label class="checkbox-label"><input type="checkbox" class="filter-duration" value="NULL"> Nije definisano (/)</label>
                             <?php foreach ($durations as $dur): 
                                 if ($dur === null) continue; // Handled above
                             ?>
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" class="filter-duration" value="<?php echo $dur; ?>"> 
                                 <?php echo $dur; ?> min
                             </label>
@@ -144,10 +147,10 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="filter-group">
-                        <h4>Cijena (KM)</h4>
-                        <div class="scrollable-filter">
+                        <h3>Cijena (KM)</h3>
+                        <div class="checkbox-list">
                             <?php foreach ($prices as $price): ?>
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" class="filter-price" value="<?php echo $price; ?>"> 
                                 <?php echo $price; ?> KM
                             </label>
@@ -155,30 +158,32 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                     
-                    <button id="resetFilters" class="reset-btn">Poništi Filtere</button>
+                    <button id="resetFilters" class="btn-secondary" style="width: 100%; margin-top: 10px;">Poništi Filtere</button>
                 </aside>
 
                 <!-- Appointments List -->
-                <div class="appointments-list-container">
-                    <div class="list-header">
-                        <span id="resultCount">Učitavanje...</span>
-                    </div>
-                    
-                    <div class="appointments-header-row">
-                        <div class="col-doctor">Doktor</div>
-                        <div class="col-patient">Pacijent</div>
-                        <div class="col-info">Detalji</div>
-                        <div class="col-location">Lokacija</div>
-                        <div class="col-status">Status</div>
-                        <div class="col-actions">Akcije</div>
-                    </div>
+                <div class="blog-grid-container">
+                    <div class="appointments-list-container">
+                        <div class="list-header">
+                            <span id="resultCount">Učitavanje...</span>
+                        </div>
+                        
+                        <div class="appointments-header-row">
+                            <div class="col-doctor">Doktor</div>
+                            <div class="col-patient">Pacijent</div>
+                            <div class="col-info">Detalji</div>
+                            <div class="col-location">Lokacija</div>
+                            <div class="col-status">Status</div>
+                            <div class="col-actions">Akcije</div>
+                        </div>
 
-                    <ul id="appointmentsList" class="full-appointments-list">
-                        <!-- Populated by JS -->
-                    </ul>
-                    
-                    <div id="loadingSpinner" class="spinner" style="display: none;">
-                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        <ul id="appointmentsList" class="full-appointments-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                        
+                        <div id="loadingSpinner" class="spinner" style="display: none;">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        </div>
                     </div>
                 </div>
             </div>

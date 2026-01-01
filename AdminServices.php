@@ -53,7 +53,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Pregled Usluga</h1>
-                <button id="addServiceBtn" class="services-btn-save"><i class="fa-solid fa-plus"></i> Nova Usluga</button>
+                <button id="addServiceBtn" class="btn-primary"><i class="fa-solid fa-plus"></i> Nova Usluga</button>
             </div>
 
             <!-- Stats Cards -->

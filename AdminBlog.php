@@ -55,14 +55,20 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <button id="addBlogBtn" class="btn-primary"><i class="fa-solid fa-plus"></i> Novi Blog</button>
             </div>
 
+            <div class="appointments-controls">
+                <!-- Search -->
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Naslov ili autor...">
+                </div>
+
+                <!-- Filters Toggle (Mobile) -->
+                <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
+            </div>
+
             <div class="blog-layout">
                 <!-- Sidebar Filters -->
-                <aside class="blog-sidebar">
-                    <div class="filter-group">
-                        <h3>Pretraga</h3>
-                        <input type="text" id="searchInput" placeholder="Naslov ili autor..." class="filter-input">
-                    </div>
-
+                <aside class="blog-sidebar" id="filtersSidebar">
                     <div class="filter-group">
                         <h3>Kategorije</h3>
                         <div id="categoryFilters" class="checkbox-list">
