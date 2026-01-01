@@ -290,7 +290,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel-edit" onclick="closeModal('createModal')"><i class="fa-solid fa-times"></i></button>
-                <button class="btn-save-edit" id="saveCreateBtn"><i class="fa-solid fa-check"></i> Kreiraj</button>
+                <button class="btn-save-edit" id="saveCreateBtn"><i class="fa-solid fa-check"></i> </button>
             </div>
         </div>
     </div>

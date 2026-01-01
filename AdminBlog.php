@@ -122,7 +122,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         </div>
                         <div class="blog-detail-info">
                             <h1 id="detailTitle">Naslov Bloga</h1>
-                            <div class="detail-meta-grid">
+                            <div id="detailMetaGrid" class="detail-meta-grid">
                                 <div class="meta-item">
                                     <i class="fa-solid fa-user"></i>
                                     <span id="detailAuthor">Autor</span>
@@ -144,6 +144,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                     <span id="detailStatus">Status</span>
                                 </div>
                             </div>
+
+                            <div class="blog-detail-actions" id="detailActions">
+                                <button id="editBlogBtn" class="blog-action-btn action-edit"><i class="fa-solid fa-pen"></i> Uredi</button>
+                                <button id="deleteBlogBtn" class="blog-action-btn action-delete"><i class="fa-solid fa-trash"></i> Obriši</button>
+                                <button id="cancelEditBtn" class="blog-action-btn action-cancel" style="display: none;"><i class="fa-solid fa-xmark"></i> Poništi</button>
+                            </div>
+                            <p id="editHelperText" class="edit-helper" style="display: none;">Klikni na polje koje želiš urediti, zatim sačuvaj promjene.</p>
                         </div>
                     </div>
                     <div class="blog-detail-body" id="detailContent">
@@ -152,12 +159,24 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </div>
             </div>
 
+            <!-- Delete Blog Modal -->
+            <div id="deleteBlogModal" class="modal-overlay">
+                <div class="modal-content delete-modal">
+                    <div class="modal-icon delete-icon"><i class="fa-solid fa-trash"></i></div>
+                    <h3>Obriši blog objavu?</h3>
+                    <p>Ova akcija je trajna. Potvrdite da želite obrisati odabranu objavu.</p>
+                    <div class="modal-actions">
+                        <button class="btn-cancel" id="cancelDeleteBlog">Otkaži</button>
+                        <button class="btn-confirm-delete" id="confirmDeleteBlog">Obriši</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- Removed Modal HTML -->
-
     <script src="js/loading_screen.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/admin_blog.js"></script>
 </body>
 </html>
