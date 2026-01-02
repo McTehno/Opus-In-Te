@@ -52,49 +52,30 @@ require_once 'backend/connect.php';
     </header>
 
     <main>
-
-
         <section class="blog-content-section">
             <div class="container blog-container">
                 <div class="blog-posts-main">
-                    <article class="featured-post-card">
-                        <div class="card-image-container">
-                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop"
-                                alt="Žena čita knjigu u biblioteci">
+                    
+                    <div class="blog-controls">
+                        <div class="sort-dropdown">
+                            <button id="sort-btn" class="sort-btn">
+                                Sortiraj po <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="sort-options" id="sort-options">
+                                <a href="#" data-sort="date_desc" class="active">Najnovije</a>
+                                <a href="#" data-sort="date_asc">Najstarije</a>
+                                <a href="#" data-sort="views_desc">Najgledanije</a>
+                                <a href="#" data-sort="views_asc">Najmanje gledano</a>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <span class="card-category">Lični Razvoj</span>
-                            <h2 class="card-title"><a href="#">5 navika koje će Vam pomoći da smanjite anksioznost</a>
-                            </h2>
-                            <p class="card-excerpt">Anksioznost je sastavni dio života, ali postoje tehnike i navike
-                                koje nam mogu pomoći da je držimo pod kontrolom. Saznajte više o pet jednostavnih
-                                koraka...</p>
-                            <a href="#" class="read-more-link">Pročitaj više →</a>
-                        </div>
-                    </article>
+                    </div>
 
-                    <div class="blog-grid">
-                        <article class="blog-card">
-                            <div class="card-image-container">
-                                <img src="img/blogplaceholder/blog2.jpg" alt="Dječiji crtež porodice">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-category">Roditeljstvo</span>
-                                <h3 class="card-title"><a href="#">Kako razgovarati sa djecom o teškim temama</a></h3>
-                                <a href="#" class="read-more-link">Pročitaj više →</a>
-                            </div>
-                        </article>
+                    <div id="featured-post-container">
+                        <!-- Featured Post will be injected here -->
+                    </div>
 
-                        <article class="blog-card">
-                            <div class="card-image-container">
-                                <img src="img/blogplaceholder/blog3.jpeg" alt="Dvije osobe razgovaraju uz kafu">
-                            </div>
-                            <div class="card-content">
-                                <span class="card-category">Psihoterapija</span>
-                                <h3 class="card-title"><a href="#">Šta očekivati od prve seanse psihoterapije?</a></h3>
-                                <a href="#" class="read-more-link">Pročitaj više →</a>
-                            </div>
-                        </article>
+                    <div class="blog-grid" id="blog-grid">
+                        <!-- Blog Posts will be injected here -->
                     </div>
 
                 </div>
@@ -102,39 +83,23 @@ require_once 'backend/connect.php';
                 <aside class="blog-sidebar">
                     <div class="sidebar-widget">
                         <h4 class="widget-title">Pretraga</h4>
-                        <form class="search-form">
-                            <input type="search" placeholder="Ukucajte pojam...">
+                        <form class="search-form" id="search-form">
+                            <input type="search" id="search-input" placeholder="Ukucajte pojam...">
                             <button type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
 
                     <div class="sidebar-widget">
-                        <h4 class="widget-title">Popularni Članci</h4>
-                        <ul class="popular-posts-list">
-                            <li>
-                                <a href="#">
-                                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop"
-                                        alt="Popularni članak 1">
-                                    <span>5 navika koje će Vam pomoći da smanjite anksioznost</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="https://images.unsplash.com/photo-1604881991720-f91add269612?q=80&w=2070&auto=format&fit=crop"
-                                        alt="Popularni članak 2">
-                                    <span>Šta očekivati od prve seanse psihoterapije?</span>
-                                </a>
-                            </li>
+                        <h4 class="widget-title">Kategorije</h4>
+                        <ul class="categories-list" id="categories-list">
+                            <!-- Categories will be injected here -->
                         </ul>
                     </div>
 
                     <div class="sidebar-widget">
-                        <h4 class="widget-title">Kategorije</h4>
-                        <ul class="categories-list">
-                            <li><a href="#">Lični Razvoj</a></li>
-                            <li><a href="#">Roditeljstvo</a></li>
-                            <li><a href="#">Psihoterapija</a></li>
-                            <li><a href="#">Stres i Anksioznost</a></li>
+                        <h4 class="widget-title">Popularni Članci</h4>
+                        <ul class="popular-posts-list" id="popular-posts-list">
+                            <!-- Popular posts will be injected here -->
                         </ul>
                     </div>
                 </aside>
@@ -182,7 +147,10 @@ require_once 'backend/connect.php';
         </div>
     </footer>
 
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="js/loading_screen.js"></script>
+    <script src="js/blog.js"></script>
 </body>
 
 </html>
