@@ -2633,7 +2633,7 @@ main {
     transition: opacity 0.8s ease-out 0.2s, visibility 0.8s ease-out 0.2s; /* Malce daljša in zakasnjena tranzicija */
 }
 
-#loading-screen.hidden {
+#loading-screen.loading-hidden {
     opacity: 0;
     visibility: hidden;
 }

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const hideLoadingScreen = () => {
-        loadingScreen.classList.add('hidden');
+        loadingScreen.classList.add('loading-hidden');
         setTimeout(() => {
             if (loadingScreen && loadingScreen.parentNode) {
                 loadingScreen.parentNode.removeChild(loadingScreen);
