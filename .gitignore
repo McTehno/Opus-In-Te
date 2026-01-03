@@ -9,5 +9,8 @@ Thumbs.db
 # Ignore node modules
 node_modules/
 
+# Ignore vendor directory (for composer dependencies)
+vendor/
+
 backend/mail_config.php
 backend/admin_config.php

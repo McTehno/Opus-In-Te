@@ -1396,3 +1396,46 @@ body.admin-body {
 }
 
 /* Modal Detail Styles - REMOVED */
+
+/* Export Buttons */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-export-excel {
+    background-color: #27ae60; /* Soft Green */
+}
+
+.btn-export-excel:hover {
+    background-color: #219150;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-export-pdf {
+    background-color: #e74c3c; /* Soft Red */
+}
+
+.btn-export-pdf:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+}
+
+.action-btn i {
+    margin-right: 8px;
+}

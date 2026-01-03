@@ -76,7 +76,15 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Upravljanje Terminima</h1>
-                <button id="createAppointmentBtn" class="btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> Novi Termin</button>
+                <div class="action-buttons">
+                    <a href="backend/admin_export_excel.php" target="_blank" class="action-btn btn-export-excel">
+                        <i class="fa-solid fa-file-excel"></i> Izvozi Excel
+                    </a>
+                    <a href="backend/admin_export_pdf.php" target="_blank" class="action-btn btn-export-pdf">
+                        <i class="fa-solid fa-file-pdf"></i> Izvozi PDF
+                    </a>
+                    <button id="createAppointmentBtn" class="btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> Novi Termin</button>
+                </div>
             </div>
 
             <div class="appointments-controls">
