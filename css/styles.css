@@ -95,6 +95,7 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -771,6 +772,7 @@ main {
     background-color: transparent; /* Changed to transparent */
     border: 2px solid var(--soft-gold); /* Add a border to define its shape initially */
     color: var(--charcoal); /* Default text color */
+    cursor: pointer;
     transition: color 0.4s ease-out; /* Smooth text color transition */
 }
 
@@ -844,6 +846,7 @@ main {
     display: block; /* Make it a block element to take full width */
     text-align: center; /* Center the text */
     box-shadow: none; /* Remove any default cta-button shadow */
+    cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 

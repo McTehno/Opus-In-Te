@@ -184,8 +184,8 @@ INSERT INTO City (name, zip, State_idState) VALUES
 -- Roles
 INSERT INTO Role (name) VALUES 
 ('admin'),
-('worker'), 
-('user');   
+('radnik'), 
+('korisnik');   
 
 -- Users
 INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole) VALUES 

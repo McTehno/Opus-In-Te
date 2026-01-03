@@ -14,7 +14,7 @@ try {
     $sql = "SELECT u.idUser, u.name, u.last_name
             FROM User u
             JOIN Role r ON u.Role_idRole = r.idRole
-            WHERE r.name = 'worker'
+            WHERE r.name = 'radnik'
             ORDER BY u.last_name ASC, u.name ASC";
 
     $stmt = $pdo->prepare($sql);

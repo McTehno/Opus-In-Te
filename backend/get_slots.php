@@ -78,14 +78,8 @@ $availableSlots = [];
 foreach ($workers as $worker) {
     $workerId = $worker['idUser'];
     $workerName = $worker['name'] . ' ' . $worker['last_name'];
-    // Fix picture path if needed (relative to web root)
-    $picPath = $worker['picture_path'];
-    if ($picPath) {
-        // Extract filename if it's a full path or ensure relative path
-        $picPath = 'img/vanjapic/' . basename($picPath); // Simplified for now based on context
-    } else {
-        $picPath = 'img/default-user.png';
-    }
+    // Use the path from DB directly, or fallback
+    $picPath = $worker['picture_path'] ? $worker['picture_path'] : 'img/default-user.png';
 
     $currentTime = strtotime("$formattedDate $startHour:00:00");
     $endTime = strtotime("$formattedDate $endHour:00:00");
@@ -119,6 +113,20 @@ foreach ($workers as $worker) {
         $currentTime += ($interval * 60);
     }
 }
+
+// Sort slots by time
+usort($availableSlots, function($a, $b) {
+    // Compare times
+    $timeA = strtotime($a['time']);
+    $timeB = strtotime($b['time']);
+    
+    if ($timeA == $timeB) {
+        // If times are equal, sort by worker name
+        return strcmp($a['worker_name'], $b['worker_name']);
+    }
+    
+    return $timeA - $timeB;
+});
 
 echo json_encode($availableSlots);
 ?>

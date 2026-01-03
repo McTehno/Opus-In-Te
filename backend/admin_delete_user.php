@@ -19,9 +19,37 @@ if (!isset($input['id'])) {
 $id = $input['id'];
 
 try {
+    // Fetch user info before deleting to get picture path
+    $stmt = $pdo->prepare("SELECT Role_idRole, picture_path, name, last_name FROM User WHERE idUser = ?");
+    $stmt->execute([$id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        echo json_encode(['success' => false, 'message' => 'User not found']);
+        exit;
+    }
+
     $sql = "DELETE FROM User WHERE idUser = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
+
+    // If worker (Role 2), delete picture folder
+    if ($user['Role_idRole'] == 2) {
+        $folderName = preg_replace('/[^a-zA-Z0-9]/', '', strtolower($user['name'] . $user['last_name']));
+        $dirPath = '../img/workerpic/' . $folderName . '/';
+
+        if (is_dir($dirPath)) {
+            // Delete all files in directory
+            $files = glob($dirPath . '*', GLOB_MARK);
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
+            }
+            // Remove directory
+            rmdir($dirPath);
+        }
+    }
 
     echo json_encode(['success' => true, 'message' => 'User deleted successfully']);
 

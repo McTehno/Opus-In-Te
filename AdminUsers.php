@@ -53,14 +53,14 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Pregled Korisnika</h1>
-                <!-- Optional: Add User Button if needed, but usually users register themselves -->
+                <button id="addWorkerBtn" class="btn-primary"><i class="fa-solid fa-plus"></i> Novi Radnik</button>
             </div>
 
             <!-- Stats Cards -->
             <div class="services-stats-cards">
                 <div class="services-stat-card profitable">
-                    <h3>Ukupno Korisnika</h3>
-                    <div class="value" id="totalUsers">-</div>
+                    <h3>Zaposleni</h3>
+                    <div class="value" id="workersCount">-</div>
                 </div>
                 <div class="services-stat-card common">
                     <h3>Korisnici sa Nalogom</h3>
@@ -77,6 +77,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <table class="services-table">
                     <thead>
                         <tr>
+                            <th>Tip</th>
                             <th>Ime</th>
                             <th>Prezime</th>
                             <th>Telefon</th>
@@ -94,6 +95,52 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         </div>
     </main>
 
+    <!-- Create Worker Modal -->
+    <div id="createWorkerModal" class="modal-overlay">
+        <div class="modal-content" style="padding: 0; overflow: hidden;">
+            <div class="modal-header" style="padding: 20px 30px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9;">
+                <h2 style="margin: 0; font-size: 1.2rem;">Novi Radnik</h2>
+                <button class="close-modal" onclick="closeModal('createWorkerModal')" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color: #999;"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <form id="createWorkerForm" style="padding: 30px;" enctype="multipart/form-data">
+                <div class="services-form-group">
+                    <label for="workerName">Ime</label>
+                    <input type="text" id="workerName" name="name" required>
+                </div>
+
+                <div class="services-form-group">
+                    <label for="workerLastname">Prezime</label>
+                    <input type="text" id="workerLastname" name="lastname" required>
+                </div>
+
+                <div class="services-form-group">
+                    <label for="workerEmail">Email</label>
+                    <input type="email" id="workerEmail" name="email" required>
+                </div>
+
+                <div class="services-form-group">
+                    <label for="workerPhone">Telefon</label>
+                    <input type="text" id="workerPhone" name="phone">
+                </div>
+
+                <div class="services-form-group">
+                    <label for="workerPassword">Lozinka</label>
+                    <input type="password" id="workerPassword" name="password" required>
+                </div>
+
+                <div class="services-form-group">
+                    <label for="workerPicture">Slika Profila</label>
+                    <input type="file" id="workerPicture" name="picture" accept="image/*">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="services-btn-cancel" onclick="closeModal('createWorkerModal')">Odustani</button>
+                    <button type="submit" class="services-btn-save">Kreiraj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Edit Modal -->
     <div id="editModal" class="modal-overlay">
         <div class="modal-content" style="padding: 0; overflow: hidden;">
@@ -101,8 +148,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <h2 id="modalTitle" style="margin: 0; font-size: 1.2rem;">Uredi Korisnika</h2>
                 <button class="close-modal" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color: #999;"><i class="fa-solid fa-times"></i></button>
             </div>
-            <form id="editUserForm" style="padding: 30px;">
+            <form id="editUserForm" style="padding: 30px;" enctype="multipart/form-data">
                 <input type="hidden" id="editUserId" name="id">
+                <input type="hidden" id="editUserRole" name="role">
                 
                 <div class="services-form-group">
                     <label for="editName">Ime</label>
@@ -122,6 +170,11 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <div class="services-form-group">
                     <label for="editEmail">Email</label>
                     <input type="email" id="editEmail" name="email" required>
+                </div>
+
+                <div class="services-form-group" id="editPictureGroup" style="display: none;">
+                    <label for="editPicture">Slika Profila (Samo za radnike)</label>
+                    <input type="file" id="editPicture" name="picture" accept="image/*">
                 </div>
 
                 <div class="form-actions">
