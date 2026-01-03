@@ -190,7 +190,7 @@ INSERT INTO Role (name) VALUES
 -- Users
 INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole) VALUES 
 ('065111222', 'admin@opusinte.com', 'hashed_secret_pass', 'Admin', 'User', NULL, 1),
-('065333444', 'doctor@opusinte.com', 'hashed_worker_pass', 'Vanja', 'Dejanovic', "C:\Users\Nitro\Desktop\OpusInTe\Site\opus\data\www\img\vanjapic\indexpic-removebg-preview.png", 2),
+('065333444', 'doctor@opusinte.com', 'hashed_worker_pass', 'Vanja', 'Dejanovic', "img\vanjapic\indexpic-removebg-preview.png", 2),
 ('065555666', 'client@gmail.com', 'hashed_client_pass', 'Marko', 'Markovic', NULL, 3);
 
 -- Location Types
@@ -225,10 +225,10 @@ INSERT INTO Appointment_Type (name, price, duration) VALUES
 
 -- Appointment Statuses
 INSERT INTO Appointment_Status (status_name) VALUES 
-('unconfirmed'),
-('confirmed'),
-('completed'),
-('cancelled');
+('nepotvrđeno'),
+('potvrđeno'),
+('završeno'),
+('otkazano');
 
 -- Appointments
 INSERT INTO Appointment (datetime, Address_idAddress, Appointment_Type_idAppointment_Type, Appointment_Status_idAppointment_Status) VALUES 
@@ -251,9 +251,9 @@ INSERT INTO Blog_Post_Category (name) VALUES
 
 -- Blog Post Statuses
 INSERT INTO Blog_Post_Status (name) VALUES 
-('draft'),      -- ID 1
-('published'),  -- ID 2
-('archived');   -- ID 3
+('u pripremi'),      -- ID 1
+('objavljeno'),  -- ID 2
+('arhivirano');   -- ID 3
 
 -- Blog Posts
 INSERT INTO Blog_Post (title, contents, date, viewcount, picture_path, User_idUser, Blog_Post_Status_idBlog_Post_Status) VALUES 

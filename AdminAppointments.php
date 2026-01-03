@@ -258,10 +258,9 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <select id="createStatus" class="form-control">
                             <?php foreach ($statuses as $status): 
                                 $statusLabel = $status['status_name'];
-                                $map = ['confirmed' => 'Potvrđeno', 'completed' => 'Završeno', 'cancelled' => 'Otkazano', 'unconfirmed' => 'Nepotvrđeno'];
-                                if (isset($map[$statusLabel])) $statusLabel = $map[$statusLabel];
+                                // DB values are Bosnian now
                             ?>
-                            <option value="<?php echo $status['idAppointment_Status']; ?>" <?php if($status['status_name'] == 'confirmed') echo 'selected'; ?>>
+                            <option value="<?php echo $status['idAppointment_Status']; ?>" <?php if($status['status_name'] == 'potvrđeno') echo 'selected'; ?>>
                                 <?php echo ucfirst($statusLabel); ?>
                             </option>
                             <?php endforeach; ?>
@@ -333,8 +332,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <select id="editStatus" class="form-control">
                                 <?php foreach ($statuses as $status): 
                                     $statusLabel = $status['status_name'];
-                                    $map = ['confirmed' => 'Potvrđeno', 'completed' => 'Završeno', 'cancelled' => 'Otkazano', 'unconfirmed' => 'Nepotvrđeno'];
-                                    if (isset($map[$statusLabel])) $statusLabel = $map[$statusLabel];
+                                    // DB values are Bosnian now
                                 ?>
                                 <option value="<?php echo $status['idAppointment_Status']; ?>"><?php echo ucfirst($statusLabel); ?></option>
                                 <?php endforeach; ?>

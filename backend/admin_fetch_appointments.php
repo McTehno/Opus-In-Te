@@ -149,13 +149,8 @@ try {
         }
         
         // Status Translation
-        $status_map = [
-            'confirmed' => 'Potvrđeno',
-            'completed' => 'Završeno',
-            'cancelled' => 'Otkazano',
-            'unconfirmed' => 'Nepotvrđeno'
-        ];
-        $appt['status_display'] = isset($status_map[$appt['status_name']]) ? $status_map[$appt['status_name']] : $appt['status_name'];
+        // DB values are already in Bosnian. Just capitalize for display.
+        $appt['status_display'] = ucfirst($appt['status_name']);
     }
     
     echo json_encode(['success' => true, 'data' => $appointments, 'count' => count($appointments)]);

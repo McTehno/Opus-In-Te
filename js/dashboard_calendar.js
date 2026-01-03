@@ -147,20 +147,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getStatusClass = (status) => {
         switch(status) {
-            case 'confirmed': return 'status-confirmed';
-            case 'pending': return 'status-pending';
-            case 'cancelled': return 'status-cancelled';
-            case 'completed': return 'status-completed';
+            case 'potvrđeno': return 'status-potvrđeno';
+            case 'nepotvrđeno': return 'status-nepotvrđeno';
+            case 'otkazano': return 'status-otkazano';
+            case 'završeno': return 'status-završeno';
             default: return '';
         }
     };
 
     const getStatusLabel = (status) => {
         switch(status) {
-            case 'confirmed': return '<i class="fas fa-check"></i> Potvrđeno';
-            case 'unconfirmed': return '<i class="fas fa-hourglass-start"></i> Na čekanju';
-            case 'cancelled': return '<i class="fas fa-times"></i> Otkazano';
-            case 'completed': return '<i class="fas fa-check-double"></i> Završeno';
+            case 'potvrđeno': return '<i class="fas fa-check"></i> Potvrđeno';
+            case 'nepotvrđeno': return '<i class="fas fa-hourglass-start"></i> Na čekanju';
+            case 'otkazano': return '<i class="fas fa-times"></i> Otkazano';
+            case 'završeno': return '<i class="fas fa-check-double"></i> Završeno';
             default: return status;
         }
     };

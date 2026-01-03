@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="blog-card-content">
                     <div class="blog-card-header">
                         <span class="blog-category">${blog.category_names || 'Nema kategorije'}</span>
-                        <span class="blog-status status-${blog.status_name.toLowerCase()}">${blog.status_name}</span>
+                        <span class="blog-status status-${blog.status_name.toLowerCase().replace(/\s+/g, '-')}">${blog.status_name}</span>
                     </div>
                     <h3 class="blog-title">${blog.title}</h3>
                     <div class="blog-meta">

@@ -2764,22 +2764,22 @@ main {
     letter-spacing: 0.5px;
 }
 
-.status-confirmed {
+.status-potvrđeno {
     background-color: #e6f7e6;
     color: #2e7d32;
 }
 
-.status-pending {
+.status-nepotvrđeno {
     background-color: #fff8e1;
     color: #f57f17;
 }
 
-.status-cancelled {
+.status-otkazano {
     background-color: #ffebee;
     color: #c62828;
 }
 
-.status-completed {
+.status-završeno {
     background-color: #e3f2fd;
     color: #1565c0;
 }

@@ -22,7 +22,7 @@ try {
             at.duration,
             COUNT(a.idAppointment) as appointment_count,
             SUM(CASE 
-                WHEN a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'cancelled') 
+                WHEN a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'otkazano') 
                 THEN at.price 
                 ELSE 0 
             END) as total_income

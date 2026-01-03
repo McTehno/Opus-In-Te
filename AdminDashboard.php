@@ -12,11 +12,11 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 
 // 1. Completed Appointments (Total or Monthly? Prompt says "number of all appointments with... completed")
 // I will assume ALL completed appointments ever, as it's a general stat.
-$stmt = $pdo->query("SELECT COUNT(*) FROM Appointment WHERE Appointment_Status_idAppointment_Status = (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'completed')");
+$stmt = $pdo->query("SELECT COUNT(*) FROM Appointment WHERE Appointment_Status_idAppointment_Status = (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'završeno')");
 $completed_appointments = $stmt->fetchColumn();
 
 // 2. Confirmed Appointments (Upcoming/To happen)
-$stmt = $pdo->query("SELECT COUNT(*) FROM Appointment WHERE Appointment_Status_idAppointment_Status = (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'confirmed')");
+$stmt = $pdo->query("SELECT COUNT(*) FROM Appointment WHERE Appointment_Status_idAppointment_Status = (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'potvrđeno')");
 $confirmed_appointments = $stmt->fetchColumn();
 
 // 3. Monthly Income (Current Month)
@@ -26,7 +26,7 @@ $stmt = $pdo->query("
     JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type 
     WHERE MONTH(a.datetime) = MONTH(CURRENT_DATE()) 
     AND YEAR(a.datetime) = YEAR(CURRENT_DATE())
-    AND a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'cancelled')
+    AND a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'otkazano')
 ");
 $monthly_income = $stmt->fetchColumn() ?: 0;
 
@@ -53,7 +53,7 @@ $stmt = $pdo->query("
         SUM(at.price) as income
     FROM Appointment a
     JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type
-    WHERE a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'cancelled')
+    WHERE a.Appointment_Status_idAppointment_Status != (SELECT idAppointment_Status FROM Appointment_Status WHERE status_name = 'otkazano')
     AND DATE(a.datetime) >= DATE_SUB(CURRENT_DATE, INTERVAL 20 DAY) -- Fetch enough back to cover weekends
     GROUP BY DATE(a.datetime)
     ORDER BY DATE(a.datetime) ASC
