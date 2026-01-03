@@ -1,5 +1,6 @@
 <?php
 require_once 'backend/connect.php';
+require_once 'backend/role_check.php';
 require 'backend/register.php';
 ?>
 <!DOCTYPE html>

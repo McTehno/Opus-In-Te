@@ -1,6 +1,7 @@
 <?php
 require_once 'backend/connect.php';
 session_start();
+require_once 'backend/role_check.php'; // Redirect admins/workers
 ?>
 <!DOCTYPE html>
 <html lang="bs">

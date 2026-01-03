@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 require_once 'backend/connect.php';
+require_once 'backend/role_check.php';
 require_once 'backend/edit_profile.php';
 ?>
 <!DOCTYPE html>

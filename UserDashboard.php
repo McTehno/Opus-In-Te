@@ -1,25 +1,37 @@
 <?php
 session_start();
+require_once 'backend/connect.php';
+require_once 'backend/role_check.php'; // Redirect admins/workers
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: Login.php");
     exit;
 }
-require_once 'backend/connect.php';
 
-// Fetch user details
+// Fetch user details and role
 $user_id = $_SESSION['user_id'];
-$stmt = $pdo->prepare("SELECT name, last_name, email, phone FROM User WHERE idUser = ?");
+$stmt = $pdo->prepare("
+    SELECT u.*, r.name as role_name 
+    FROM User u 
+    JOIN Role r ON u.Role_idRole = r.idRole 
+    WHERE u.idUser = ?
+");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
 if (!$user) {
-    // Handle case where user is not found (shouldn't happen if session is valid)
     session_destroy();
     header("Location: Login.php");
     exit;
 }
 
-// Fetch user appointments
+// Redirect workers to their dashboard
+if ($user['role_name'] === 'radnik') {
+    header("Location: WorkerDashboard.php");
+    exit;
+}
+
+// Fetch user appointments (Client View)
 // Assuming appointments are linked via Appointment_User table based on opus.sql
 $sql = "
     SELECT a.idAppointment, a.datetime, at.name as type_name, at.duration, ast.status_name

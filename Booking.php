@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'backend/connect.php';
+require_once 'backend/role_check.php';
 
 // Fetch User Data if logged in
 $userData = null;
