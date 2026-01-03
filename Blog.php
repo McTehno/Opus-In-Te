@@ -88,7 +88,7 @@ require_once 'backend/connect.php';
                             <img id="detail-img" src="" alt="Blog Cover">
                         </div>
                         <div class="detail-title-section">
-                            <button id="back-to-blog-btn" class="back-btn">
+                            <button id="back-to-blog-btn" class="blog-back-btn">
                                 <i class="fas fa-arrow-left"></i> Nazad na blog
                             </button>
                             <span id="detail-category" class="detail-category-badge"></span>

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
 
     // View Elements
+    const blogContainer = document.querySelector('.blog-container');
     const blogDetailView = document.getElementById('blog-detail-view');
     const blogPostsMain = document.querySelector('.blog-posts-main');
     const blogSidebar = document.querySelector('.blog-sidebar');
@@ -332,6 +333,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const post = allPosts.find(p => p.idBlog_Post == id);
         if (!post) return;
 
+        // Increment View Count (Backend)
+        fetch('backend/increment_view.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        }).catch(err => console.error('Error incrementing view:', err));
+
+        // Optimistic Update (Frontend)
+        post.viewcount = parseInt(post.viewcount) + 1;
+
         // Populate Data
         detailImg.src = post.picture_path || 'img/blogplaceholder/default.jpg';
         detailCategory.textContent = post.category_names || 'Opus in te';
@@ -344,27 +355,71 @@ document.addEventListener('DOMContentLoaded', () => {
         detailViews.textContent = post.viewcount;
         detailContent.innerHTML = post.contents;
 
-        // Switch View
-        document.querySelector('.blog-container').classList.add('detail-active');
-        
-        blogPostsMain.classList.add('hidden');
-        blogSidebar.classList.add('hidden');
-        blogDetailView.classList.remove('hidden');
-        
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Lock container height to prevent footer jump
+        blogContainer.style.minHeight = `${blogContainer.offsetHeight}px`;
+
+        // Switch View with GSAP
+        const tl = gsap.timeline({
+            onComplete: () => {
+                // Release height lock
+                blogContainer.style.minHeight = '';
+            }
+        });
+
+        // 1. Fade out grid
+        tl.to([blogPostsMain, blogSidebar], {
+            opacity: 0,
+            y: -20,
+            duration: 0.3,
+            onComplete: () => {
+                blogPostsMain.classList.add('hidden');
+                blogSidebar.classList.add('hidden');
+                blogContainer.classList.add('detail-active');
+                
+                // Prepare detail view
+                blogDetailView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })
+        // 2. Fade in detail view
+        .fromTo(blogDetailView, 
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+        );
     }
 
     function closePost() {
-        document.querySelector('.blog-container').classList.remove('detail-active');
-        
-        blogDetailView.classList.add('hidden');
-        blogPostsMain.classList.remove('hidden');
-        blogSidebar.classList.remove('hidden');
-        
-        // Re-layout Isotope just in case
-        if (iso) {
-            iso.layout();
-        }
+        // Lock container height to prevent footer jump
+        blogContainer.style.minHeight = `${blogContainer.offsetHeight}px`;
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                // Release height lock
+                blogContainer.style.minHeight = '';
+            }
+        });
+
+        // 1. Fade out detail view
+        tl.to(blogDetailView, {
+            opacity: 0,
+            y: 30,
+            duration: 0.3,
+            onComplete: () => {
+                blogDetailView.classList.add('hidden');
+                blogContainer.classList.remove('detail-active');
+                
+                // Prepare grid
+                blogPostsMain.classList.remove('hidden');
+                blogSidebar.classList.remove('hidden');
+                
+                // Re-layout Isotope
+                if (iso) iso.layout();
+            }
+        })
+        // 2. Fade in grid
+        .fromTo([blogPostsMain, blogSidebar], 
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        );
     }
 });

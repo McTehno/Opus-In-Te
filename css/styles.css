@@ -2942,10 +2942,10 @@ main {
 .blog-detail-view {
     /* Hidden by default via .hidden class */
     width: 100%;
-    animation: fadeIn 0.5s ease-out;
+    opacity: 0; /* Start hidden for GSAP */
 }
 
-.back-btn {
+.blog-back-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -2962,7 +2962,7 @@ main {
     margin-bottom: 15px; /* Reduced margin to be closer to category */
 }
 
-.back-btn:hover {
+.blog-back-btn:hover {
     background-color: var(--soft-gold);
     color: var(--white);
     border-color: var(--soft-gold);
