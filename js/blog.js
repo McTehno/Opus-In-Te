@@ -9,6 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
 
+    // View Elements
+    const blogDetailView = document.getElementById('blog-detail-view');
+    const blogPostsMain = document.querySelector('.blog-posts-main');
+    const blogSidebar = document.querySelector('.blog-sidebar');
+    const backToBlogBtn = document.getElementById('back-to-blog-btn');
+    
+    // Detail Content Elements
+    const detailImg = document.getElementById('detail-img');
+    const detailCategory = document.getElementById('detail-category');
+    const detailTitle = document.getElementById('detail-title');
+    const detailDate = document.querySelector('#detail-date span');
+    const detailViews = document.querySelector('#detail-views span');
+    const detailContent = document.getElementById('detail-content');
+
     let iso; // Isotope instance
     let allPosts = []; // Store all posts data
     let currentCategory = null;
@@ -19,6 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchPosts();
 
     // Event Listeners
+    if (backToBlogBtn) {
+        backToBlogBtn.addEventListener('click', closePost);
+    }
+
+    // Global click listener for delegation (handles all blog post links)
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.href.includes('BlogPost.php?id=')) {
+            e.preventDefault();
+            const id = link.href.split('id=')[1];
+            openPost(id);
+        }
+    });
+
     sortBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         sortOptions.classList.toggle('show');
@@ -158,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         featuredContainer.innerHTML = `
             <article class="featured-post-card" id="featured-post-static">
                 <div class="card-image-container">
-                    <img src="${latestPost.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${latestPost.title}">
+                    <img src="${latestPost.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${latestPost.title}" loading="lazy" onload="this.classList.add('img-loaded')">
                 </div>
                 <div class="card-content">
                     <span class="card-category">${latestPost.category_names || 'Opus in te'}</span>
@@ -193,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper.innerHTML = `
                 <article class="blog-card">
                     <div class="card-image-container">
-                        <img src="${post.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${post.title}">
+                        <img src="${post.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
                     </div>
                     <div class="card-content">
                         <span class="card-category">${post.category_names || 'Opus in te'}</span>
@@ -298,5 +326,45 @@ document.addEventListener('DOMContentLoaded', () => {
             sortBy: sortValue,
             sortAscending: sortAscending
         });
+    }
+
+    function openPost(id) {
+        const post = allPosts.find(p => p.idBlog_Post == id);
+        if (!post) return;
+
+        // Populate Data
+        detailImg.src = post.picture_path || 'img/blogplaceholder/default.jpg';
+        detailCategory.textContent = post.category_names || 'Opus in te';
+        detailTitle.textContent = post.title;
+        
+        // Format Date
+        const dateObj = new Date(post.date);
+        detailDate.textContent = dateObj.toLocaleDateString('bs-BA');
+        
+        detailViews.textContent = post.viewcount;
+        detailContent.innerHTML = post.contents;
+
+        // Switch View
+        document.querySelector('.blog-container').classList.add('detail-active');
+        
+        blogPostsMain.classList.add('hidden');
+        blogSidebar.classList.add('hidden');
+        blogDetailView.classList.remove('hidden');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closePost() {
+        document.querySelector('.blog-container').classList.remove('detail-active');
+        
+        blogDetailView.classList.add('hidden');
+        blogPostsMain.classList.remove('hidden');
+        blogSidebar.classList.remove('hidden');
+        
+        // Re-layout Isotope just in case
+        if (iso) {
+            iso.layout();
+        }
     }
 });

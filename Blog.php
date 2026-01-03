@@ -80,7 +80,32 @@ require_once 'backend/connect.php';
 
                 </div>
 
-                <aside class="blog-sidebar">
+                <!-- Blog Detail View (Initially Hidden) -->
+                <div id="blog-detail-view" class="blog-detail-view hidden">
+                    
+                    <div class="detail-header">
+                        <div class="detail-image-wrapper">
+                            <img id="detail-img" src="" alt="Blog Cover">
+                        </div>
+                        <div class="detail-title-section">
+                            <button id="back-to-blog-btn" class="back-btn">
+                                <i class="fas fa-arrow-left"></i> Nazad na blog
+                            </button>
+                            <span id="detail-category" class="detail-category-badge"></span>
+                            <h1 id="detail-title"></h1>
+                            <div class="detail-meta-info">
+                                <span id="detail-date"><i class="far fa-calendar-alt"></i> <span></span></span>
+                                <span id="detail-views"><i class="far fa-eye"></i> <span></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="detail-content" class="detail-body-content">
+                        <!-- Content injected here -->
+                    </div>
+                </div>
+
+                <aside class="blog-sidebar" id="blog-sidebar">
                     <div class="sidebar-widget">
                         <h4 class="widget-title">Pretraga</h4>
                         <form class="search-form" id="search-form">
