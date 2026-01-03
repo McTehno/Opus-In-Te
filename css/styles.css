@@ -871,14 +871,14 @@ main {
     content: '';
     position: absolute;
     top: 0;
-    left: -10%;
-    width: 120%;
+    left: -50%;
+    width: 250%;
     height: 100%;
     background: linear-gradient(135deg, #e0d9cd 0%, var(--soft-gold) 100%);
     z-index: 2; /* Sits on top of the base color */
     transform: skewX(-20deg) translateX(-100%);
-    transform-origin: left;
-    transition: transform 0.6s ease-out; /* Same speed as the button */
+    transform-origin: top left;
+    transition: transform 1s ease-out; /* Same speed as the button */
 }
 
 /* The DARK OVERLAY layer (for the back button) */
@@ -911,6 +911,8 @@ main {
 .page-title-section-kontakt {
     background-color: var(--light-gray);
     padding: 23vh 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .booking-prompt {
