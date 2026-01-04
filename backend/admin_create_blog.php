@@ -13,7 +13,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 $input = json_decode(file_get_contents('php://input'), true);
 
 // Handle FormData input
-$blogId = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $title = isset($_POST['title']) ? trim($_POST['title']) : '';
 $contents = isset($_POST['contents']) ? $_POST['contents'] : '';
 $authorId = isset($_POST['author_id']) ? intval($_POST['author_id']) : 0;
@@ -22,14 +21,14 @@ $categoryIds = isset($_POST['category_ids']) && is_array($_POST['category_ids'])
     ? array_map('intval', $_POST['category_ids'])
     : [];
 
-if ($blogId === 0 || $title === '' || $contents === '') {
+if ($title === '' || $contents === '') {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Nedostaju obavezna polja.']);
+    echo json_encode(['success' => false, 'message' => 'Naslov i sadržaj ne mogu biti prazni.']);
     exit;
 }
 
 // Handle Image Upload
-$picturePath = null;
+$picturePath = 'img/blogplaceholder/blog_placeholder_2.jpg'; // Default
 
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $uploadDir = '../img/blogplaceholder/';
@@ -53,29 +52,19 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 try {
     $pdo->beginTransaction();
 
-    if ($picturePath) {
-        $updateSql = "UPDATE Blog_Post 
-                      SET title = ?, contents = ?, User_idUser = ?, Blog_Post_Status_idBlog_Post_Status = ?, picture_path = ?
-                      WHERE idBlog_Post = ?";
-        $stmt = $pdo->prepare($updateSql);
-        $stmt->execute([$title, $contents, $authorId, $statusId, $picturePath, $blogId]);
-    } else {
-        $updateSql = "UPDATE Blog_Post 
-                      SET title = ?, contents = ?, User_idUser = ?, Blog_Post_Status_idBlog_Post_Status = ?
-                      WHERE idBlog_Post = ?";
-        $stmt = $pdo->prepare($updateSql);
-        $stmt->execute([$title, $contents, $authorId, $statusId, $blogId]);
-    }
+    $currentDate = date('Y-m-d');
 
-    // Reset categories
-    $deleteSql = "DELETE FROM Blog_Post_Blog_Post_Category WHERE Blog_Post_idBlog_Post = ?";
-    $stmtDelete = $pdo->prepare($deleteSql);
-    $stmtDelete->execute([$blogId]);
+    $insertSql = "INSERT INTO Blog_Post (title, contents, date, viewcount, picture_path, User_idUser, Blog_Post_Status_idBlog_Post_Status) 
+                  VALUES (?, ?, ?, 0, ?, ?, ?)";
+    $stmt = $pdo->prepare($insertSql);
+    $stmt->execute([$title, $contents, $currentDate, $picturePath, $authorId, $statusId]);
+    
+    $blogId = $pdo->lastInsertId();
 
     if (!empty($categoryIds)) {
-        $insertSql = "INSERT INTO Blog_Post_Blog_Post_Category (Blog_Post_idBlog_Post, Blog_Post_Category_idBlog_Post_Category)
+        $insertCatSql = "INSERT INTO Blog_Post_Blog_Post_Category (Blog_Post_idBlog_Post, Blog_Post_Category_idBlog_Post_Category)
                       VALUES (?, ?)";
-        $stmtInsert = $pdo->prepare($insertSql);
+        $stmtInsert = $pdo->prepare($insertCatSql);
         foreach ($categoryIds as $catId) {
             $stmtInsert->execute([$blogId, $catId]);
         }
@@ -83,14 +72,14 @@ try {
 
     $pdo->commit();
 
-    $response = ['success' => true, 'message' => 'Objava je uspješno ažurirana.'];
-    if ($picturePath) {
-        $response['picture_path'] = $picturePath;
-    }
-    echo json_encode($response);
-
+    echo json_encode([
+        'success' => true, 
+        'message' => 'Nova objava je uspješno kreirana.', 
+        'id' => $blogId,
+        'picture_path' => $picturePath
+    ]);
 } catch (PDOException $e) {
     $pdo->rollBack();
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Greška pri ažuriranju: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Greška pri kreiranju: ' . $e->getMessage()]);
 }

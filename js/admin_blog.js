@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteBlogBtn = document.getElementById('deleteBlogBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const editHelperText = document.getElementById('editHelperText');
+    const addBlogBtn = document.getElementById('addBlogBtn');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const loadMoreContainer = document.querySelector('.load-more-container');
 
     // Delete modal elements
     const deleteBlogModal = document.getElementById('deleteBlogModal');
@@ -65,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let allAuthors = null;
     let currentBlog = null;
     let isEditing = false;
+    let currentBlogsList = [];
+    let visibleCount = 6;
+    const LOAD_STEP = 6;
 
     function debounce(func, wait) {
         let timeout;
@@ -157,14 +163,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderBlogs(blogs) {
-        blogGrid.innerHTML = '';
-        if (blogs.length === 0) {
-            noResults.style.display = 'block';
-            return;
-        }
-        noResults.style.display = 'none';
+        currentBlogsList = blogs;
+        visibleCount = 6;
+        renderVisibleBlogs(false);
+    }
 
-        blogs.forEach(blog => {
+    function renderVisibleBlogs(append) {
+        if (!append) {
+            blogGrid.innerHTML = '';
+            if (currentBlogsList.length === 0) {
+                noResults.style.display = 'block';
+                if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+                return;
+            }
+            noResults.style.display = 'none';
+        }
+
+        const startIndex = append ? visibleCount - LOAD_STEP : 0;
+        const endIndex = Math.min(visibleCount, currentBlogsList.length);
+        const blogsToShow = currentBlogsList.slice(startIndex, endIndex);
+
+        blogsToShow.forEach(blog => {
             const card = document.createElement('div');
             card.className = 'blog-card';
             // Fix relative paths by prepending / if missing
@@ -190,6 +209,14 @@ document.addEventListener('DOMContentLoaded', () => {
             card.addEventListener('click', () => showBlogDetail(blog.idBlog_Post));
             blogGrid.appendChild(card);
         });
+
+        if (loadMoreContainer) {
+            if (visibleCount >= currentBlogsList.length) {
+                loadMoreContainer.style.display = 'none';
+            } else {
+                loadMoreContainer.style.display = 'block';
+            }
+        }
     }
 
     async function showBlogDetail(id) {
@@ -231,8 +258,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         detailImage.src = imagePath;
 
+        const imageWrapper = document.querySelector('.blog-detail-image-wrapper');
+        // Remove existing upload overlay if any
+        const existingOverlay = imageWrapper.querySelector('.image-upload-overlay');
+        if (existingOverlay) existingOverlay.remove();
+
         if (isEditing) {
             detailTitle.innerHTML = `<input id="editTitleInput" class="blog-editable-input" value="${escapeHtml(blog.title)}" />`;
+            
+            // Add upload overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'image-upload-overlay';
+            overlay.innerHTML = `
+                <label for="blogImageUpload" class="upload-label">
+                    <i class="fa-solid fa-camera"></i> Promijeni sliku
+                </label>
+                <input type="file" id="blogImageUpload" accept="image/*" style="display: none;">
+            `;
+            imageWrapper.appendChild(overlay);
+            imageWrapper.style.position = 'relative';
+
+            // Preview image on selection
+            const fileInput = overlay.querySelector('#blogImageUpload');
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        detailImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
         } else {
             detailTitle.textContent = blog.title;
         }
@@ -390,34 +446,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function createNewBlog() {
+        await ensureAuthorsLoaded();
+        
+        // Default values for new blog
+        currentBlog = {
+            idBlog_Post: 0, // 0 indicates new
+            title: 'Novi Blog',
+            contents: '<p>Sadržaj novog bloga...</p>',
+            author_id: allAuthors.length > 0 ? allAuthors[0].idUser : 0,
+            author_name: allAuthors.length > 0 ? allAuthors[0].name + ' ' + allAuthors[0].last_name : '',
+            author_lastname: '', // Included in author_name above for simplicity or split if needed
+            status_id: allStatuses.length > 0 ? allStatuses[0].idBlog_Post_Status : 1,
+            status_name: allStatuses.length > 0 ? allStatuses[0].name : 'Draft',
+            viewcount: 0,
+            date: new Date().toISOString().split('T')[0],
+            category_ids: [],
+            category_names: '',
+            picture_path: 'img/blogplaceholder/blog_placeholder_2.jpg'
+        };
+
+        // Fix author lastname split if needed for consistency
+        if (allAuthors.length > 0) {
+            currentBlog.author_name = allAuthors[0].name;
+            currentBlog.author_lastname = allAuthors[0].last_name;
+        }
+
+        isEditing = true;
+        toggleActionButtons();
+        renderDetail(currentBlog);
+
+        // Switch view
+        blogLayout.style.opacity = '0';
+        setTimeout(() => {
+            blogLayout.style.display = 'none';
+            blogDetailView.style.display = 'block';
+            void blogDetailView.offsetWidth;
+            blogDetailView.classList.add('active');
+        }, 300);
+    }
+
     async function saveBlogChanges() {
         const titleInput = document.getElementById('editTitleInput');
         const authorValueInput = document.getElementById('editAuthorValue');
         const statusValueInput = document.getElementById('editStatusValue');
         const contentEditable = document.getElementById('editContent');
         const categoryChecks = Array.from(document.querySelectorAll('.category-chip input:checked'));
+        const imageInput = document.getElementById('blogImageUpload');
 
-        const payload = {
-            id: currentBlog.idBlog_Post,
-            title: titleInput ? titleInput.value.trim() : currentBlog.title,
-            contents: contentEditable ? contentEditable.innerHTML : currentBlog.contents,
-            author_id: authorValueInput ? parseInt(authorValueInput.value, 10) : currentBlog.author_id,
-            status_id: statusValueInput ? parseInt(statusValueInput.value, 10) : currentBlog.status_id,
-            category_ids: categoryChecks.map(cb => parseInt(cb.value, 10))
-        };
+        const formData = new FormData();
+        formData.append('id', currentBlog.idBlog_Post);
+        formData.append('title', titleInput ? titleInput.value.trim() : currentBlog.title);
+        formData.append('contents', contentEditable ? contentEditable.innerHTML : currentBlog.contents);
+        formData.append('author_id', authorValueInput ? parseInt(authorValueInput.value, 10) : currentBlog.author_id);
+        formData.append('status_id', statusValueInput ? parseInt(statusValueInput.value, 10) : currentBlog.status_id);
+        
+        const categoryIds = categoryChecks.map(cb => parseInt(cb.value, 10));
+        categoryIds.forEach(id => formData.append('category_ids[]', id));
 
-        if (!payload.title || !payload.contents) {
+        if (imageInput && imageInput.files[0]) {
+            formData.append('image', imageInput.files[0]);
+        }
+
+        if (!formData.get('title') || !formData.get('contents')) {
             if (typeof showNotification === 'function') {
                 showNotification('Naslov i sadržaj su obavezni.', 'error');
             }
             return;
         }
 
+        const url = currentBlog.idBlog_Post === 0 ? '/backend/admin_create_blog.php' : '/backend/admin_update_blog.php';
+
         try {
-            const response = await fetch('/backend/admin_update_blog.php', {
+            const response = await fetch(url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: formData
             });
             const data = await response.json();
 
@@ -425,17 +528,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.message || 'Greška pri čuvanju');
             }
 
-            const selectedAuthor = (allAuthors || []).find(a => a.idUser === payload.author_id);
-            const selectedStatus = (allStatuses || []).find(s => s.idBlog_Post_Status === payload.status_id);
-            const selectedCategories = (allCategories || []).filter(cat => payload.category_ids.includes(parseInt(cat.idBlog_Post_Category, 10)));
+            if (currentBlog.idBlog_Post === 0 && data.id) {
+                currentBlog.idBlog_Post = data.id;
+            }
+            
+            if (data.picture_path) {
+                currentBlog.picture_path = data.picture_path;
+            }
+
+            const selectedAuthor = (allAuthors || []).find(a => a.idUser === parseInt(formData.get('author_id')));
+            const selectedStatus = (allStatuses || []).find(s => s.idBlog_Post_Status === parseInt(formData.get('status_id')));
+            const selectedCategories = (allCategories || []).filter(cat => categoryIds.includes(parseInt(cat.idBlog_Post_Category, 10)));
 
             currentBlog = {
                 ...currentBlog,
-                title: payload.title,
-                contents: payload.contents,
-                author_id: payload.author_id,
-                status_id: payload.status_id,
-                category_ids: payload.category_ids,
+                title: formData.get('title'),
+                contents: formData.get('contents'),
+                author_id: parseInt(formData.get('author_id')),
+                status_id: parseInt(formData.get('status_id')),
+                category_ids: categoryIds,
                 author_name: selectedAuthor ? selectedAuthor.name : currentBlog.author_name,
                 author_lastname: selectedAuthor ? selectedAuthor.last_name : currentBlog.author_lastname,
                 status_name: selectedStatus ? selectedStatus.name : currentBlog.status_name,
@@ -521,6 +632,17 @@ document.addEventListener('DOMContentLoaded', () => {
             saveBlogChanges();
         }
     });
+
+    if (addBlogBtn) {
+        addBlogBtn.addEventListener('click', createNewBlog);
+    }
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            visibleCount += LOAD_STEP;
+            renderVisibleBlogs(true);
+        });
+    }
 
     cancelEditBtn.addEventListener('click', () => {
         if (!currentBlog) return;

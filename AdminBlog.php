@@ -17,6 +17,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" href="/css/admin_modals.css">
     <link rel="stylesheet" href="/css/notifications.css">
+    <link rel="stylesheet" href="/css/admin_blog_upload.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -105,6 +106,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     </div>
                     <div id="noResults" style="display: none; text-align: center; padding: 20px;">
                         Nema rezultata za odabrane filtere.
+                    </div>
+                    
+                    <div class="load-more-container" style="text-align: center; margin-top: 20px; display: none;">
+                        <button id="loadMoreBtn" class="btn-secondary">Učitaj više</button>
                     </div>
                 </div>
             </div>
