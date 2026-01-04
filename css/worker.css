@@ -1,16 +1,5 @@
-/* Worker Dashboard Styles */
-:root {
-    --primary-color: #3D3D3D; /* Charcoal */
-    --accent-color: #C5A76A; /* Soft Gold */
-    --bg-color: #FDFBF6; /* Off White */
-    --card-bg: #FFFFFF;
-    --text-color: #3D3D3D;
-    --text-light: #7f8c8d;
-    --success-color: #27ae60;
-    --warning-color: #f39c12;
-    --danger-color: #c0392b;
-    --transition-speed: 0.3s;
-}
+﻿/* Worker Dashboard Styles */
+@import 'variables.css';
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
@@ -28,7 +17,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-color);
+    background: var(--soft-gold);
 }
 
 /* Prevent layout shift */
@@ -37,9 +26,9 @@ html {
 }
 
 body.worker-dashboard {
-    background-color: var(--bg-color);
+    background-color: var(--off-white);
     font-family: 'Montserrat', sans-serif;
-    color: var(--text-color);
+    color: var(--charcoal);
     margin: 0;
     padding: 0;
 }
@@ -74,7 +63,7 @@ body.worker-dashboard {
 
 .worker-name {
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .logout-btn {
@@ -84,7 +73,7 @@ body.worker-dashboard {
 }
 
 .logout-btn:hover {
-    color: var(--danger-color);
+    color: var(--error-color);
 }
 
 /* Main Content */
@@ -97,7 +86,7 @@ body.worker-dashboard {
 .dashboard-title {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
-    color: var(--primary-color);
+    color: var(--charcoal);
     margin-bottom: 2rem;
     opacity: 0;
     animation: fadeInDown 0.8s forwards;
@@ -115,7 +104,7 @@ body.worker-dashboard {
 }
 
 .btn-new-appointment {
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     color: white;
     text-decoration: none;
     padding: 0.8rem 1.5rem;
@@ -174,7 +163,7 @@ body.worker-dashboard {
 .calendar-header h4 {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: var(--charcoal);
     margin: 0;
     font-weight: 700;
 }
@@ -183,9 +172,9 @@ body.worker-dashboard {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background: var(--bg-color);
+    background: var(--off-white);
     border: none;
-    color: var(--primary-color);
+    color: var(--charcoal);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -195,7 +184,7 @@ body.worker-dashboard {
 }
 
 .calendar-header button:hover {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     transform: scale(1.1);
     box-shadow: 0 5px 15px rgba(61, 61, 61, 0.2);
@@ -231,19 +220,19 @@ body.worker-dashboard {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 600;
     position: relative;
-    color: var(--text-color);
+    color: var(--charcoal);
     background-color: transparent;
     font-size: 0.9rem;
 }
 
 .calendar-day:hover {
     background-color: rgba(197, 167, 106, 0.15);
-    color: var(--primary-color);
+    color: var(--charcoal);
     transform: translateY(-2px);
 }
 
 .calendar-day.today {
-    background-color: var(--primary-color);
+    background-color: var(--charcoal);
     color: white;
     box-shadow: 0 8px 20px rgba(61, 61, 61, 0.25);
 }
@@ -256,7 +245,7 @@ body.worker-dashboard {
     transform: translateX(-50%);
     width: 4px;
     height: 4px;
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     border-radius: 50%;
 }
 
@@ -271,7 +260,7 @@ body.worker-dashboard {
 }
 
 .back-to-calendar-btn {
-    background: var(--primary-color);
+    background: var(--charcoal);
     border: none;
     color: white;
     padding: 0.8rem 1.5rem;
@@ -288,7 +277,7 @@ body.worker-dashboard {
 }
 
 .back-to-calendar-btn:hover {
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
@@ -325,7 +314,7 @@ body.worker-dashboard {
     left: 0;
     width: 5px;
     height: 100%;
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
 }
 
 .card-header {
@@ -338,7 +327,7 @@ body.worker-dashboard {
 .client-name {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--charcoal);
     margin: 0;
 }
 
@@ -351,10 +340,10 @@ body.worker-dashboard {
     letter-spacing: 0.5px;
 }
 
-.status-potvrđeno { background-color: rgba(39, 174, 96, 0.1); color: var(--success-color); }
-.status-nepotvrđeno { background-color: rgba(243, 156, 18, 0.1); color: var(--warning-color); }
-.status-otkazano { background-color: rgba(192, 57, 43, 0.1); color: var(--danger-color); }
-.status-završeno { background-color: rgba(44, 62, 80, 0.1); color: var(--primary-color); }
+.status-potvrÄ‘eno { background-color: rgba(39, 174, 96, 0.1); color: var(--success-color); }
+.status-nepotvrÄ‘eno { background-color: rgba(243, 156, 18, 0.1); color: var(--warning-color); }
+.status-otkazano { background-color: rgba(192, 57, 43, 0.1); color: var(--error-color); }
+.status-zavrÅ¡eno { background-color: rgba(44, 62, 80, 0.1); color: var(--charcoal); }
 
 .card-body {
     margin-bottom: 1.5rem;
@@ -369,7 +358,7 @@ body.worker-dashboard {
 
 .info-row i {
     width: 25px;
-    color: var(--accent-color);
+    color: var(--soft-gold);
 }
 
 .card-footer {
@@ -378,7 +367,7 @@ body.worker-dashboard {
 }
 
 .edit-btn {
-    background-color: var(--primary-color);
+    background-color: var(--charcoal);
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
@@ -392,7 +381,7 @@ body.worker-dashboard {
 }
 
 .edit-btn:hover {
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     transform: scale(1.05);
 }
 
@@ -443,7 +432,7 @@ body.worker-dashboard {
 
 .modal-header h3 {
     margin: 0;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .close-modal {
@@ -456,7 +445,7 @@ body.worker-dashboard {
 }
 
 .close-modal:hover {
-    color: var(--danger-color);
+    color: var(--error-color);
 }
 
 .form-group {
@@ -466,7 +455,7 @@ body.worker-dashboard {
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var(--charcoal);
     font-weight: 600;
 }
 
@@ -481,7 +470,7 @@ body.worker-dashboard {
 
 .form-control:focus {
     outline: none;
-    border-color: var(--accent-color);
+    border-color: var(--soft-gold);
 }
 
 .modal-footer {
@@ -493,7 +482,7 @@ body.worker-dashboard {
 
 .btn-cancel {
     background: #ecf0f1;
-    color: var(--text-color);
+    color: var(--charcoal);
     border: none;
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
@@ -507,7 +496,7 @@ body.worker-dashboard {
 }
 
 .btn-save {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -518,7 +507,7 @@ body.worker-dashboard {
 }
 
 .btn-save:hover {
-    background: var(--accent-color);
+    background: var(--soft-gold);
 }
 
 /* Animations */
@@ -551,8 +540,8 @@ body.worker-dashboard {
 /* --- Worker Booking (Light Mode) --- */
 
 body.worker-booking-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--off-white);
+    color: var(--charcoal);
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -570,7 +559,7 @@ body.worker-booking-body {
 }
 
 .booking-header h2 {
-    color: var(--primary-color);
+    color: var(--charcoal);
     font-family: 'Playfair Display', serif;
     margin: 0;
 }
@@ -584,7 +573,7 @@ body.worker-booking-body {
 }
 
 .back-btn:hover {
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 /* Progress Bar */
@@ -613,7 +602,7 @@ body.worker-booking-body {
     top: 0;
     left: 0;
     height: 100%;
-    background: var(--primary-color);
+    background: var(--charcoal);
     z-index: 0;
     width: 0%; /* Animated via JS */
 }
@@ -642,16 +631,16 @@ body.worker-booking-body {
 }
 
 .step.active .step-circle {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
+    background: var(--charcoal);
+    border-color: var(--charcoal);
     color: white;
     box-shadow: 0 0 15px rgba(61, 61, 61, 0.2);
 }
 
 .step.completed .step-circle {
     background: white;
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: var(--charcoal);
+    color: var(--charcoal);
 }
 
 .step-label {
@@ -661,7 +650,7 @@ body.worker-booking-body {
 
 .step.active .step-label,
 .step.completed .step-label {
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 /* Booking Content */
@@ -687,7 +676,7 @@ body.worker-booking-body {
 }
 
 .close-booking-btn:hover {
-    color: var(--danger-color);
+    color: var(--error-color);
 }
 
 .booking-step {
@@ -699,7 +688,7 @@ body.worker-booking-body {
 }
 
 .step-title {
-    color: var(--primary-color);
+    color: var(--charcoal);
     font-family: 'Playfair Display', serif;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid #eee;
@@ -730,7 +719,7 @@ body.worker-booking-body {
 }
 
 .accordion-item.active .accordion-header {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     font-weight: bold;
 }
@@ -756,12 +745,12 @@ body.worker-booking-body {
 
 .service-card.selected {
     background: rgba(197, 167, 106, 0.1);
-    border-left: 3px solid var(--accent-color);
+    border-left: 3px solid var(--soft-gold);
 }
 
 .service-card.selected .service-select-icon i {
     font-weight: 900; /* Solid circle */
-    color: var(--accent-color);
+    color: var(--soft-gold);
 }
 
 /* Step 3: Calendar */
@@ -788,7 +777,7 @@ body.worker-booking-body {
 .calendar-header button {
     background: none;
     border: none;
-    color: var(--primary-color);
+    color: var(--charcoal);
     cursor: pointer;
     font-size: 1.2rem;
 }
@@ -811,7 +800,7 @@ body.worker-booking-body {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.2s;
-    color: var(--text-color);
+    color: var(--charcoal);
 }
 
 .calendar-day:hover {
@@ -819,14 +808,14 @@ body.worker-booking-body {
 }
 
 .calendar-day.selected {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     font-weight: bold;
 }
 
 .slots-wrapper h4 {
     margin-top: 0;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .slots-grid {
@@ -847,19 +836,19 @@ body.worker-booking-body {
     cursor: pointer;
     border: 1px solid #ddd;
     transition: all 0.2s;
-    color: var(--text-color);
+    color: var(--charcoal);
 }
 
 .time-slot:hover {
-    border-color: var(--primary-color);
+    border-color: var(--charcoal);
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 .time-slot.selected {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     font-weight: bold;
-    border-color: var(--primary-color);
+    border-color: var(--charcoal);
 }
 
 /* Step 4: Form */
@@ -870,7 +859,7 @@ body.worker-booking-body {
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var(--charcoal);
     font-weight: 600;
 }
 
@@ -880,13 +869,13 @@ body.worker-booking-body {
     background: white;
     border: 1px solid #ddd;
     border-radius: 6px;
-    color: var(--text-color);
+    color: var(--charcoal);
     font-family: inherit;
 }
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: var(--charcoal);
 }
 
 .summary-card {
@@ -899,7 +888,7 @@ body.worker-booking-body {
 
 .summary-card h3 {
     margin-top: 0;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 /* Actions */
@@ -912,7 +901,7 @@ body.worker-booking-body {
 }
 
 .btn-next, .btn-finish {
-    background: var(--primary-color);
+    background: var(--charcoal);
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -923,7 +912,7 @@ body.worker-booking-body {
 }
 
 .btn-next:hover, .btn-finish:hover {
-    background: var(--accent-color);
+    background: var(--soft-gold);
     transform: translateY(-2px);
 }
 
@@ -945,8 +934,8 @@ body.worker-booking-body {
 }
 
 .btn-prev:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    border-color: var(--charcoal);
+    color: var(--charcoal);
 }
 
 /* Responsive */
@@ -959,3 +948,4 @@ body.worker-booking-body {
         display: none; /* Hide on mobile for simplicity or adjust */
     }
 }
+
