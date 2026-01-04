@@ -180,6 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Helper to fix image paths
+        const getImgPath = (path) => {
+            if (!path) return '/img/blogplaceholder/default.jpg';
+            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg'; // Fallback for local paths
+            if (path.startsWith('http')) return path;
+            if (path.startsWith('/')) return path;
+            return '/' + path;
+        };
+
         // 1. Render Featured Post (Static, outside Isotope)
         // We assume the first post in the list (sorted by date desc from backend) is the latest
         const latestPost = posts[0];
@@ -187,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         featuredContainer.innerHTML = `
             <article class="featured-post-card" id="featured-post-static">
                 <div class="card-image-container">
-                    <img src="${latestPost.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${latestPost.title}" loading="lazy" onload="this.classList.add('img-loaded')">
+                    <img src="${getImgPath(latestPost.picture_path)}" alt="${latestPost.title}" loading="lazy" onload="this.classList.add('img-loaded')">
                 </div>
                 <div class="card-content">
                     <span class="card-category">${latestPost.category_names || 'Opus in te'}</span>
@@ -222,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper.innerHTML = `
                 <article class="blog-card">
                     <div class="card-image-container">
-                        <img src="${post.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
+                        <img src="${getImgPath(post.picture_path)}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
                     </div>
                     <div class="card-content">
                         <span class="card-category">${post.category_names || 'Opus in te'}</span>
@@ -239,6 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initIsotope() {
+        if (typeof Isotope === 'undefined') {
+            console.error('Isotope library not loaded.');
+            return;
+        }
         iso = new Isotope(blogGrid, {
             itemSelector: '.grid-item',
             layoutMode: 'fitRows', // or 'masonry'
@@ -262,13 +275,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDefaultView = currentSort === 'date_desc' && !currentCategory && !currentSearch;
 
         // Toggle Featured Container Visibility
-        if (isDefaultView) {
-            featuredContainer.classList.remove('hidden');
-            gsap.to(featuredContainer, { height: 'auto', opacity: 1, duration: 0.4 });
+        if (typeof gsap !== 'undefined') {
+            if (isDefaultView) {
+                featuredContainer.classList.remove('hidden');
+                gsap.to(featuredContainer, { height: 'auto', opacity: 1, duration: 0.4 });
+            } else {
+                gsap.to(featuredContainer, { height: 0, opacity: 0, duration: 0.4, onComplete: () => {
+                    featuredContainer.classList.add('hidden');
+                }});
+            }
         } else {
-            gsap.to(featuredContainer, { height: 0, opacity: 0, duration: 0.4, onComplete: () => {
+             // Fallback if GSAP missing
+             if (isDefaultView) {
+                featuredContainer.classList.remove('hidden');
+                featuredContainer.style.display = 'block';
+            } else {
                 featuredContainer.classList.add('hidden');
-            }});
+                featuredContainer.style.display = 'none';
+            }
         }
 
         // Configure Filter Function
