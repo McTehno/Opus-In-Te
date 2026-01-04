@@ -1402,8 +1402,9 @@ body.admin-body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
-    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     text-decoration: none;
     color: white;
     font-weight: 600;
@@ -1412,7 +1413,7 @@ body.admin-body {
     border: none;
     cursor: pointer;
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 1rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
@@ -1437,5 +1438,5 @@ body.admin-body {
 }
 
 .action-btn i {
-    margin-right: 8px;
+    margin: 0;
 }

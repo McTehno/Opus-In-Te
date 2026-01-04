@@ -94,7 +94,10 @@ $types = $pdo->query("SELECT * FROM Appointment_Type")->fetchAll();
     </header>
 
     <main class="worker-main">
-        <h1 class="dashboard-title">Vaši Termini</h1>
+        <div class="dashboard-header-row">
+            <h1 class="dashboard-title">Vaši Termini</h1>
+            <a href="WorkerBooking.php" class="btn-new-appointment"><i class="fas fa-plus"></i> Novo Zakazivanje</a>
+        </div>
         
         <div class="appointment-panel">
             <div class="appointment-view-container">
