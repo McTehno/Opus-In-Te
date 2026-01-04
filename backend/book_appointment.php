@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connect.php';
+require_once 'app_config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -37,7 +38,7 @@ $location = $input['location'] ?? '';
 $serviceId = $input['serviceId'] ?? '';
 $date = $input['date'] ?? '';
 $time = $input['time'] ?? '';
-$workerId = $input['workerId'] ?? 2; // Default to Vanja (2) if not provided
+$workerId = $input['workerId']; 
 $name = trim($input['name'] ?? '');
 $email = trim($input['email'] ?? '');
 $phone = trim($input['phone'] ?? '');
@@ -75,13 +76,7 @@ try {
 
         if ($existingUser) {
             $userId = $existingUser['idUser'];
-            // Update info
-            $parts = explode(' ', $name, 2);
-            $firstName = $parts[0];
-            $lastName = $parts[1] ?? '';
-
-            $stmt = $pdo->prepare("UPDATE User SET name = ?, last_name = ?, phone = ? WHERE idUser = ?");
-            $stmt->execute([$firstName, $lastName, $phone, $userId]);
+            // User exists, do not update their profile data
         } else {
             // Create new user
             $stmt = $pdo->prepare("INSERT INTO User (name, last_name, email, phone, Role_idRole, pass) VALUES (?, ?, ?, ?, 3, NULL)");
@@ -132,6 +127,16 @@ try {
     $serviceName = $serviceDetails['name'] ?? 'Usluga';
     $servicePrice = $serviceDetails['price'] ?? '0';
 
+    // Generate Token
+    $token = hash_hmac('sha256', $appointmentId, APP_SECRET);
+    
+    // URLs
+    $confirmUrl = BASE_URL . "/backend/confirm_appointment.php?id=$appointmentId&token=$token";
+    $pdfUrl = BASE_URL . "/backend/generate_appointment_pdf.php?id=$appointmentId&token=$token";
+    
+    // QR Code (URL encoded) - Now points to the confirmation URL
+    $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($confirmUrl);
+
     $mail = new PHPMailer(true);
 
     try {
@@ -164,26 +169,77 @@ try {
         $mail->isHTML(true);                                  
         $mail->Subject = 'Potvrda rezervacije termina - Opus in te';
         
-        // Let's make the email look a bit more "sleek" with HTML
-        $mail->Body    = "
-        <div style='font-family: Arial, sans-serif; color: #333;'>
-            <h2 style='color: #C5A76A;'>Hvala Vam na rezervaciji, $name!</h2>
-            <p>Vaš termin u <strong>Opus in te</strong> je uspješno rezervisan.</p>
-            <hr>
-            <p><strong>Detalji termina:</strong></p>
-            <ul>
-                <li><strong>Usluga:</strong> $serviceName</li>
-                <li><strong>Datum:</strong> $date</li>
-                <li><strong>Vrijeme:</strong> $time</li>
-                <li><strong>Cijena:</strong> $servicePrice KM</li>
-                <li><strong>Lokacija:</strong> $location</li>
-            </ul>
-            <hr>
-            <p>Ukoliko imate bilo kakvih pitanja ili želite otkazati termin, molimo Vas da nas kontaktirate.</p>
-            <p><em>Srdačan pozdrav,<br>Opus in te Tim</em></p>
-        </div>";
+        // Styled Email Body
+        $mail->Body = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                .header { background-color: #2c3e50; padding: 30px; text-align: center; color: #ffffff; }
+                .header h1 { margin: 0; font-size: 24px; font-weight: 300; letter-spacing: 1px; }
+                .content { padding: 30px; color: #333333; line-height: 1.6; }
+                .details { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #C5A76A; }
+                .details p { margin: 8px 0; }
+                .btn-container { text-align: center; margin: 30px 0; }
+                .btn { 
+                    display: inline-block; 
+                    padding: 14px 35px; 
+                    background-color: #C5A76A; 
+                    color: #ffffff !important; 
+                    text-decoration: none !important; 
+                    border-radius: 50px; 
+                    font-weight: bold; 
+                    font-size: 16px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    transition: background-color 0.3s ease;
+                }
+                .btn:hover { background-color: #b0935b; }
+                .qr-container { text-align: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+                .qr-code { width: 150px; height: 150px; margin-top: 10px; }
+                .footer { background-color: #333333; color: #888888; text-align: center; padding: 20px; font-size: 12px; }
+                .footer a { color: #C5A76A; text-decoration: none; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Potvrda Rezervacije</h1>
+                </div>
+                <div class='content'>
+                    <p>Poštovani/a <strong>$name</strong>,</p>
+                    <p>Hvala Vam što ste izabrali <strong>Opus in te</strong>. Vaš termin je uspješno rezervisan.</p>
+                    
+                    <div class='details'>
+                        <p><strong>Usluga:</strong> $serviceName</p>
+                        <p><strong>Datum:</strong> $date</p>
+                        <p><strong>Vrijeme:</strong> $time</p>
+                        <p><strong>Cijena:</strong> $servicePrice KM</p>
+                        <p><strong>Lokacija:</strong> $location</p>
+                    </div>
+
+                    <div class='btn-container'>
+                        <a href='$confirmUrl' class='btn'>Potvrdi Termin</a>
+                    </div>
+                    
+                    <p style='text-align: center; font-size: 14px; color: #666;'>Molimo Vas da potvrdite dolazak klikom na dugme iznad.</p>
+
+                    <div class='qr-container'>
+                        <p>Skenirajte QR kod za brzu potvrdu termina:</p>
+                        <img src='$qrCodeUrl' alt='QR Code' class='qr-code'>
+                    </div>
+                </div>
+                <div class='footer'>
+                    <p>&copy; " . date('Y') . " Opus in te. Sva prava zadržana.</p>
+                    <p><a href='" . BASE_URL . "'>www.opusinte.ba</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
         
-        $mail->AltBody = "Poštovani $name, Hvala Vam na rezervaciji... (plain text version)";
+        $mail->AltBody = "Poštovani $name, Hvala Vam na rezervaciji. Molimo potvrdite termin klikom na: $confirmUrl";
 
         $mail->send();
         

@@ -122,6 +122,8 @@ $router->mount('/backend', function () use ($router) {
     $router->match('GET|POST', '/send_contact.php', function() { require 'backend/send_contact.php'; });
     $router->match('GET|POST', '/get_slots.php', function() { require 'backend/get_slots.php'; });
     $router->match('GET|POST', '/book_appointment.php', function() { require 'backend/book_appointment.php'; });
+    $router->match('GET|POST', '/confirm_appointment.php', function() { require 'backend/confirm_appointment.php'; });
+    $router->match('GET|POST', '/generate_appointment_pdf.php', function() { require 'backend/generate_appointment_pdf.php'; });
 
     // Worker
     $router->match('GET|POST', '/worker_update_appointment.php', function() { require 'backend/worker_update_appointment.php'; });

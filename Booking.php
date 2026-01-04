@@ -193,8 +193,8 @@ try {
             <i class="fas fa-envelope-open-text"></i>
         </div>
         <h2 class="step-title">Hvala!</h2>
-        <p>Vaša rezervacija je uspješno primljena. Uskoro ćete na Vašu email adresu dobiti poruku sa potvrdom i svim detaljima Vašeg termina.</p>
-        <a href="index.php" class="cta-button home-btn">Vrati se na početnu</a>
+        <p>Vaša rezervacija je uspješno primljena. Molimo Vas da provjerite Vaš email i potvrdite termin klikom na dugme u poruci kako bi rezervacija bila konačna.</p>
+        <a href="/pocetna" class="cta-button home-btn">Vrati se na početnu</a>
     </div>
 </div>
 
