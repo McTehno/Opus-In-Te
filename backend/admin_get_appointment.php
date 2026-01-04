@@ -26,7 +26,13 @@ try {
             a.Appointment_Status_idAppointment_Status,
             a.Address_idAddress,
             at.duration,
-            at.name as type_name
+            at.name as type_name,
+            (SELECT au.User_idUser 
+             FROM Appointment_User au 
+             JOIN User u ON au.User_idUser = u.idUser 
+             WHERE au.Appointment_idAppointment = a.idAppointment 
+             AND u.Role_idRole = 2 
+             LIMIT 1) as worker_id
         FROM Appointment a
         JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type
         WHERE a.idAppointment = ?

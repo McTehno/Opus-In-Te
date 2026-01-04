@@ -254,10 +254,10 @@ body.admin-body {
     margin-top: 2px;
 }
 
-.status-potvrÄ‘eno { background-color: #e3f2fd; color: #1976d2; }
-.status-zavrÅ¡eno { background-color: #e8f5e9; color: #2e7d32; }
+.status-potvrdjeno { background-color: #e3f2fd; color: #1976d2; }
+.status-zavrseno { background-color: #e8f5e9; color: #2e7d32; }
 .status-otkazano { background-color: #ffebee; color: #c62828; }
-.status-nepotvrÄ‘eno { background-color: #fff3e0; color: #ef6c00; }
+.status-nepotvrdjeno { background-color: #fff3e0; color: #ef6c00; }
 
 .patient-info {
     width: 18%;
@@ -523,7 +523,7 @@ body.admin-body {
     background-color: #fafafa;
 }
 
-.col-info {
+.appointment-item .col-info {
     font-size: 0.85rem;
     color: #555;
 }
@@ -544,7 +544,7 @@ body.admin-body {
     color: var(--charcoal);
 }
 
-.col-location {
+.appointment-item .col-location {
     font-size: 0.9rem;
     color: #555;
 }

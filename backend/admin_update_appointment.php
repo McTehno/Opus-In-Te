@@ -32,6 +32,59 @@ if ($locationId === 'NULL') $locationId = null;
 try {
     $datetime = "$date $time:00";
 
+    // Validate Availability
+    // 1. Get Doctor ID and Duration of the NEW type
+    $stmt = $pdo->prepare("
+        SELECT 
+            au.User_idUser as worker_id,
+            at.duration
+        FROM Appointment a
+        JOIN Appointment_User au ON a.idAppointment = au.Appointment_idAppointment
+        JOIN User u ON au.User_idUser = u.idUser
+        JOIN Appointment_Type at ON at.idAppointment_Type = ?
+        WHERE a.idAppointment = ?
+        AND u.Role_idRole = 2
+    ");
+    $stmt->execute([$typeId, $id]);
+    $info = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$info) {
+         echo json_encode(['success' => false, 'message' => 'Appointment or Doctor not found']);
+         exit;
+    }
+    
+    $workerId = $info['worker_id'];
+    $duration = $info['duration'];
+    
+    // 2. Check overlap
+    $start = strtotime($datetime);
+    $end = $start + ($duration * 60);
+    $startStr = date('Y-m-d H:i:s', $start);
+    $endStr = date('Y-m-d H:i:s', $end);
+    
+    $sql = "
+        SELECT COUNT(*) 
+        FROM Appointment a
+        JOIN Appointment_User au ON a.idAppointment = au.Appointment_idAppointment
+        JOIN Appointment_Type at ON a.Appointment_Type_idAppointment_Type = at.idAppointment_Type
+        WHERE au.User_idUser = ?
+        AND a.idAppointment != ?
+        AND a.Appointment_Status_idAppointment_Status != 4
+        AND (
+            a.datetime < ? AND 
+            DATE_ADD(a.datetime, INTERVAL at.duration MINUTE) > ?
+        )
+    ";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$workerId, $id, $endStr, $startStr]);
+    $count = $stmt->fetchColumn();
+    
+    if ($count > 0) {
+        echo json_encode(['success' => false, 'message' => 'Izabrani termin je zauzet.']);
+        exit;
+    }
+
     $stmt = $pdo->prepare("
         UPDATE Appointment 
         SET 

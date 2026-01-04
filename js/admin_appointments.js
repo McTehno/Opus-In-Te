@@ -97,6 +97,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const docName = appt.doc_name ? `${appt.doc_name} ${appt.doc_lastname}` : 'Nepoznato';
             const patName = appt.pat_name ? `${appt.pat_name} ${appt.pat_lastname}` : 'Nepoznato';
             
+            // Normalize status for CSS class
+            const statusClass = appt.status_name.toLowerCase()
+                .replace(/đ/g, 'dj')
+                .replace(/š/g, 's')
+                .replace(/č/g, 'c')
+                .replace(/ć/g, 'c')
+                .replace(/ž/g, 'z')
+                .replace(/\s+/g, '-');
+
             li.innerHTML = `
                 <div class="col-doctor">
                     <div class="doctor-details">
@@ -120,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="fa-solid fa-map-marker-alt" style="color: #C5A76A;"></i> ${appt.location_display}
                 </div>
                 <div class="col-status">
-                    <span class="status-badge status-${appt.status_name}">${appt.status_display}</span>
+                    <span class="status-badge status-${statusClass}">${appt.status_display}</span>
                 </div>
                 <div class="col-actions">
                     <button class="action-btn btn-edit" onclick="editAppointment(${appt.idAppointment})" title="Uredi">
@@ -140,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentEditId = null;
     let currentEditDuration = 60; // Default
     let currentEditDate = null;
+    let currentEditWorkerId = null;
 
     // Expose functions to global scope
     window.deleteAppointment = function(id) {
@@ -257,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Set Date & Time
                 currentEditDate = new Date(appt.date);
+                currentEditWorkerId = appt.worker_id;
                 
                 // Set hidden inputs BEFORE rendering calendar so it picks up the selection
                 document.getElementById('editDate').value = appt.date;
@@ -268,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderCalendar();
                 
                 // Load slots for that day
-                loadTimeSlots(appt.date, currentDuration, appt.time);
+                loadTimeSlots(appt.date, currentDuration, appt.time, 'timeSlotsList', 'editTime', currentEditWorkerId, currentEditId);
 
             } else {
                 showNotification('Greška: ' + data.message, 'error');
@@ -318,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Refresh slots with new duration
                 const dateVal = document.getElementById('editDate').value;
                 if (dateVal) {
-                    loadTimeSlots(dateVal, currentEditDuration, document.getElementById('editTime').value);
+                    loadTimeSlots(dateVal, currentEditDuration, document.getElementById('editTime').value, 'timeSlotsList', 'editTime', currentEditWorkerId, currentEditId);
                 }
             }
         };
@@ -386,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('editDate').value = this.dataset.date;
                 document.getElementById('timeSlotsTitle').textContent = `Termini za ${this.dataset.date}`;
                 
-                loadTimeSlots(this.dataset.date, currentEditDuration);
+                loadTimeSlots(this.dataset.date, currentEditDuration, null, 'timeSlotsList', 'editTime', currentEditWorkerId, currentEditId);
             });
 
             calendarGrid.appendChild(dayEl);
@@ -543,12 +554,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function loadTimeSlots(date, duration, preselectedTime = null, listId = 'timeSlotsList', inputId = 'editTime', workerId = null) {
+    function loadTimeSlots(date, duration, preselectedTime = null, listId = 'timeSlotsList', inputId = 'editTime', workerId = null, excludeAppointmentId = null) {
         const list = document.getElementById(listId);
         list.innerHTML = '<div style="grid-column: 1/-1; text-align: center;"><i class="fas fa-spinner fa-spin"></i></div>';
         
-        let url = `backend/get_slots.php?date=${date}&duration=${duration}`;
+        let url = `/backend/get_slots.php?date=${date}&duration=${duration}&include_taken=1`;
         if (workerId) url += `&worker_id=${workerId}`;
+        if (excludeAppointmentId) url += `&exclude_appointment_id=${excludeAppointmentId}`;
 
         fetch(url)
             .then(res => res.json())

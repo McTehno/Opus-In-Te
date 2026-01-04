@@ -224,7 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderDetail(blog) {
         if (!blog) return;
 
-        detailImage.src = blog.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg';
+        let imagePath = blog.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg';
+        // Ensure path starts with / if it's not an absolute URL
+        if (imagePath && !imagePath.startsWith('/') && !imagePath.startsWith('http')) {
+            imagePath = '/' + imagePath;
+        }
+        detailImage.src = imagePath;
+
         if (isEditing) {
             detailTitle.innerHTML = `<input id="editTitleInput" class="blog-editable-input" value="${escapeHtml(blog.title)}" />`;
         } else {

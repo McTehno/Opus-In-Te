@@ -6,6 +6,8 @@ header('Content-Type: application/json');
 $date = $_GET['date'] ?? '';
 $duration = (int)($_GET['duration'] ?? 60);
 $requestedWorkerId = $_GET['worker_id'] ?? null;
+$excludeAppointmentId = $_GET['exclude_appointment_id'] ?? null;
+$includeTaken = isset($_GET['include_taken']) && $_GET['include_taken'] == '1';
 
 if (!$date) {
     echo json_encode(['error' => 'Date is required']);
@@ -60,8 +62,15 @@ $sql = "
     AND a.Appointment_Status_idAppointment_Status != 4 -- Exclude cancelled
 ";
 
+$queryParams = [$formattedDate];
+
+if ($excludeAppointmentId) {
+    $sql .= " AND a.idAppointment != ?";
+    $queryParams[] = $excludeAppointmentId;
+}
+
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$formattedDate]);
+$stmt->execute($queryParams);
 $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Organize appointments by worker
@@ -108,6 +117,14 @@ foreach ($workers as $worker) {
                 'worker_image' => $picPath,
                 'available' => true
             ];
+        } elseif ($includeTaken) {
+            $availableSlots[] = [
+                'time' => date('H:i', $slotStart),
+                'worker_id' => $workerId,
+                'worker_name' => $workerName,
+                'worker_image' => $picPath,
+                'available' => false
+            ];
         }
 
         $currentTime += ($interval * 60);
@@ -129,4 +146,3 @@ usort($availableSlots, function($a, $b) {
 });
 
 echo json_encode($availableSlots);
-?>
