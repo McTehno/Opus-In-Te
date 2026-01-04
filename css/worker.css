@@ -12,6 +12,30 @@
     --transition-speed: 0.3s;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+    border: 2px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* Prevent layout shift */
+html {
+    scrollbar-gutter: stable;
+}
+
 body.worker-dashboard {
     background-color: var(--bg-color);
     font-family: 'Montserrat', sans-serif;
@@ -577,11 +601,21 @@ body.worker-booking-body {
 .progress-bar-line {
     position: absolute;
     top: 20px;
-    left: 0;
-    width: 100%;
+    left: 40px; /* Center of first step (80px width / 2) */
+    right: 40px; /* Center of last step */
     height: 2px;
     background: #e0e0e0;
     z-index: 0;
+}
+
+.progress-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--primary-color);
+    z-index: 0;
+    width: 0%; /* Animated via JS */
 }
 
 .step {
@@ -639,6 +673,21 @@ body.worker-booking-body {
     min-height: 400px;
     position: relative;
     overflow: hidden;
+}
+
+.close-booking-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    z-index: 10;
+}
+
+.close-booking-btn:hover {
+    color: var(--danger-color);
 }
 
 .booking-step {
@@ -786,6 +835,8 @@ body.worker-booking-body {
     gap: 10px;
     max-height: 300px;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+    padding: 5px; /* Add padding to prevent clipping */
 }
 
 .time-slot {

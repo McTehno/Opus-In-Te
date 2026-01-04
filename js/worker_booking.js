@@ -1,6 +1,6 @@
 $(document).ready(function() {
     let currentStep = 1;
-    const totalSteps = 4;
+    const totalSteps = 5;
     
     let bookingData = {
         clientName: '',
@@ -60,6 +60,20 @@ $(document).ready(function() {
             const s = parseInt($(this).data('step'));
             if (s === step) $(this).addClass('active');
             if (s < step) $(this).addClass('completed');
+        });
+
+        // Animate Progress Line
+        // Calculate percentage: (step - 1) / (totalSteps - 1) * 100
+        // But we have 4 steps. 
+        // Step 1: 0%
+        // Step 2: 33%
+        // Step 3: 66%
+        // Step 4: 100%
+        const progressPercentage = ((step - 1) / (totalSteps - 1)) * 100;
+        gsap.to('.progress-bar-fill', {
+            width: `${progressPercentage}%`,
+            duration: 0.6, // Match transition speed (0.3s out + 0.3s in = 0.6s total roughly, or just slower for effect)
+            ease: "power2.inOut"
         });
 
         // Animate Steps
@@ -205,6 +219,13 @@ $(document).ready(function() {
 
     renderCalendar(currentDate);
 
+    // Auto-select today's date
+    const todayStr = new Date().toLocaleDateString('en-CA');
+    bookingData.date = todayStr;
+    // We need to wait for the calendar to render, then trigger click or just load slots
+    // Since renderCalendar is synchronous, we can just find the element and click it
+    $(`.calendar-day[data-date="${todayStr}"]`).click();
+
     function loadSlots(date) {
         const slotsContainer = $('#timeSlots');
         slotsContainer.html('<div class="loading-spinner"></div>');
@@ -224,7 +245,7 @@ $(document).ready(function() {
                 }
                 
                 slots.forEach(time => {
-                    const slot = $(`<div class="time-slot">${time}</div>`);
+                    const slot = $(`<div class="time-slot" style="opacity: 0; transform: translateY(10px);">${time}</div>`);
                     slot.click(function() {
                         $('.time-slot').removeClass('selected');
                         $(this).addClass('selected');
@@ -232,6 +253,15 @@ $(document).ready(function() {
                         $(`.booking-step[data-step="3"] .btn-next`).prop('disabled', false);
                     });
                     slotsContainer.append(slot);
+                });
+
+                // Animate slots appearance
+                gsap.to('.time-slot', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    stagger: 0.05,
+                    ease: "power2.out"
                 });
             },
             error: function() {
@@ -264,8 +294,31 @@ $(document).ready(function() {
             data: JSON.stringify(bookingData),
             success: function(response) {
                 if (response.success) {
-                    alert('Termin uspješno zakazan!');
-                    window.location.href = 'WorkerDashboard.php';
+                    // Show success step
+                    showStep(5);
+                    
+                    // Trigger Confetti
+                    const duration = 3 * 1000;
+                    const animationEnd = Date.now() + duration;
+                    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+                    const brandColors = ['#C5A76A', '#3D3D3D', '#FFFFFF'];
+
+                    function randomInRange(min, max) {
+                        return Math.random() * (max - min) + min;
+                    }
+
+                    const interval = setInterval(function() {
+                        const timeLeft = animationEnd - Date.now();
+
+                        if (timeLeft <= 0) {
+                            return clearInterval(interval);
+                        }
+
+                        const particleCount = 50 * (timeLeft / duration);
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: brandColors }));
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: brandColors }));
+                    }, 250);
+
                 } else {
                     alert('Greška: ' + response.message);
                     btn.prop('disabled', false).html('Zakaži Termin <i class="fas fa-check"></i>');

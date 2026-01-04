@@ -193,6 +193,29 @@ INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole
 ('065333444', 'doctor@opusinte.com', 'hashed_worker_pass', 'Vanja', 'Dejanovic', "img\vanjapic\indexpic-removebg-preview.png", 2),
 ('065555666', 'client@gmail.com', 'hashed_client_pass', 'Marko', 'Markovic', NULL, 3);
 
+-- More workers
+INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole) VALUES 
+('065222333', 'mihajlo@opusinte.com', 'hashed_pass_123', 'Mihajlo', 'Dekić', 'img/workerpic/mihajlodejanovic/f202d1a2c15cedf5c63791344d350ed6.jpeg', 2),
+('065777888', 'elena@opusinte.com', 'hashed_pass_123', 'Elena', 'Savić', NULL, 2);
+
+-- More clients
+INSERT INTO User (phone, email, pass, name, last_name, picture_path, Role_idRole) VALUES 
+('065000111', 'ana.anic@gmail.com', 'client_pass', 'Ana', 'Anić', NULL, 3),
+('065000112', 'stefan.s@gmail.com', 'client_pass', 'Stefan', 'Stanković', NULL, 3),
+('065000113', 'milica.m@gmail.com', 'client_pass', 'Milica', 'Marić', NULL, 3),
+('065000114', 'dragan.d@gmail.com', 'client_pass', 'Dragan', 'Dakić', NULL, 3),
+('065000115', 'jelena.j@gmail.com', 'client_pass', 'Jelena', 'Jović', NULL, 3),
+('065000116', 'nikola.n@gmail.com', 'client_pass', 'Nikola', 'Nikolić', NULL, 3),
+('065000117', 'sara.s@gmail.com', 'client_pass', 'Sara', 'Spasić', NULL, 3),
+('065000118', 'igor.i@gmail.com', 'client_pass', 'Igor', 'Ilić', NULL, 3),
+('065000119', 'maja.m@gmail.com', 'client_pass', 'Maja', 'Mandić', NULL, 3),
+('065000120', 'pavle.p@gmail.com', 'client_pass', 'Pavle', 'Popović', NULL, 3),
+('065000121', 'tanja.t@gmail.com', 'client_pass', 'Tanja', 'Tomić', NULL, 3),
+('065000122', 'vuk.v@gmail.com', 'client_pass', 'Vuk', 'Vuković', NULL, 3),
+('065000123', 'lara.l@gmail.com', 'client_pass', 'Lara', 'Lukić', NULL, 3),
+('065000124', 'dejan.d@gmail.com', 'client_pass', 'Dejan', 'Dujaković', NULL, 3),
+('065000125', 'nina.n@gmail.com', 'client_pass', 'Nina', 'Nedić', NULL, 3);
+
 -- Location Types
 INSERT INTO Location_Type (name) VALUES 
 ('Workplace'),
@@ -295,3 +318,72 @@ INSERT INTO Blog_Post_Blog_Post_Category (Blog_Post_idBlog_Post, Blog_Post_Categ
 (15, 6), (15, 4),
 (16, 7),
 (17, 4), (17, 1);
+
+DELIMITER //
+
+CREATE PROCEDURE GenerateTestAppointmentsSafe()
+BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE random_worker_id INT;
+    DECLARE random_client_id INT;
+    DECLARE random_type_id INT;
+    DECLARE random_status_id INT;
+    DECLARE random_date DATETIME;
+    DECLARE new_app_id INT;
+    DECLARE slot_occupied INT;
+
+    -- Povečamo število dni na 15
+    WHILE i < 200 DO
+        -- 1. Generiramo naključne vrednosti
+        SET random_date = TIMESTAMP(
+            DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 16) DAY), -- Zadnjih 15 dni + danes
+            MAKETIME(FLOOR(8 + RAND() * 13), 0, 0)                -- Polna ura (8:00 - 20:00)
+        );
+        
+        SET random_worker_id = ELT(FLOOR(1 + RAND() * 3), 2, 4, 5); -- Vanja, Mihajlo ali Elena
+
+        -- 2. PREVERJANJE KONFLIKTA: Preverimo, če ta delavec že ima sestanek ob tem času
+        SELECT COUNT(*) INTO slot_occupied
+        FROM Appointment a
+        JOIN Appointment_User au ON a.idAppointment = au.Appointment_idAppointment
+        WHERE a.datetime = random_date 
+        AND au.User_idUser = random_worker_id
+        AND a.Appointment_Status_idAppointment_Status != 4; -- Ignoriramo odpovedane termine
+
+        -- 3. Če je slot prost, vstavimo podatke
+        IF slot_occupied = 0 THEN
+            SET random_type_id = FLOOR(1 + RAND() * 11);
+            
+            IF random_date < NOW() THEN
+                SET random_status_id = IF(RAND() > 0.15, 3, 4); 
+            ELSE
+                SET random_status_id = IF(RAND() > 0.2, 2, 1);
+            END IF;
+
+            INSERT INTO Appointment (datetime, Address_idAddress, Appointment_Type_idAppointment_Type, Appointment_Status_idAppointment_Status)
+            VALUES (random_date, IF(RAND() > 0.3, 1, 2), random_type_id, random_status_id);
+            
+            SET new_app_id = LAST_INSERT_ID();
+
+            -- Povezava delavca
+            INSERT INTO Appointment_User (Appointment_idAppointment, User_idUser) VALUES (new_app_id, random_worker_id);
+
+            -- Povezava naključne stranke (ID-ji 6-20)
+            SET random_client_id = FLOOR(6 + RAND() * 15);
+            INSERT INTO Appointment_User (Appointment_idAppointment, User_idUser) VALUES (new_app_id, random_client_id);
+
+            -- Le če je bil vstavljen uspešno, povečamo števec
+            SET i = i + 1;
+        END IF;
+        
+        -- Če je bil slot zaseden, bo WHILE zanka preprosto šla v naslednji krog brez 'i = i + 1'
+    END WHILE;
+END //
+
+DELIMITER ;
+
+-- Izvedba
+CALL GenerateTestAppointmentsSafe();
+
+-- Čiščenje
+DROP PROCEDURE IF EXISTS GenerateTestAppointmentsSafe;

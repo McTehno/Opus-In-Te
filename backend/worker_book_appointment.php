@@ -55,13 +55,7 @@ try {
 
     if ($existingUser) {
         $clientId = $existingUser['idUser'];
-        // Optional: Update phone/name if needed? Let's keep it simple and just use ID.
-        // Or update to ensure latest info:
-        $parts = explode(' ', $clientName, 2);
-        $firstName = $parts[0];
-        $lastName = $parts[1] ?? '';
-        $stmt = $pdo->prepare("UPDATE User SET name = ?, last_name = ?, phone = ? WHERE idUser = ?");
-        $stmt->execute([$firstName, $lastName, $clientPhone, $clientId]);
+        // User exists, do not update their profile data as per request
     } else {
         // Create new user
         $parts = explode(' ', $clientName, 2);

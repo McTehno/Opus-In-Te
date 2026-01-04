@@ -69,7 +69,6 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
     <div class="booking-container">
         <header class="booking-header">
             <div class="header-left">
-                <a href="WorkerDashboard.php" class="back-btn"><i class="fas fa-arrow-left"></i> Nazad</a>
                 <h2>Interno Zakazivanje</h2>
             </div>
             <div class="worker-info">
@@ -78,7 +77,9 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
         </header>
 
         <div class="progress-bar-container">
-            <div class="progress-bar-line"></div>
+            <div class="progress-bar-line">
+                <div class="progress-bar-fill"></div>
+            </div>
             <div class="step active" data-step="1">
                 <div class="step-circle">1</div>
                 <div class="step-label">Klijent</div>
@@ -95,9 +96,14 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
                 <div class="step-circle">4</div>
                 <div class="step-label">Detalji</div>
             </div>
+            <div class="step" data-step="5">
+                <div class="step-circle"><i class="fas fa-check"></i></div>
+                <div class="step-label">Kraj</div>
+            </div>
         </div>
 
         <div class="booking-content">
+            <a href="WorkerDashboard.php" class="close-booking-btn"><i class="fas fa-times"></i></a>
             
             <!-- Step 1: Client Input -->
             <div class="booking-step active" data-step="1">
@@ -202,11 +208,22 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
                 </div>
             </div>
 
+            <!-- Step 5: Success -->
+            <div class="booking-step" data-step="5" style="text-align: center; padding: 3rem 1rem;">
+                <div class="success-icon" style="font-size: 5rem; color: var(--accent-color); margin-bottom: 1.5rem;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="step-title" style="border: none; margin-bottom: 1rem;">Termin Uspješno Zakazan!</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.1rem;">Rezervacija je potvrđena i sačuvana u sistemu.</p>
+                <a href="WorkerDashboard.php" class="btn-next" style="text-decoration: none; display: inline-block;">Povratak na Dashboard</a>
+            </div>
+
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="js/worker_booking.js"></script>
 </body>
 </html>
