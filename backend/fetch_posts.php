@@ -80,6 +80,8 @@ try {
         $post['excerpt'] = mb_substr(strip_tags($post['contents']), 0, 150) . '...';
         // Add a timestamp for easier JS sorting
         $post['timestamp'] = strtotime($post['date']);
+        // Remove full contents to optimize JSON payload
+        unset($post['contents']);
     }
 
     echo json_encode([

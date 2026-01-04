@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortLinks = sortOptions.querySelectorAll('a');
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
+    const loadMoreBtnContainer = document.querySelector('.load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
 
     // View Elements
     const blogContainer = document.querySelector('.blog-container');
@@ -26,9 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let iso; // Isotope instance
     let allPosts = []; // Store all posts data
+    let filteredPosts = []; // Store currently filtered/sorted posts
     let currentCategory = null;
     let currentSearch = '';
     let currentSort = 'date_desc';
+    let visibleCount = 4;
+    const LOAD_STEP = 4;
 
     // Initial Fetch
     fetchPosts();
@@ -36,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     if (backToBlogBtn) {
         backToBlogBtn.addEventListener('click', closePost);
+    }
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            visibleCount += LOAD_STEP;
+            renderVisiblePosts(true); // Append mode
+        });
     }
 
     // Global click listener for delegation (handles all blog post links)
@@ -70,20 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update button text
             sortBtn.innerHTML = `Sortiraj po: ${link.textContent} <i class="fas fa-chevron-down"></i>`;
             
-            updateIsotope();
+            applyFiltersAndSort();
         });
     });
 
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         currentSearch = searchInput.value.trim().toLowerCase();
-        updateIsotope();
+        applyFiltersAndSort();
     });
     
-    // Real-time search (optional, but nice)
     searchInput.addEventListener('input', (e) => {
         currentSearch = e.target.value.trim().toLowerCase();
-        updateIsotope();
+        applyFiltersAndSort();
     });
 
     // Fetch Data
@@ -100,7 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
             allPosts = data.posts;
             renderCategories(data.categories);
             renderPopular(data.popular);
-            renderAllPosts(data.posts);
+            
+            // Initial Render
+            applyFiltersAndSort();
 
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -110,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCategories(categories) {
         categoriesList.innerHTML = '';
         
-        // "All" category option
         const allLi = document.createElement('li');
         const allLink = document.createElement('a');
         allLink.href = '#';
@@ -118,12 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
         allLink.innerHTML = `<span>Sve kategorije</span>`;
         allLink.addEventListener('click', (e) => {
             e.preventDefault();
-            // Remove active class from all
             document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
             allLink.classList.add('active');
             
             currentCategory = null;
-            updateIsotope();
+            applyFiltersAndSort();
         });
         allLi.appendChild(allLink);
         categoriesList.appendChild(allLi);
@@ -145,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.classList.add('active');
                 
                 currentCategory = cat.idBlog_Post_Category;
-                updateIsotope();
+                applyFiltersAndSort();
             });
             
             li.appendChild(a);
@@ -174,60 +185,126 @@ document.addEventListener('DOMContentLoaded', () => {
         popularList.dataset.loaded = 'true';
     }
 
-    function renderAllPosts(posts) {
-        if (posts.length === 0) {
-            blogGrid.innerHTML = '<p>Nema pronađenih članaka.</p>';
-            return;
+    function applyFiltersAndSort() {
+        // 1. Filter
+        let temp = allPosts.filter(post => {
+            // Category
+            if (currentCategory) {
+                const cats = post.category_ids ? `,${post.category_ids},` : '';
+                if (!cats.includes(`,${currentCategory},`)) return false;
+            }
+            // Search
+            if (currentSearch) {
+                if (!post.title.toLowerCase().includes(currentSearch)) return false;
+            }
+            return true;
+        });
+
+        // 2. Sort
+        temp.sort((a, b) => {
+            switch (currentSort) {
+                case 'date_asc': return a.timestamp - b.timestamp;
+                case 'date_desc': return b.timestamp - a.timestamp;
+                case 'views_asc': return a.viewcount - b.viewcount;
+                case 'views_desc': return b.viewcount - a.viewcount;
+                default: return b.timestamp - a.timestamp;
+            }
+        });
+
+        // 3. Handle Featured Post Logic
+        const isDefaultView = currentSort === 'date_desc' && !currentCategory && !currentSearch;
+        
+        if (isDefaultView && allPosts.length > 0) {
+            // Show Featured Section
+            renderFeaturedPost(allPosts[0]);
+            featuredContainer.classList.remove('hidden');
+            if (typeof gsap !== 'undefined') {
+                gsap.to(featuredContainer, { height: 'auto', opacity: 1, duration: 0.4 });
+            } else {
+                featuredContainer.style.display = 'block';
+            }
+
+            // Remove the featured post (latest) from the grid list
+            const featuredId = allPosts[0].idBlog_Post;
+            filteredPosts = temp.filter(p => p.idBlog_Post !== featuredId);
+        } else {
+            // Hide Featured Section
+            if (typeof gsap !== 'undefined') {
+                gsap.to(featuredContainer, { height: 0, opacity: 0, duration: 0.4, onComplete: () => {
+                    featuredContainer.classList.add('hidden');
+                }});
+            } else {
+                featuredContainer.classList.add('hidden');
+                featuredContainer.style.display = 'none';
+            }
+            filteredPosts = temp;
         }
 
-        // Helper to fix image paths
+        // Reset Pagination
+        visibleCount = 4;
+        renderVisiblePosts(false);
+    }
+
+    function renderFeaturedPost(post) {
         const getImgPath = (path) => {
             if (!path) return '/img/blogplaceholder/default.jpg';
-            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg'; // Fallback for local paths
+            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg';
             if (path.startsWith('http')) return path;
             if (path.startsWith('/')) return path;
             return '/' + path;
         };
 
-        // 1. Render Featured Post (Static, outside Isotope)
-        // We assume the first post in the list (sorted by date desc from backend) is the latest
-        const latestPost = posts[0];
-        
         featuredContainer.innerHTML = `
             <article class="featured-post-card" id="featured-post-static">
                 <div class="card-image-container">
-                    <img src="${getImgPath(latestPost.picture_path)}" alt="${latestPost.title}" loading="lazy" onload="this.classList.add('img-loaded')">
+                    <img src="${getImgPath(post.picture_path)}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
                 </div>
                 <div class="card-content">
-                    <span class="card-category">${latestPost.category_names || 'Opus in te'}</span>
-                    <h2 class="card-title"><a href="BlogPost.php?id=${latestPost.idBlog_Post}">${latestPost.title}</a></h2>
-                    <p class="card-excerpt">${latestPost.excerpt}</p>
-                    <a href="BlogPost.php?id=${latestPost.idBlog_Post}" class="read-more-link">Pročitaj više →</a>
+                    <span class="card-category">${post.category_names || 'Opus in te'}</span>
+                    <h2 class="card-title"><a href="BlogPost.php?id=${post.idBlog_Post}">${post.title}</a></h2>
+                    <p class="card-excerpt">${post.excerpt}</p>
+                    <a href="BlogPost.php?id=${post.idBlog_Post}" class="read-more-link">Pročitaj više →</a>
                 </div>
             </article>
         `;
+    }
 
-        // 2. Render Grid Posts (ALL posts, including the latest one)
-        // We mark the latest one so we can hide it in default view
-        blogGrid.innerHTML = '';
+    function renderVisiblePosts(append = false) {
+        const postsToShow = filteredPosts.slice(0, visibleCount);
         
-        posts.forEach((post, index) => {
-            // Create Wrapper for Isotope
+        // Helper to fix image paths
+        const getImgPath = (path) => {
+            if (!path) return '/img/blogplaceholder/default.jpg';
+            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg';
+            if (path.startsWith('http')) return path;
+            if (path.startsWith('/')) return path;
+            return '/' + path;
+        };
+
+        if (!append) {
+            // Clear Grid
+            if (iso) {
+                iso.destroy();
+                iso = null;
+            }
+            blogGrid.innerHTML = '';
+            
+            if (postsToShow.length === 0) {
+                blogGrid.innerHTML = '<p>Nema pronađenih članaka.</p>';
+                loadMoreBtnContainer.style.display = 'none';
+                return;
+            }
+        }
+
+        // Determine which items are new (for appending)
+        let newItems = [];
+        const startIndex = append ? visibleCount - LOAD_STEP : 0;
+        const itemsToRender = filteredPosts.slice(startIndex, visibleCount);
+
+        itemsToRender.forEach(post => {
             const wrapper = document.createElement('div');
             wrapper.className = 'grid-item';
             
-            // Add data attributes for sorting/filtering to the WRAPPER
-            wrapper.dataset.id = post.idBlog_Post;
-            wrapper.dataset.timestamp = post.timestamp;
-            wrapper.dataset.views = post.viewcount;
-            wrapper.dataset.categories = post.category_ids ? `,${post.category_ids},` : ''; 
-            wrapper.dataset.title = post.title.toLowerCase();
-            
-            if (index === 0) {
-                wrapper.classList.add('is-latest');
-            }
-
-            // Create the actual Card
             wrapper.innerHTML = `
                 <article class="blog-card">
                     <div class="card-image-container">
@@ -240,176 +317,99 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </article>
             `;
+            
             blogGrid.appendChild(wrapper);
+            newItems.push(wrapper);
         });
 
-        // 3. Initialize Isotope
-        initIsotope();
-    }
-
-    function initIsotope() {
-        if (typeof Isotope === 'undefined') {
-            console.error('Isotope library not loaded.');
-            return;
-        }
-        iso = new Isotope(blogGrid, {
-            itemSelector: '.grid-item',
-            layoutMode: 'fitRows', // or 'masonry'
-            percentPosition: true,
-            getSortData: {
-                date: '[data-timestamp] parseInt',
-                views: '[data-views] parseInt',
-                title: '[data-title]'
-            },
-            // Initial filter: Hide the latest post (because it's shown in featured)
-            filter: function(itemElem) {
-                return !itemElem.classList.contains('is-latest');
-            }
-        });
-    }
-
-    function updateIsotope() {
-        if (!iso) return;
-
-        // Determine if we are in "Default View" (Date Desc, No Filters)
-        const isDefaultView = currentSort === 'date_desc' && !currentCategory && !currentSearch;
-
-        // Toggle Featured Container Visibility
-        if (typeof gsap !== 'undefined') {
-            if (isDefaultView) {
-                featuredContainer.classList.remove('hidden');
-                gsap.to(featuredContainer, { height: 'auto', opacity: 1, duration: 0.4 });
-            } else {
-                gsap.to(featuredContainer, { height: 0, opacity: 0, duration: 0.4, onComplete: () => {
-                    featuredContainer.classList.add('hidden');
-                }});
-            }
+        // Initialize or Update Isotope
+        if (!iso) {
+            iso = new Isotope(blogGrid, {
+                itemSelector: '.grid-item',
+                layoutMode: 'masonry',
+                percentPosition: true
+            });
         } else {
-             // Fallback if GSAP missing
-             if (isDefaultView) {
-                featuredContainer.classList.remove('hidden');
-                featuredContainer.style.display = 'block';
-            } else {
-                featuredContainer.classList.add('hidden');
-                featuredContainer.style.display = 'none';
+            if (newItems.length > 0) {
+                iso.appended(newItems);
             }
+            iso.layout();
         }
 
-        // Configure Filter Function
-        const filterFn = function(itemElem) {
-            // 1. Check "Latest" logic
-            // If default view, hide latest (it's in featured). Else show it.
-            if (isDefaultView && itemElem.classList.contains('is-latest')) {
-                return false;
-            }
-
-            // 2. Check Category
-            if (currentCategory) {
-                const cats = itemElem.dataset.categories;
-                if (!cats.includes(`,${currentCategory},`)) {
-                    return false;
-                }
-            }
-
-            // 3. Check Search
-            if (currentSearch) {
-                const title = itemElem.dataset.title;
-                if (!title.includes(currentSearch)) {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
-        // Configure Sort
-        let sortValue = 'original-order'; // Default
-        let sortAscending = false; // Default desc
-
-        switch (currentSort) {
-            case 'date_asc':
-                sortValue = 'date';
-                sortAscending = true;
-                break;
-            case 'date_desc':
-                sortValue = 'date';
-                sortAscending = false;
-                break;
-            case 'views_asc':
-                sortValue = 'views';
-                sortAscending = true;
-                break;
-            case 'views_desc':
-                sortValue = 'views';
-                sortAscending = false;
-                break;
+        // Update Load More Button Visibility
+        if (visibleCount >= filteredPosts.length) {
+            loadMoreBtnContainer.style.display = 'none';
+        } else {
+            loadMoreBtnContainer.style.display = 'block';
         }
-
-        // Apply to Isotope
-        iso.arrange({
-            filter: filterFn,
-            sortBy: sortValue,
-            sortAscending: sortAscending
-        });
     }
 
-    function openPost(id) {
-        const post = allPosts.find(p => p.idBlog_Post == id);
-        if (!post) return;
+    async function openPost(id) {
+        // Fetch full post details
+        try {
+            const response = await fetch(`/backend/get_blog_post.php?id=${id}`);
+            const post = await response.json();
 
-        // Increment View Count (Backend)
-        fetch('/backend/increment_view.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id })
-        }).catch(err => console.error('Error incrementing view:', err));
-
-        // Optimistic Update (Frontend)
-        post.viewcount = parseInt(post.viewcount) + 1;
-
-        // Populate Data
-        detailImg.src = post.picture_path || 'img/blogplaceholder/default.jpg';
-        detailCategory.textContent = post.category_names || 'Opus in te';
-        detailTitle.textContent = post.title;
-        
-        // Format Date
-        const dateObj = new Date(post.date);
-        detailDate.textContent = dateObj.toLocaleDateString('bs-BA');
-        
-        detailViews.textContent = post.viewcount;
-        detailContent.innerHTML = post.contents;
-
-        // Lock container height to prevent footer jump
-        blogContainer.style.minHeight = `${blogContainer.offsetHeight}px`;
-
-        // Switch View with GSAP
-        const tl = gsap.timeline({
-            onComplete: () => {
-                // Release height lock
-                blogContainer.style.minHeight = '';
+            if (post.error) {
+                console.error(post.error);
+                return;
             }
-        });
 
-        // 1. Fade out grid
-        tl.to([blogPostsMain, blogSidebar], {
-            opacity: 0,
-            y: -20,
-            duration: 0.3,
-            onComplete: () => {
-                blogPostsMain.classList.add('hidden');
-                blogSidebar.classList.add('hidden');
-                blogContainer.classList.add('detail-active');
-                
-                // Prepare detail view
-                blogDetailView.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        })
-        // 2. Fade in detail view
-        .fromTo(blogDetailView, 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
-        );
+            // Increment View Count (Backend)
+            fetch('/backend/increment_view.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            }).catch(err => console.error('Error incrementing view:', err));
+
+            // Populate Data
+            detailImg.src = post.picture_path || 'img/blogplaceholder/default.jpg';
+            detailCategory.textContent = post.category_names || 'Opus in te';
+            detailTitle.textContent = post.title;
+            
+            // Format Date
+            const dateObj = new Date(post.date);
+            detailDate.textContent = dateObj.toLocaleDateString('bs-BA');
+            
+            // Optimistic view count update (or use fetched one)
+            detailViews.textContent = parseInt(post.viewcount) + 1;
+            detailContent.innerHTML = post.contents;
+
+            // Lock container height to prevent footer jump
+            blogContainer.style.minHeight = `${blogContainer.offsetHeight}px`;
+
+            // Switch View with GSAP
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    // Release height lock
+                    blogContainer.style.minHeight = '';
+                }
+            });
+
+            // 1. Fade out grid
+            tl.to([blogPostsMain, blogSidebar], {
+                opacity: 0,
+                y: -20,
+                duration: 0.3,
+                onComplete: () => {
+                    blogPostsMain.classList.add('hidden');
+                    blogSidebar.classList.add('hidden');
+                    blogContainer.classList.add('detail-active');
+                    
+                    // Prepare detail view
+                    blogDetailView.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            })
+            // 2. Fade in detail view
+            .fromTo(blogDetailView, 
+                { opacity: 0, y: 30 },
+                { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+            );
+
+        } catch (error) {
+            console.error('Error opening post:', error);
+        }
     }
 
     function closePost() {

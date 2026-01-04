@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error_message = "Korisnik sa ovim emailom već postoji.";
         } else {
             // Hash password
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
             $role_id = 3; // Default role: user
 
             // Insert new user

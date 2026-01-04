@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = "Molimo unesite email i lozinku.";
     } else {
         // Admin Check
-        if ($email === ADMIN_EMAIL && $password === ADMIN_PASSWORD) {
+        if ($email === ADMIN_EMAIL && password_verify($password, ADMIN_PASSWORD_HASH)) {
             $_SESSION['is_admin'] = true;
             header("Location: /admin-panel");
             exit;
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['pass'])) {
+        if ($user && !empty($user['pass']) && password_verify($password, $user['pass'])) {
             // Password is correct
             $_SESSION['user_id'] = $user['idUser'];
             $_SESSION['user_name'] = $user['name'];

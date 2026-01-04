@@ -79,6 +79,10 @@ require_once 'backend/role_check.php';
                         <!-- Blog Posts will be injected here -->
                     </div>
 
+                    <div class="load-more-container">
+                        <button id="load-more-btn" class="cta-button">Učitaj više</button>
+                    </div>
+
                 </div>
 
                 <!-- Blog Detail View (Initially Hidden) -->

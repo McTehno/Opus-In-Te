@@ -1218,6 +1218,11 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.blog-card {
+    /* height: 520px; Removed fixed height for masonry layout */
+    height: auto;
+}
+
 .featured-post-card:hover, .blog-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.08);
@@ -1301,7 +1306,7 @@ main {
     font-weight: bold;
     transition: transform 0.3s ease;
     display: inline-block;
-    margin-top: auto;
+    margin-top: 20px;
 }
 .read-more-link:hover {
     transform: translateX(5px);
@@ -1313,6 +1318,18 @@ main {
     /* grid-template-columns: 1fr 1fr; */
     /* gap: 40px; */
     width: 100%;
+}
+
+.load-more-container {
+    text-align: center;
+    margin-top: 10px; /* Reduced from 30px */
+    display: none;
+    border: none;
+}
+
+#load-more-btn {
+    border: none !important;
+    outline: none !important;
 }
 
 .grid-item {
@@ -1334,7 +1351,7 @@ main {
 
 /* Ensure the card fills the wrapper */
 .grid-item .blog-card {
-    height: 100%;
+    /* height: 100%; Removed to allow fixed height on .blog-card to work */
     width: 100%;
 }
 
@@ -1347,6 +1364,9 @@ main {
 @media (max-width: 768px) {
     .grid-item {
         width: 100%;
+    }
+    .blog-card {
+        height: auto; /* Auto height on mobile */
     }
 }
 

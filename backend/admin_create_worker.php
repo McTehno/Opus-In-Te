@@ -72,7 +72,7 @@ if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) 
 }
 
 // Hash Password
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+$hashedPassword = password_hash($password, PASSWORD_ARGON2ID);
 
 try {
     $stmt = $pdo->prepare("INSERT INTO User (name, last_name, email, phone, pass, Role_idRole, picture_path) VALUES (?, ?, ?, ?, ?, 2, ?)");
