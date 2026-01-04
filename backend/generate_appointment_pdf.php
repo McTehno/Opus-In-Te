@@ -1,7 +1,7 @@
 <?php
-require_once 'connect.php';
-require_once 'app_config.php';
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/connect.php';
+require_once __DIR__ . '/app_config.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
