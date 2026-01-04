@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         params.append('min_view_filter', filters.min_view_filter);
 
         try {
-            const response = await fetch(`backend/admin_fetch_blogs.php?${params.toString()}`);
+            const response = await fetch(`/backend/admin_fetch_blogs.php?${params.toString()}`);
             const data = await response.json();
 
             if (isFirstLoad) {
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function showBlogDetail(id) {
         try {
-            const response = await fetch(`backend/admin_get_blog.php?id=${id}`);
+            const response = await fetch(`/backend/admin_get_blog.php?id=${id}`);
             const blog = await response.json();
 
             if (blog.success === false) {
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function ensureAuthorsLoaded() {
         if (allAuthors !== null) return;
         try {
-            const response = await fetch('backend/admin_fetch_blog_authors.php');
+            const response = await fetch('/backend/admin_fetch_blog_authors.php');
             const data = await response.json();
             if (data.success) {
                 allAuthors = data.authors;
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('backend/admin_update_blog.php', {
+            const response = await fetch('/backend/admin_update_blog.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function performDelete() {
         if (!currentBlog) return;
         try {
-            const response = await fetch('backend/admin_delete_blog.php', {
+            const response = await fetch('/backend/admin_delete_blog.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: currentBlog.idBlog_Post })

@@ -59,7 +59,7 @@ try {
 
     <div class="booking-modal">
         <div class="booking-header">
-            <a href="index.php" class="close-booking"><i class="fas fa-times"></i></a>
+            <a href="/pocetna" class="close-booking"><i class="fas fa-times"></i></a>
         </div>
 
         <div class="progress-bar-container">

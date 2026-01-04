@@ -3,11 +3,11 @@ require_once __DIR__ . '/admin_config.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
-    header("Location: UserDashboard.php"); // Or index.php
+    header("Location: /korisnicki-panel"); // Or index.php
     exit;
 }
 if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) {
-    header("Location: AdminDashboard.php");
+    header("Location: /admin-panel");
     exit;
 }
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Admin Check
         if ($email === ADMIN_EMAIL && $password === ADMIN_PASSWORD) {
             $_SESSION['is_admin'] = true;
-            header("Location: AdminDashboard.php");
+            header("Location: /admin-panel");
             exit;
         }
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_lastname'] = $user['last_name'];
             $_SESSION['user_role'] = $user['Role_idRole'];
 
-            header("Location: UserDashboard.php"); // Redirect to dashboard
+            header("Location: /korisnicki-panel"); // Redirect to dashboard
             exit;
         } else {
             $error_message = "Pogrešan email ili lozinka.";

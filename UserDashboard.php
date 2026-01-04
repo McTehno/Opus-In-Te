@@ -4,7 +4,7 @@ require_once 'backend/connect.php';
 require_once 'backend/role_check.php'; // Redirect admins/workers
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 
@@ -21,13 +21,13 @@ $user = $stmt->fetch();
 
 if (!$user) {
     session_destroy();
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 
 // Redirect workers to their dashboard
 if ($user['role_name'] === 'radnik') {
-    header("Location: WorkerDashboard.php");
+    header("Location: /radni-panel");
     exit;
 }
 
@@ -79,21 +79,21 @@ $appointments_json = json_encode($appointments);
 
     <header class="main-header scrolled">
         <div class="container">
-            <a href="index.php" class="logo-link">
+            <a href="/pocetna" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php">Početna</a></li>
-                    <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="Blog.php">Blog</a></li>
-                    <li><a href="Contact.php">Kontakt</a></li>
+                    <li><a href="/pocetna">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="booking.php" class="cta-button nav-cta">Zakažite Termin</a>
-                <a href="backend/logout.php" id="logout-link" class="login-icon" aria-label="Odjava"><i
+                <a href="/zakazivanje" class="cta-button nav-cta">Zakažite Termin</a>
+                <a href="/odjava" id="logout-link" class="login-icon" aria-label="Odjava"><i
                         class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
@@ -127,7 +127,7 @@ $appointments_json = json_encode($appointments);
                             <span id="profile-phone"><?php echo htmlspecialchars($user['phone']); ?></span>
                         </div>
                     </div>
-                    <a href="EditProfile.php" id="edit-profile-btn" class="cta-button edit-profile-button">Uredi
+                    <a href="/uredi-profil" id="edit-profile-btn" class="cta-button edit-profile-button">Uredi
                         Profil</a>
                 </div>
 
@@ -170,7 +170,7 @@ $appointments_json = json_encode($appointments);
     <footer class="main-footer">
         <div class="container footer-container">
             <div class="footer-col">
-                <a href="index.php" class="footer-logo-link">
+                <a href="/pocetna" class="footer-logo-link">
                     <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
                 </a>
             </div>
@@ -183,10 +183,10 @@ $appointments_json = json_encode($appointments);
             <div class="footer-col">
                 <h4>Brzi Linkovi</h4>
                 <ul>
-                    <li><a href="index.php">Početna</a></li>
-                    <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="Contact.php">Kontakt</a></li>
+                    <li><a href="/pocetna">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
                 </ul>
             </div>
             <div class="footer-col">

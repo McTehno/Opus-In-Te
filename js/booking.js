@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timeSlotsList.innerHTML = '<div class="loading-slots"><i class="fas fa-spinner fa-spin"></i> Učitavanje termina...</div>';
 
             // Fetch slots from backend
-            fetch(`backend/get_slots.php?date=${bookingDetails.dateISO}&duration=${bookingDetails.duration}`)
+            fetch(`/backend/get_slots.php?date=${bookingDetails.dateISO}&duration=${bookingDetails.duration}`)
                 .then(response => response.json())
                 .then(slots => {
                     timeSlotsList.innerHTML = ''; // Clear loading
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
-            fetch('backend/book_appointment.php', {
+            fetch('/backend/book_appointment.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

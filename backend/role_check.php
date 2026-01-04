@@ -6,8 +6,8 @@ if (session_status() === PHP_SESSION_NONE) {
 // 1. Check for Admin
 if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true) {
     // Prevent redirect loop if already on AdminDashboard
-    if (basename($_SERVER['PHP_SELF']) !== 'AdminDashboard.php') {
-        header("Location: AdminDashboard.php");
+    if ($_SERVER['REQUEST_URI'] !== '/admin-panel') {
+        header("Location: /admin-panel");
         exit;
     }
 }
@@ -47,8 +47,8 @@ if (isset($_SESSION['user_id'])) {
 
         if ($role === 'radnik') {
             // Prevent redirect loop
-            if (basename($_SERVER['PHP_SELF']) !== 'WorkerDashboard.php') {
-                header("Location: WorkerDashboard.php");
+            if ($_SERVER['REQUEST_URI'] !== '/radni-panel') {
+                header("Location: /radni-panel");
                 exit;
             }
         }

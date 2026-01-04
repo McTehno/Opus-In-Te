@@ -32,21 +32,21 @@ require_once 'backend/role_check.php';
 
     <header class="main-header scrolled">
         <div class="container">
-            <a href="index.php" class="logo-link">
+            <a href="/pocetna" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php">Početna</a></li>
-                    <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="Blog.php" class="active">Blog</a></li>
-                    <li><a href="Contact.php">Kontakt</a></li>
+                    <li><a href="/pocetna">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/blog" class="active">Blog</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="booking.php" class="cta-button nav-cta">Zakažite termin</a>
-                <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i
+                <a href="/zakazivanje" class="cta-button nav-cta">Zakažite termin</a>
+                <a href="/prijava" class="login-icon" aria-label="Korisnički nalog"><i
                         class="fa-solid fa-circle-user"></i></a>
             </div>
         </div>

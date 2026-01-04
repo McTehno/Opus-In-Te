@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 require_once 'backend/connect.php';
@@ -18,7 +18,7 @@ $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
 if (!$user || $user['role_name'] !== 'radnik') {
-    header("Location: UserDashboard.php");
+    header("Location: /korisnicki-panel");
     exit;
 }
 
@@ -103,7 +103,7 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
         </div>
 
         <div class="booking-content">
-            <a href="WorkerDashboard.php" class="close-booking-btn"><i class="fas fa-times"></i></a>
+            <a href="/radni-panel" class="close-booking-btn"><i class="fas fa-times"></i></a>
             
             <!-- Step 1: Client Input -->
             <div class="booking-step active" data-step="1">
@@ -215,7 +215,7 @@ $statuses = $pdo->query("SELECT * FROM Appointment_Status")->fetchAll();
                 </div>
                 <h2 class="step-title" style="border: none; margin-bottom: 1rem;">Termin Uspješno Zakazan!</h2>
                 <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.1rem;">Rezervacija je potvrđena i sačuvana u sistemu.</p>
-                <a href="WorkerDashboard.php" class="btn-next" style="text-decoration: none; display: inline-block;">Povratak na Dashboard</a>
+                <a href="/radni-panel" class="btn-next" style="text-decoration: none; display: inline-block;">Povratak na Dashboard</a>
             </div>
 
         </div>

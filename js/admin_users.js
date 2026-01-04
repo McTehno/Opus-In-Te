@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const formData = new FormData(this);
 
-            fetch('backend/admin_create_worker.php', {
+            fetch('/backend/admin_create_worker.php', {
                 method: 'POST',
                 body: formData
             })
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Functions ---
 
     function fetchUsers() {
-        fetch('backend/admin_fetch_users.php')
+        fetch('/backend/admin_fetch_users.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const formData = new FormData(editUserForm);
 
-        fetch('backend/admin_update_user.php', {
+        fetch('/backend/admin_update_user.php', {
             method: 'POST',
             body: formData
         })
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmDeleteBtn.addEventListener('click', function() {
         if (!userToDeleteId) return;
 
-        fetch('backend/admin_delete_user.php', {
+        fetch('/backend/admin_delete_user.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             prices: getCheckedValues('.filter-price')
         };
 
-        fetch('backend/admin_fetch_appointments.php', {
+        fetch('/backend/admin_fetch_appointments.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(filters)
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
         if (!currentDeleteId) return;
         
-        fetch('backend/admin_delete_appointment.php', {
+        fetch('/backend/admin_delete_appointment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: currentDeleteId })
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             time: document.getElementById('editTime').value
         };
 
-        fetch('backend/admin_update_appointment.php', {
+        fetch('/backend/admin_update_appointment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load Details
     function loadAppointmentDetails(id) {
-        fetch('backend/admin_get_appointment.php', {
+        fetch('/backend/admin_get_appointment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id })
@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        fetch('backend/admin_create_appointment.php', {
+        fetch('/backend/admin_create_appointment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)

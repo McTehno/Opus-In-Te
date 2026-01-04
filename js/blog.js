@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch Data
     async function fetchPosts() {
         try {
-            const response = await fetch('backend/fetch_posts.php');
+            const response = await fetch('/backend/fetch_posts.php');
             const data = await response.json();
 
             if (data.error) {
@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!post) return;
 
         // Increment View Count (Backend)
-        fetch('backend/increment_view.php', {
+        fetch('/backend/increment_view.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id })

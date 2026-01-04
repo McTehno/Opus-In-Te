@@ -4,7 +4,7 @@ require_once 'backend/connect.php';
 
 // Check Admin Access
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 ?>
@@ -30,19 +30,19 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <!-- Header -->
     <header class="admin-header">
         <div class="container">
-            <a href="AdminDashboard.php" class="logo-link">
+            <a href="/admin-panel" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" style="height: 50px;">
             </a>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="AdminUsers.php">Korisnici</a></li>
-                    <li><a href="AdminAppointments.php">Termini</a></li>
-                    <li><a href="AdminServices.php" class="active">Usluge</a></li>
-                    <li><a href="AdminBlog.php">Blog</a></li>
+                    <li><a href="/admin/korisnici">Korisnici</a></li>
+                    <li><a href="/admin/termini">Termini</a></li>
+                    <li><a href="/admin/usluge" class="active">Usluge</a></li>
+                    <li><a href="/admin/blog">Blog</a></li>
                 </ul>
             </nav>
             <div class="admin-actions">
-                <a href="backend/admin_logout.php" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="/admin/odjava" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
     </header>

@@ -6,7 +6,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 require_once 'backend/connect.php';
@@ -44,16 +44,16 @@ require_once 'backend/edit_profile.php';
 
     <header class="main-header scrolled">
         <div class="container">
-            <a href="index.php" class="logo-link">
+            <a href="/pocetna" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php">Početna</a></li>
-                    <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="Blog.php">Blog</a></li>
-                    <li><a href="Contact.php">Kontakt</a></li>
+                    <li><a href="/pocetna">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
                 </ul>
             </nav>
             <div class="header-actions">

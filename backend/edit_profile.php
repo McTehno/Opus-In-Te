@@ -9,7 +9,7 @@ $show_success_modal = false;
 
 $user_id = $_SESSION['user_id'] ?? null;
 if (!$user_id) {
-    header('Location: Login.php');
+    header('Location: /prijava');
     exit;
 }
 
@@ -23,7 +23,7 @@ function fetch_user(PDO $pdo, int $user_id): ?array {
 $user = fetch_user($pdo, $user_id);
 if (!$user) {
     session_destroy();
-    header('Location: Login.php');
+    header('Location: /prijava');
     exit;
 }
 
@@ -81,14 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->rowCount() === 0) {
                 $_SESSION['profile_error'] = 'Nije bilo promjena (podaci su isti ili korisnik nije pronađen).';
                 session_write_close();
-                header('Location: EditProfile.php');
+                header('Location: /uredi-profil');
                 exit;
             }
 
             // PRG: store success in session and redirect to avoid resubmit
             $_SESSION['profile_success'] = 'Profil je uspješno ažuriran.';
             session_write_close();
-            header('Location: EditProfile.php');
+            header('Location: /uredi-profil');
             exit;
         } catch (PDOException $e) {
             $error_message = 'Greška prilikom ažuriranja profila: ' . $e->getMessage();

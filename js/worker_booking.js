@@ -231,7 +231,7 @@ $(document).ready(function() {
         slotsContainer.html('<div class="loading-spinner"></div>');
         
         $.ajax({
-            url: 'backend/worker_get_slots.php',
+            url: '/backend/worker_get_slots.php',
             method: 'GET',
             data: { 
                 date: date,
@@ -288,7 +288,7 @@ $(document).ready(function() {
         // bookingData.notes removed
 
         $.ajax({
-            url: 'backend/worker_book_appointment.php',
+            url: '/backend/worker_book_appointment.php',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(bookingData),

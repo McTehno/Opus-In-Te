@@ -1,0 +1,161 @@
+<?php
+require_once 'backend/connect.php';
+session_start();
+require_once 'backend/role_check.php'; // Redirect admins/workers
+?>
+<!DOCTYPE html>
+<html lang="bs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opus in te | Psihološko savjetovanje | Banja Luka</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="loading-logo-wrapper">
+            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+        </div>
+
+    </div>
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo-link">
+                <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/pocetna" class="active">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="/zakazivanje" class="cta-button nav-cta">Zakažite termin</a>
+                <a href="/prijava" class="login-icon" aria-label="Korisnički nalog"><i
+                        class="fa-solid fa-circle-user"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-video-bg">
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content container">
+                <h1>Mjesto za Vaš lični rast i razvoj.</h1>
+                <p>Dobrodošli u Opus in te. Pronađite podršku, razumijevanje i put ka unutrašnjem balansu.</p>
+                <a href="/kontakt" class="cta-button hero-cta">Započnite Svoje Putovanje</a>
+            </div>
+        </section>
+
+        <section class="intro-section">
+            <div class="container intro-container">
+                <div class="intro-text">
+                    <h2>Upoznajte Vaš siguran prostor</h2>
+                    <p>
+                        U Opus in te, vjerujemo da svaka osoba nosi u sebi snagu za promjenu i iscjeljenje. Kroz
+                        psihološko savjetovanje i psihoterapiju, ja, Vanja Dejanović, posvećena sam pružanju stručne i
+                        empatične podrške na Vašem putu. Ovdje možete istražiti svoje misli i osjećaje u povjerljivom i
+                        sigurnom okruženju.
+                    </p>
+                    <a href="/o-meni" class="learn-more-link">Saznajte više o mom pristupu →</a>
+                </div>
+                <div class="intro-image">
+                    <div class="image-frame">
+                        <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović, psihoterapeut">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section">
+            <div class="container">
+                <h2 class="section-title">Kako Vam mogu pomoći?</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon"></div>
+                        <h3>Individualna Psihoterapija</h3>
+                        <p>Rad "jedan na jedan" posvećen Vašim ličnim ciljevima, izazovima i blagostanju.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"></div>
+                        <h3>Savjetovanje za parove</h3>
+                        <p>Unaprijedite komunikaciju i ojačajte vezu sa partnerom u konstruktivnom okruženju.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"></div>
+                        <h3>Grupne radionice i edukacije</h3>
+                        <p>Učite i rastite zajedno sa drugima kroz tematske radionice o mentalnom zdravlju.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta-section">
+            <div class="container">
+                <h2>"Opus in te" znači "Djelo u tebi".</h2>
+                <p>Spremni da otkrijete i oblikujete svoje unutrašnje djelo? Prvi korak je najvažniji.</p>
+                <a href="/kontakt" class="cta-button">Kontaktirajte me</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <a href="#" class="footer-logo-link">
+                    <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4>Opus in te</h4>
+                <p>Vidovdanska Ulica 2, Banja Luka<br>
+                    info@opusinte.ba<br>
+                    +387 65 123 456</p>
+            </div>
+            <div class="footer-col">
+                <h4>Brzi Linkovi</h4>
+                <ul>
+                    <li><a href="/pocetna">Početna</a></li>
+                    <li><a href="/usluge">Usluge</a></li>
+                    <li><a href="/o-meni">O Meni</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Pratite nas</h4>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Posjetite našu Facebook stranicu"><i
+                                class="fa-brands fa-facebook-f"></i></a></li>
+                    <li><a href="#" aria-label="Posjetite naš Instagram profil"><i
+                                class="fa-brands fa-instagram"></i></a></li>
+                    <li><a href="#" aria-label="Posjetite naš TikTok profil"><i class="fa-brands fa-tiktok"></i></a>
+                    </li>
+                    <li><a href="#" aria-label="Posjetite naš X profil"><i class="fa-brands fa-x-twitter"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Opus in te | Sva prava zadržana | Politika privatnosti</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/loading_screen.js"></script>
+</body>
+
+</html>

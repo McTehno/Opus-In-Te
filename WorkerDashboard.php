@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 require_once 'backend/connect.php';
@@ -19,13 +19,13 @@ $user = $stmt->fetch();
 
 if (!$user) {
     session_destroy();
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 
 // Ensure only workers can access this page
 if ($user['role_name'] !== 'radnik') {
-    header("Location: UserDashboard.php");
+    header("Location: /korisnicki-panel");
     exit;
 }
 
@@ -89,14 +89,14 @@ $types = $pdo->query("SELECT * FROM Appointment_Type")->fetchAll();
         </div>
         <div class="worker-info">
             <span class="worker-name"><?php echo htmlspecialchars($user['name'] . ' ' . $user['last_name']); ?></span>
-            <a href="backend/logout.php" class="logout-btn" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
+            <a href="/odjava" class="logout-btn" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
         </div>
     </header>
 
     <main class="worker-main">
         <div class="dashboard-header-row">
             <h1 class="dashboard-title">Vaši Termini</h1>
-            <a href="WorkerBooking.php" class="btn-new-appointment"><i class="fas fa-plus"></i> Novo Zakazivanje</a>
+            <a href="/radnik-zakazivanje" class="btn-new-appointment"><i class="fas fa-plus"></i> Novo Zakazivanje</a>
         </div>
         
         <div class="appointment-panel">

@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.innerText = 'Saving...';
             submitBtn.disabled = true;
 
-            fetch('backend/worker_update_appointment.php', {
+            fetch('/backend/worker_update_appointment.php', {
                 method: 'POST',
                 body: formData
             })

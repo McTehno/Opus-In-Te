@@ -4,7 +4,7 @@ require_once 'backend/connect.php';
 
 // Check Admin Access
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: Login.php");
+    header("Location: /prijava");
     exit;
 }
 
@@ -53,19 +53,19 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Header -->
     <header class="admin-header">
         <div class="container">
-            <a href="AdminDashboard.php" class="logo-link">
+            <a href="/admin-panel" class="logo-link">
                 <img src="img/logo/headlogo.png" alt="Opus in te Logo" style="height: 50px;">
             </a>
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="AdminUsers.php">Korisnici</a></li>
-                    <li><a href="AdminAppointments.php" class="active">Termini</a></li>
-                    <li><a href="AdminServices.php">Usluge</a></li>
-                    <li><a href="AdminBlog.php">Blog</a></li>
+                    <li><a href="/admin/korisnici">Korisnici</a></li>
+                    <li><a href="/admin/termini" class="active">Termini</a></li>
+                    <li><a href="/admin/usluge">Usluge</a></li>
+                    <li><a href="/admin/blog">Blog</a></li>
                 </ul>
             </nav>
             <div class="admin-actions">
-                <a href="backend/admin_logout.php" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="/admin/odjava" title="Odjava"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
     </header>
@@ -77,10 +77,10 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Upravljanje Terminima</h1>
                 <div class="action-buttons">
-                    <a href="backend/admin_export_excel.php" target="_blank" class="action-btn btn-export-excel">
+                    <a href="/admin/izvoz/excel" target="_blank" class="action-btn btn-export-excel">
                         <i class="fa-solid fa-file-excel"></i>
                     </a>
-                    <a href="backend/admin_export_pdf.php" target="_blank" class="action-btn btn-export-pdf">
+                    <a href="/admin/izvoz/pdf" target="_blank" class="action-btn btn-export-pdf">
                         <i class="fa-solid fa-file-pdf"></i>
                     </a>
                     <button id="createAppointmentBtn" class="btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> Novi Termin</button>

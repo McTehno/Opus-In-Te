@@ -1,161 +1,118 @@
 <?php
-require_once 'backend/connect.php';
-session_start();
-require_once 'backend/role_check.php'; // Redirect admins/workers
-?>
-<!DOCTYPE html>
-<html lang="bs">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opus in te | Psihološko savjetovanje | Banja Luka</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
-</head>
+require __DIR__ . '/vendor/autoload.php';
 
-<body>
-    <div id="loading-screen">
-        <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
-        </div>
+$router = new \Bramus\Router\Router();
 
-    </div>
-    <header class="main-header">
-        <div class="container">
-            <a href="#" class="logo-link">
-                <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
-            </a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.php" class="active">Početna</a></li>
-                    <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="Blog.php">Blog</a></li>
-                    <li><a href="Contact.php">Kontakt</a></li>
-                </ul>
-            </nav>
-            <div class="header-actions">
-                <a href="booking.php" class="cta-button nav-cta">Zakažite termin</a>
-                <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i
-                        class="fa-solid fa-circle-user"></i></a>
-            </div>
-        </div>
-    </header>
+// Custom 404 Handler
+$router->set404(function () {
+    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    echo '404, route not found!';
+});
 
-    <main>
-        <section class="hero-section">
-            <div class="hero-video-bg">
-            </div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content container">
-                <h1>Mjesto za Vaš lični rast i razvoj.</h1>
-                <p>Dobrodošli u Opus in te. Pronađite podršku, razumijevanje i put ka unutrašnjem balansu.</p>
-                <a href="Contact.php" class="cta-button hero-cta">Započnite Svoje Putovanje</a>
-            </div>
-        </section>
+// Static route: / (Homepage)
+$router->get('/', function () {
+    require 'Home.php';
+});
+$router->get('/pocetna', function () {
+    require 'Home.php';
+});
 
-        <section class="intro-section">
-            <div class="container intro-container">
-                <div class="intro-text">
-                    <h2>Upoznajte Vaš siguran prostor</h2>
-                    <p>
-                        U Opus in te, vjerujemo da svaka osoba nosi u sebi snagu za promjenu i iscjeljenje. Kroz
-                        psihološko savjetovanje i psihoterapiju, ja, Vanja Dejanović, posvećena sam pružanju stručne i
-                        empatične podrške na Vašem putu. Ovdje možete istražiti svoje misli i osjećaje u povjerljivom i
-                        sigurnom okruženju.
-                    </p>
-                    <a href="About.php" class="learn-more-link">Saznajte više o mom pristupu →</a>
-                </div>
-                <div class="intro-image">
-                    <div class="image-frame">
-                        <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović, psihoterapeut">
-                    </div>
-                </div>
-            </div>
-        </section>
+// Services
+$router->get('/usluge', function () {
+    require 'Services.php';
+});
 
-        <section class="services-section">
-            <div class="container">
-                <h2 class="section-title">Kako Vam mogu pomoći?</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon"></div>
-                        <h3>Individualna Psihoterapija</h3>
-                        <p>Rad "jedan na jedan" posvećen Vašim ličnim ciljevima, izazovima i blagostanju.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon"></div>
-                        <h3>Savjetovanje za parove</h3>
-                        <p>Unaprijedite komunikaciju i ojačajte vezu sa partnerom u konstruktivnom okruženju.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon"></div>
-                        <h3>Grupne radionice i edukacije</h3>
-                        <p>Učite i rastite zajedno sa drugima kroz tematske radionice o mentalnom zdravlju.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+// About
+$router->get('/o-meni', function () {
+    require 'About.php';
+});
 
-        <section class="final-cta-section">
-            <div class="container">
-                <h2>"Opus in te" znači "Djelo u tebi".</h2>
-                <p>Spremni da otkrijete i oblikujete svoje unutrašnje djelo? Prvi korak je najvažniji.</p>
-                <a href="Contact.php" class="cta-button">Kontaktirajte me</a>
-            </div>
-        </section>
-    </main>
+// Blog
+$router->get('/blog', function () {
+    require 'Blog.php';
+});
 
-    <footer class="main-footer">
-        <div class="container footer-container">
-            <div class="footer-col">
-                <a href="#" class="footer-logo-link">
-                    <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
-                </a>
-            </div>
-            <div class="footer-col">
-                <h4>Opus in te</h4>
-                <p>Vidovdanska Ulica 2, Banja Luka<br>
-                    info@opusinte.ba<br>
-                    +387 65 123 456</p>
-            </div>
-            <div class="footer-col">
-                <h4>Brzi Linkovi</h4>
-                <ul>
-                    <li><a href="#">Početna</a></li>
-                    <li><a href="#">Usluge</a></li>
-                    <li><a href="About.php">O Meni</a></li>
-                    <li><a href="#">Kontakt</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Pratite nas</h4>
-                <ul class="social-links">
-                    <li><a href="#" aria-label="Posjetite našu Facebook stranicu"><i
-                                class="fa-brands fa-facebook-f"></i></a></li>
-                    <li><a href="#" aria-label="Posjetite naš Instagram profil"><i
-                                class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" aria-label="Posjetite naš TikTok profil"><i class="fa-brands fa-tiktok"></i></a>
-                    </li>
-                    <li><a href="#" aria-label="Posjetite naš X profil"><i class="fa-brands fa-x-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 Opus in te | Sva prava zadržana | Politika privatnosti</p>
-        </div>
-    </footer>
+// Contact
+$router->get('/kontakt', function () {
+    require 'Contact.php';
+});
 
-    <script src="js/navbar.js"></script>
-    <script src="js/loading_screen.js"></script>
-</body>
+// Booking
+$router->get('/zakazivanje', function () {
+    require 'Booking.php';
+});
 
-</html>
+// Login
+$router->get('/prijava', function () {
+    require 'Login.php';
+});
+$router->post('/prijava', function () {
+    require 'Login.php';
+});
+
+// Logout
+$router->get('/odjava', function () {
+    require 'backend/logout.php';
+});
+
+// Register
+$router->get('/registracija', function () {
+    require 'Register.php';
+});
+$router->post('/registracija', function () {
+    require 'Register.php';
+});
+
+// User Dashboard
+$router->get('/korisnicki-panel', function () {
+    require 'UserDashboard.php';
+});
+
+// Worker Dashboard
+$router->get('/radni-panel', function () {
+    require 'WorkerDashboard.php';
+});
+
+// Admin Dashboard
+$router->get('/admin-panel', function () {
+    require 'AdminDashboard.php';
+});
+
+// Admin Subpages
+$router->mount('/admin', function () use ($router) {
+    $router->get('/termini', function () {
+        require 'AdminAppointments.php';
+    });
+    $router->get('/blog', function () {
+        require 'AdminBlog.php';
+    });
+    $router->get('/usluge', function () {
+        require 'AdminServices.php';
+    });
+    $router->get('/korisnici', function () {
+        require 'AdminUsers.php';
+    });
+    $router->get('/izvoz/excel', function () {
+        require 'backend/admin_export_excel.php';
+    });
+    $router->get('/izvoz/pdf', function () {
+        require 'backend/admin_export_pdf.php';
+    });
+    $router->get('/odjava', function () {
+        require 'backend/admin_logout.php';
+    });
+});
+
+// Edit Profile
+$router->get('/uredi-profil', function () {
+    require 'EditProfile.php';
+});
+
+// Worker Booking
+$router->get('/radnik-zakazivanje', function () {
+    require 'WorkerBooking.php';
+});
+
+// Run the router
+$router->run();

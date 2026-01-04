@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             // Send data to backend
-            fetch('backend/send_contact.php', {
+            fetch('/backend/send_contact.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

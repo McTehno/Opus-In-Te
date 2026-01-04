@@ -44,10 +44,10 @@ require 'backend/login.php';
         </div>
         <button type="submit" class="cta-button login-btn">Prijavite se</button>
         
-        <a href="index.php" class="cta-button back-btn">Nazad</a> 
+        <a href="/pocetna" class="cta-button back-btn">Nazad</a> 
     </form>
     <div class="register-link">
-        <p>Nemate profil? <a href="Register.php">Registrujte se</a></p>
+        <p>Nemate profil? <a href="/registracija">Registrujte se</a></p>
     </div>
 
 </div>

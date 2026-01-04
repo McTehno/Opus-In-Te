@@ -5,6 +5,9 @@ services:
       context: .
       dockerfile_inline: |
           FROM php:8.2-apache
+          # Enable mod_rewrite for .htaccess support
+          RUN a2enmod rewrite
+
           # Namestitev sistemskih knjižnic za GD in ZIP
           RUN apt-get update -y && apt-get install -y \
               libpng-dev \

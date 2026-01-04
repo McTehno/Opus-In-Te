@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Functions ---
 
     function fetchServices() {
-        fetch('backend/admin_fetch_services.php')
+        fetch('/backend/admin_fetch_services.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
             duration: editDuration.value
         };
 
-        const url = editServiceId.value ? 'backend/admin_update_service.php' : 'backend/admin_add_service.php';
+        const url = editServiceId.value ? '/backend/admin_update_service.php' : '/backend/admin_add_service.php';
 
         fetch(url, {
             method: 'POST',
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmDeleteBtn.addEventListener('click', function() {
         if (!serviceToDeleteId) return;
 
-        fetch('backend/admin_delete_service.php', {
+        fetch('/backend/admin_delete_service.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: serviceToDeleteId })
