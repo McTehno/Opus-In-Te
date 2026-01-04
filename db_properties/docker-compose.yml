@@ -1,16 +1,29 @@
 services:
 
   spletni-streznik:
-    build: # Namesto uporabe obstoječe Docker slike, bomo sliko zgradili na podlagi spodnjih navodil, kjer bomo osnovni sliki php:apache dodali še razširitve za povezovanje s podatkovno bazo
+    build:
       context: .
       dockerfile_inline: |
-          FROM php:apache
-          RUN docker-php-ext-install pdo pdo_mysql 
-    restart: unless-stopped # Omogoča, da se zabojnik ponovno zažene v primeru napake, razen če ga uporabnik ročno ustavi
+          FROM php:8.2-apache
+          # Namestitev sistemskih knjižnic za GD in ZIP
+          RUN apt-get update -y && apt-get install -y \
+              libpng-dev \
+              libwebp-dev \
+              libjpeg62-turbo-dev \
+              libfreetype6-dev \
+              libzip-dev \
+              zip \
+              unzip
+          # Konfiguracija in namestitev PHP razširitev
+          RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+          RUN docker-php-ext-install pdo pdo_mysql gd zip
+          # Namestitev orodja Composer
+          COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+    restart: unless-stopped
     ports:
-      - 127.0.0.1:8000:80 # Poveže notranja vrata 80 (Apache privzeta vrata) na zunanja vrata 8000, kar omogoča dostop do spletne strani preko brskalnika na http://localhost:8000. Predpona "127.0.0.1" spletni strežnik zaščiti, da se nanj ni možno povezati iz kakšne druge naprave na omrežju, na katerega je računalnik priklopljen
+      - 127.0.0.1:8000:80
     volumes:
-      - ./data/www/html # Poveže lokalno mapo './data/www' z glavno mapo spletnega strežnika znotraj zabojnika. V to mapo namestimo datoteke spletne aplikacije.
+      - ./data/www:/var/www/html
       
   mysql:
     hostname: podatkovna-baza # Ime zabojnika, lahko ga spremenite po želji. To ime uporabite za povezavo na podatkovno bazo kot ime strežnika oz. "hostname"
