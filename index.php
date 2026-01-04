@@ -114,5 +114,18 @@ $router->get('/radnik-zakazivanje', function () {
     require 'WorkerBooking.php';
 });
 
+// Backend API Passthrough (Fix for 404 on direct file access)
+$router->mount('/backend', function () use ($router) {
+    $router->match('GET|POST', '/(.*)', function ($filename) {
+        $file = __DIR__ . '/backend/' . $filename;
+        if (file_exists($file)) {
+            require $file;
+        } else {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+            echo 'File not found: ' . htmlspecialchars($filename);
+        }
+    });
+});
+
 // Run the router
 $router->run();

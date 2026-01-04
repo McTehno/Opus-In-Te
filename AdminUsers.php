@@ -14,16 +14,16 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upravljanje Korisnicima | Opus in te</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/admin_modals.css">
-    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin_modals.css">
+    <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="admin-body">
     <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+            <img src="/img/logo/loading.gif" alt="Loading..." class="loading-logo" />
         </div>
     </div>
 
@@ -31,7 +31,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <header class="admin-header">
         <div class="container">
             <a href="/admin-panel" class="logo-link">
-                <img src="img/logo/headlogo.png" alt="Opus in te Logo" style="height: 50px;">
+                <img src="/img/logo/headlogo.png" alt="Opus in te Logo" style="height: 50px;">
             </a>
             <nav class="admin-nav">
                 <ul>
@@ -201,8 +201,8 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         </div>
     </div>
 
-    <script src="js/admin_users.js"></script>
-    <script src="js/loading_screen.js"></script>
-    <script src="js/notifications.js"></script>
+    <script src="/js/admin_users.js"></script>
+    <script src="/js/loading_screen.js"></script>
+    <script src="/js/notifications.js"></script>
 </body>
 </html>

@@ -167,8 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
         blogs.forEach(blog => {
             const card = document.createElement('div');
             card.className = 'blog-card';
+            // Fix relative paths by prepending / if missing
+            let picPath = blog.picture_path || 'img/blogplaceholder/default.jpg';
+            if (!picPath.startsWith('/') && !picPath.startsWith('http')) {
+                picPath = '/' + picPath;
+            }
+            
             card.innerHTML = `
-                <div class="blog-card-image" style="background-image: url('${blog.picture_path || 'img/blogplaceholder/default.jpg'}');"></div>
+                <div class="blog-card-image" style="background-image: url('${picPath}');"></div>
                 <div class="blog-card-content">
                     <div class="blog-card-header">
                         <span class="blog-category">${blog.category_names || 'Nema kategorije'}</span>
