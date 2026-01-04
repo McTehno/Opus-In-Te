@@ -1,0 +1,25 @@
+:root {
+    /* Colors */
+    --soft-gold: #C5A76A;
+    --off-white: #FDFBF6;
+    --light-gray: #F7F5F0;
+    --charcoal: #3D3D3D;
+    --white: #FFFFFF;
+    
+    /* Status Colors */
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+    
+    /* Borders */
+    --border-color: #e0e0e0;
+
+    /* Fonts */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+
+    /* Worker Specific */
+    --card-bg: #FFFFFF;
+    --text-light: #7f8c8d;
+    --transition-speed: 0.3s;
+}

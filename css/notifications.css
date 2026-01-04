@@ -1,3 +1,5 @@
+﻿@import 'variables.css';
+
 #notification-container {
     position: fixed;
     top: 20px;
@@ -9,7 +11,7 @@
 }
 
 .notification {
-    background-color: #fff;
+    background-color: var(--white);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 15px 20px;
@@ -28,19 +30,19 @@
 }
 
 .notification.success {
-    border-left-color: #28a745;
+    border-left-color: var(--success-color);
 }
 
 .notification.success i {
-    color: #28a745;
+    color: var(--success-color);
 }
 
 .notification.error {
-    border-left-color: #dc3545;
+    border-left-color: var(--error-color);
 }
 
 .notification.error i {
-    color: #dc3545;
+    color: var(--error-color);
 }
 
 .notification.info {
@@ -55,9 +57,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
-    color: #333;
+    color: var(--charcoal);
 }
 
 .notification-close {
@@ -72,5 +74,6 @@
 }
 
 .notification-close:hover {
-    color: #333;
+    color: var(--charcoal);
 }
+

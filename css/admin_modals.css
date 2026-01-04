@@ -1,4 +1,4 @@
-/* --- Modals --- */
+﻿/* --- Modals --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -66,7 +66,7 @@
 
 .modal-content h3 {
     margin: 0 0 10px;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .modal-content p {
@@ -145,7 +145,7 @@
 }
 
 .close-modal:hover {
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .modal-body {
@@ -200,7 +200,7 @@
     align-items: center;
     margin-bottom: 15px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--charcoal);
 }
 
 .calendar-header button {
@@ -208,7 +208,7 @@
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    color: var(--accent-color);
+    color: var(--soft-gold);
 }
 
 .calendar-grid {
@@ -237,7 +237,7 @@
 }
 
 .calendar-day.selected {
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     color: #fff;
 }
 
@@ -247,7 +247,7 @@
 }
 
 .calendar-day.today {
-    border: 1px solid var(--accent-color);
+    border: 1px solid var(--soft-gold);
 }
 
 /* Time Slots */
@@ -274,14 +274,14 @@
 }
 
 .time-slot-btn:hover:not(.disabled) {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+    border-color: var(--soft-gold);
+    color: var(--soft-gold);
 }
 
 .time-slot-btn.selected {
-    background-color: var(--accent-color);
+    background-color: var(--soft-gold);
     color: #fff;
-    border-color: var(--accent-color);
+    border-color: var(--soft-gold);
 }
 
 .time-slot-btn.disabled {
@@ -397,3 +397,4 @@
 .services-modal-delete-btn:hover {
     background-color: #c0392b;
 }
+

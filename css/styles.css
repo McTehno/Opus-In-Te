@@ -1,13 +1,6 @@
-/* --- Root Variables & Global Styles --- */
-:root {
-    --soft-gold: #C5A76A;
-    --off-white: #FDFBF6;
-    --light-gray: #F7F5F0;
-    --charcoal: #3D3D3D;
-    --white: #FFFFFF;
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Montserrat', sans-serif;
-}
+@import 'variables.css';
+
+/* --- Global Styles --- */
 
 * {
     box-sizing: border-box;

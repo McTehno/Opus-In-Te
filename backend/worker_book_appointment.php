@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $input = json_decode(file_get_contents('php://input'), true);
 
+$location = $input['location'] ?? '';
 $clientName = trim($input['clientName'] ?? '');
 $clientEmail = trim($input['clientEmail'] ?? '');
 $clientPhone = trim($input['clientPhone'] ?? '');
@@ -38,7 +39,7 @@ $date = $input['date'] ?? '';
 $time = $input['time'] ?? '';
 $statusId = $input['statusId'] ?? 1; // Default to 'Zakazano' (1)
 
-if (!$clientName || !$clientEmail || !$clientPhone || !$serviceId || !$date || !$time) {
+if (!$location || !$clientName || !$clientEmail || !$clientPhone || !$serviceId || !$date || !$time) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
@@ -108,8 +109,14 @@ try {
     }
 
     // 4. Create Appointment
-    // Default to Banja Luka (1) as per existing system logic
-    $addressId = 1; 
+    // Handle Location
+    $addressId = null;
+    if ($location === 'Banja Luka') {
+        $addressId = 1;
+    } elseif ($location === 'Prijedor') {
+        $addressId = 2;
+    }
+    // Online = null
 
     $stmt = $pdo->prepare("
         INSERT INTO Appointment (datetime, Appointment_Status_idAppointment_Status, Appointment_Type_idAppointment_Type, Address_idAddress) 

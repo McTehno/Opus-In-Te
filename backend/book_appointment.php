@@ -177,7 +177,7 @@ try {
             <style>
                 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
                 .container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-                .header { background-color: #2c3e50; padding: 30px; text-align: center; color: #ffffff; }
+                .header { background-color: #2a2d2fff; padding: 30px; text-align: center; color: #ffffff; }
                 .header h1 { margin: 0; font-size: 24px; font-weight: 300; letter-spacing: 1px; }
                 .content { padding: 30px; color: #333333; line-height: 1.6; }
                 .details { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #C5A76A; }

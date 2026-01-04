@@ -1,8 +1,9 @@
 $(document).ready(function() {
     let currentStep = 1;
-    const totalSteps = 5;
+    const totalSteps = 6;
     
     let bookingData = {
+        location: null,
         clientName: '',
         clientEmail: '',
         clientPhone: '',
@@ -18,6 +19,13 @@ $(document).ready(function() {
 
     function validateStep(step) {
         if (step === 1) {
+            if (!bookingData.location) {
+                alert('Molimo izaberite lokaciju.');
+                return false;
+            }
+            return true;
+        }
+        if (step === 2) {
             const name = $('#clientName').val().trim();
             const email = $('#clientEmail').val().trim();
             const phone = $('#clientPhone').val().trim();
@@ -31,14 +39,14 @@ $(document).ready(function() {
             bookingData.clientPhone = phone;
             return true;
         }
-        if (step === 2) {
+        if (step === 3) {
             if (!bookingData.serviceId) {
                 alert('Molimo izaberite uslugu.');
                 return false;
             }
             return true;
         }
-        if (step === 3) {
+        if (step === 4) {
             if (!bookingData.date || !bookingData.time) {
                 alert('Molimo izaberite datum i vrijeme.');
                 return false;
@@ -89,6 +97,24 @@ $(document).ready(function() {
                     currentStepEl.removeClass('active').hide();
                     nextStepEl.show().css({opacity: 0, x: step > currentStep ? 50 : -50}).addClass('active');
                     gsap.to(nextStepEl, {opacity: 1, x: 0, duration: 0.3});
+                    
+                    // Special animation for Calendar Step (Step 4)
+                    if (step === 4) {
+                        // Animate Calendar Grid
+                        gsap.fromTo('.calendar-grid', 
+                            { opacity: 0, y: 20 },
+                            { opacity: 1, y: 0, duration: 0.5, delay: 0.1, ease: "power2.out" }
+                        );
+                        
+                        // Animate Time Slots (Re-trigger animation)
+                        const slots = $('.time-slot');
+                        if (slots.length > 0) {
+                            gsap.fromTo(slots, 
+                                { opacity: 0, y: 15 },
+                                { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power2.out", delay: 0.3 }
+                            );
+                        }
+                    }
                 }
             });
         }
@@ -112,9 +138,10 @@ $(document).ready(function() {
         let canNavigate = true;
         for(let i=1; i<step; i++) {
             // Simple check if data exists for previous steps
-            if (i===1 && (!$('#clientName').val() || !$('#clientEmail').val())) canNavigate = false;
-            if (i===2 && !bookingData.serviceId) canNavigate = false;
-            if (i===3 && (!bookingData.date || !bookingData.time)) canNavigate = false;
+            if (i===1 && !bookingData.location) canNavigate = false;
+            if (i===2 && (!$('#clientName').val() || !$('#clientEmail').val())) canNavigate = false;
+            if (i===3 && !bookingData.serviceId) canNavigate = false;
+            if (i===4 && (!bookingData.date || !bookingData.time)) canNavigate = false;
         }
         
         if (canNavigate) {
@@ -123,12 +150,22 @@ $(document).ready(function() {
     });
 
 
-    // --- Step 1: Client Input (Handled in validation) ---
+    // --- Step 1: Location Selection ---
+    $('.location-btn').click(function() {
+        $('.location-btn').css('border-color', '#ddd').css('background', 'white');
+        $(this).css('border-color', 'var(--accent-color)').css('background', 'var(--bg-light)');
+        
+        bookingData.location = $(this).data('location');
+        showStep(2);
+    });
+
+
+    // --- Step 2: Client Input (Handled in validation) ---
     // No specific JS needed for input fields other than validation
     // Button is enabled by default, validation happens on click
 
 
-    // --- Step 2: Service Selection ---
+    // --- Step 3: Service Selection ---
 
     $('.accordion-header').click(function() {
         const item = $(this).parent();
@@ -145,11 +182,16 @@ $(document).ready(function() {
         bookingData.serviceDuration = $(this).data('duration');
         bookingData.serviceName = $(this).find('h4').text();
         
-        $(`.booking-step[data-step="2"] .btn-next`).prop('disabled', false);
+        // Reload slots if date is selected (to account for new duration)
+        if (bookingData.date) {
+            loadSlots(bookingData.date);
+        }
+
+        $(`.booking-step[data-step="3"] .btn-next`).prop('disabled', false);
     });
 
 
-    // --- Step 3: Calendar & Slots ---
+    // --- Step 4: Calendar & Slots ---
 
     let currentDate = new Date();
     let selectedDate = null;
@@ -200,7 +242,7 @@ $(document).ready(function() {
                 bookingData.date = dateStr;
                 bookingData.time = null; // Reset time when date changes
                 loadSlots(dateStr);
-                $(`.booking-step[data-step="3"] .btn-next`).prop('disabled', true);
+                $(`.booking-step[data-step="4"] .btn-next`).prop('disabled', true);
             });
             
             grid.append(dayEl);
@@ -250,7 +292,7 @@ $(document).ready(function() {
                         $('.time-slot').removeClass('selected');
                         $(this).addClass('selected');
                         bookingData.time = time;
-                        $(`.booking-step[data-step="3"] .btn-next`).prop('disabled', false);
+                        $(`.booking-step[data-step="4"] .btn-next`).prop('disabled', false);
                     });
                     slotsContainer.append(slot);
                 });
@@ -271,9 +313,10 @@ $(document).ready(function() {
     }
 
 
-    // --- Step 4: Finish ---
+    // --- Step 5: Finish ---
 
     function updateSummary() {
+        $('#summaryLocation').text(bookingData.location);
         $('#summaryClient').text(bookingData.clientName);
         $('#summaryService').text(bookingData.serviceName);
         $('#summaryDate').text(bookingData.date);
@@ -295,7 +338,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Show success step
-                    showStep(5);
+                    showStep(6);
                     
                     // Trigger Confetti
                     const duration = 3 * 1000;
