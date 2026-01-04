@@ -52,8 +52,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
 
     <main>
         <section class="hero-section">
-            <div class="hero-video-bg">
-            </div>
+            <canvas id="hero-canvas"></canvas>
             <div class="hero-overlay"></div>
             <div class="hero-content container">
                 <h1>Mjesto za Vaš lični rast i razvoj.</h1>
@@ -156,6 +155,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
 
     <script src="js/navbar.js"></script>
     <script src="js/loading_screen.js"></script>
+    <script src="js/hero_animation.js"></script>
 </body>
 
 </html>

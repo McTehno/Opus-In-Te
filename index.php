@@ -114,17 +114,42 @@ $router->get('/radnik-zakazivanje', function () {
     require 'WorkerBooking.php';
 });
 
-// Backend API Passthrough (Fix for 404 on direct file access)
+// Backend API Routes
 $router->mount('/backend', function () use ($router) {
-    $router->match('GET|POST', '/(.*)', function ($filename) {
-        $file = __DIR__ . '/backend/' . $filename;
-        if (file_exists($file)) {
-            require $file;
-        } else {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-            echo 'File not found: ' . htmlspecialchars($filename);
-        }
-    });
+    // Public
+    $router->match('GET|POST', '/fetch_posts.php', function() { require 'backend/fetch_posts.php'; });
+    $router->match('GET|POST', '/increment_view.php', function() { require 'backend/increment_view.php'; });
+    $router->match('GET|POST', '/send_contact.php', function() { require 'backend/send_contact.php'; });
+    $router->match('GET|POST', '/get_slots.php', function() { require 'backend/get_slots.php'; });
+    $router->match('GET|POST', '/book_appointment.php', function() { require 'backend/book_appointment.php'; });
+
+    // Worker
+    $router->match('GET|POST', '/worker_update_appointment.php', function() { require 'backend/worker_update_appointment.php'; });
+    $router->match('GET|POST', '/worker_get_slots.php', function() { require 'backend/worker_get_slots.php'; });
+    $router->match('GET|POST', '/worker_book_appointment.php', function() { require 'backend/worker_book_appointment.php'; });
+
+    // Admin
+    $router->match('GET|POST', '/admin_create_worker.php', function() { require 'backend/admin_create_worker.php'; });
+    $router->match('GET|POST', '/admin_fetch_users.php', function() { require 'backend/admin_fetch_users.php'; });
+    $router->match('GET|POST', '/admin_update_user.php', function() { require 'backend/admin_update_user.php'; });
+    $router->match('GET|POST', '/admin_delete_user.php', function() { require 'backend/admin_delete_user.php'; });
+    
+    $router->match('GET|POST', '/admin_fetch_services.php', function() { require 'backend/admin_fetch_services.php'; });
+    $router->match('GET|POST', '/admin_update_service.php', function() { require 'backend/admin_update_service.php'; });
+    $router->match('GET|POST', '/admin_add_service.php', function() { require 'backend/admin_add_service.php'; });
+    $router->match('GET|POST', '/admin_delete_service.php', function() { require 'backend/admin_delete_service.php'; });
+
+    $router->match('GET|POST', '/admin_fetch_blogs.php', function() { require 'backend/admin_fetch_blogs.php'; });
+    $router->match('GET|POST', '/admin_get_blog.php', function() { require 'backend/admin_get_blog.php'; });
+    $router->match('GET|POST', '/admin_fetch_blog_authors.php', function() { require 'backend/admin_fetch_blog_authors.php'; });
+    $router->match('GET|POST', '/admin_update_blog.php', function() { require 'backend/admin_update_blog.php'; });
+    $router->match('GET|POST', '/admin_delete_blog.php', function() { require 'backend/admin_delete_blog.php'; });
+
+    $router->match('GET|POST', '/admin_fetch_appointments.php', function() { require 'backend/admin_fetch_appointments.php'; });
+    $router->match('GET|POST', '/admin_create_appointment.php', function() { require 'backend/admin_create_appointment.php'; });
+    $router->match('GET|POST', '/admin_delete_appointment.php', function() { require 'backend/admin_delete_appointment.php'; });
+    $router->match('GET|POST', '/admin_update_appointment.php', function() { require 'backend/admin_update_appointment.php'; });
+    $router->match('GET|POST', '/admin_get_appointment.php', function() { require 'backend/admin_get_appointment.php'; });
 });
 
 // Run the router
