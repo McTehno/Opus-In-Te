@@ -60,6 +60,57 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. Add the marker to the map
         L.marker(mapCoordinates, { icon: customIcon }).addTo(map)
             .bindPopup('<b>Opus in te</b><br>Vidovdanska Ulica 2, Banja Luka');
+
+        // 5. Geolocation and Routing
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    const userCoords = [userLat, userLng];
+
+                    // Add user marker
+                    const userIcon = L.divIcon({
+                        className: 'user-map-marker',
+                        html: '<div style="background-color: #007bff; width: 15px; height: 15px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+
+                    L.marker(userCoords, { icon: userIcon }).addTo(map)
+                        .bindPopup('Vaša lokacija').openPopup();
+
+                    // Draw route
+                    if (typeof L.Routing !== 'undefined') {
+                        const routingControl = L.Routing.control({
+                            waypoints: [
+                                L.latLng(userLat, userLng),
+                                L.latLng(mapCoordinates[0], mapCoordinates[1])
+                            ],
+                            routeWhileDragging: false,
+                            showAlternatives: false,
+                            fitSelectedRoutes: true,
+                            show: false, // Hide instructions
+                            lineOptions: {
+                                styles: [{ color: '#C5A76A', opacity: 1, weight: 5 }]
+                            },
+                            createMarker: function() { return null; }, // We already added markers
+                            addWaypoints: false,
+                            draggableWaypoints: false
+                        }).addTo(map);
+
+                        // Hide the routing container (white box)
+                        routingControl.getContainer().style.display = 'none';
+                    } else {
+                        console.error('Leaflet Routing Machine not loaded');
+                    }
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    // Optional: alert("Nismo uspjeli dohvatiti vašu lokaciju.");
+                }
+            );
+        }
     }
 });
 

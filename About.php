@@ -36,7 +36,7 @@ require_once 'backend/role_check.php';
                 <ul>
                     <li><a href="index.php">Početna</a></li>
                     <li><a href="Services.php">Usluge</a></li>
-                    <li><a href="OMeni.php" class="active">O Meni</a></li>
+                    <li><a href="About.php" class="active">O Meni</a></li>
                     <li><a href="Blog.php">Blog</a></li>
                     <li><a href="Contact.php">Kontakt</a></li>
                 </ul>
