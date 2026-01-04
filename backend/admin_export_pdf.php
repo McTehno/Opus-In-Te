@@ -37,7 +37,7 @@ try {
     $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Logo Path
-    $logoPath = __DIR__ . '/../img/logo/headlogo.png';
+    $logoPath = __DIR__ . '/../img/logo/logo_header.png';
     $logoData = base64_encode(file_get_contents($logoPath));
     $logoSrc = 'data:image/png;base64,' . $logoData;
 

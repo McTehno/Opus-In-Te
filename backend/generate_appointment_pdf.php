@@ -53,7 +53,7 @@ try {
     }
 
     // Logo Path
-    $logoPath = __DIR__ . '/../img/logo/headlogo.png';
+    $logoPath = __DIR__ . '/../img/logo/logo_header.png';
     $logoData = '';
     if (file_exists($logoPath)) {
         $logoData = base64_encode(file_get_contents($logoPath));

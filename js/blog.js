@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'popular-post-item';
             li.innerHTML = `
                 <a href="BlogPost.php?id=${post.idBlog_Post}">
-                    <img src="${post.picture_path || 'img/blogplaceholder/default.jpg'}" alt="${post.title}">
+                    <img src="${post.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg'}" alt="${post.title}">
                 </a>
                 <div class="popular-post-info">
                     <h5><a href="BlogPost.php?id=${post.idBlog_Post}">${post.title}</a></h5>
@@ -247,8 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderFeaturedPost(post) {
         const getImgPath = (path) => {
-            if (!path) return '/img/blogplaceholder/default.jpg';
-            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg';
+            if (!path) return '/img/blogplaceholder/blog_placeholder_2.jpg';
+            if (path.startsWith('C:')) return '/img/blogplaceholder/blog_placeholder_2.jpg';
             if (path.startsWith('http')) return path;
             if (path.startsWith('/')) return path;
             return '/' + path;
@@ -274,8 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Helper to fix image paths
         const getImgPath = (path) => {
-            if (!path) return '/img/blogplaceholder/default.jpg';
-            if (path.startsWith('C:')) return '/img/blogplaceholder/default.jpg';
+            if (!path) return '/img/blogplaceholder/blog_placeholder_2.jpg';
+            if (path.startsWith('C:')) return '/img/blogplaceholder/blog_placeholder_2.jpg';
             if (path.startsWith('http')) return path;
             if (path.startsWith('/')) return path;
             return '/' + path;
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(err => console.error('Error incrementing view:', err));
 
             // Populate Data
-            detailImg.src = post.picture_path || 'img/blogplaceholder/default.jpg';
+            detailImg.src = post.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg';
             detailCategory.textContent = post.category_names || 'Opus in te';
             detailTitle.textContent = post.title;
             

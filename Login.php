@@ -19,7 +19,7 @@ require 'backend/login.php';
 <body class ="login-body">
 <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo"/>
+            <img src="img/logo/loader.gif" alt="Loading..." class="loading-logo"/>
         </div> 
         
 </div>

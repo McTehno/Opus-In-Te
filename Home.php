@@ -24,14 +24,14 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
 <body>
     <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+            <img src="img/logo/loader.gif" alt="Loading..." class="loading-logo" />
         </div>
 
     </div>
     <header class="main-header">
         <div class="container">
             <a href="#" class="logo-link">
-                <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
+                <img src="img/logo/logo_header.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
                 <ul>
@@ -75,7 +75,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
                 </div>
                 <div class="intro-image">
                     <div class="image-frame">
-                        <img src="img/vanjapic/indexpic.jpg" alt="Vanja Dejanović, psihoterapeut">
+                        <img src="img/vanjapic/vanja_profile.jpg" alt="Vanja Dejanović, psihoterapeut">
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
         <div class="container footer-container">
             <div class="footer-col">
                 <a href="#" class="footer-logo-link">
-                    <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
+                    <img src="img/logo/logo_transparent.png" alt="Opus in te Logo" class="footer-logo-image">
                 </a>
             </div>
             <div class="footer-col">

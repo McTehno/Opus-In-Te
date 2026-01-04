@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'blog-card';
             // Fix relative paths by prepending / if missing
-            let picPath = blog.picture_path || 'img/blogplaceholder/default.jpg';
+            let picPath = blog.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg';
             if (!picPath.startsWith('/') && !picPath.startsWith('http')) {
                 picPath = '/' + picPath;
             }
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderDetail(blog) {
         if (!blog) return;
 
-        detailImage.src = blog.picture_path || 'img/blogplaceholder/default.jpg';
+        detailImage.src = blog.picture_path || 'img/blogplaceholder/blog_placeholder_2.jpg';
         if (isEditing) {
             detailTitle.innerHTML = `<input id="editTitleInput" class="blog-editable-input" value="${escapeHtml(blog.title)}" />`;
         } else {

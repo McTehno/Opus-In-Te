@@ -85,7 +85,7 @@ $types = $pdo->query("SELECT * FROM Appointment_Type")->fetchAll();
 <body class="worker-dashboard">
     <header class="worker-header">
         <div class="worker-logo">
-            <img src="img/logo/headlogo.png" alt="Opus in te Logo">
+            <img src="img/logo/logo_header.png" alt="Opus in te Logo">
         </div>
         <div class="worker-info">
             <span class="worker-name"><?php echo htmlspecialchars($user['name'] . ' ' . $user['last_name']); ?></span>

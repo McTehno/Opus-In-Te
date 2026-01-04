@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Opus in te Logo](img/logo/headlogo.png)
+![Opus in te Logo](img/logo/logo_header.png)
 
 **Professional Psychological Counseling and Psychotherapy Services**
 
@@ -674,9 +674,9 @@ Opus-In-Te/
 │
 ├── 📁 img/                      # Image assets
 │   ├── 📁 logo/                 # Brand logos
-│   │   ├── 🖼️ headlogo.png
-│   │   ├── 🖼️ loading.gif
-│   │   └── 🖼️ fulltransparentlogo.png
+│   │   ├── 🖼️ logo_header.png
+│   │   ├── 🖼️ loader.gif
+│   │   └── 🖼️ logo_transparent.png
 │   ├── 📁 vanjapic/             # Therapist photos
 │   └── 📁 [other image dirs]    # Additional assets
 │

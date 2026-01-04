@@ -37,7 +37,7 @@ require_once 'backend/edit_profile.php';
 <body class="dashboard-body">
     <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+            <img src="img/logo/loader.gif" alt="Loading..." class="loading-logo" />
         </div>
 
     </div>
@@ -45,7 +45,7 @@ require_once 'backend/edit_profile.php';
     <header class="main-header scrolled">
         <div class="container">
             <a href="/pocetna" class="logo-link">
-                <img src="img/logo/headlogo.png" alt="Opus in te Logo" class="logo-image">
+                <img src="img/logo/logo_header.png" alt="Opus in te Logo" class="logo-image">
             </a>
             <nav class="main-nav">
                 <ul>
@@ -132,7 +132,7 @@ require_once 'backend/edit_profile.php';
         <div class="container footer-container">
             <div class="footer-col">
                 <a href="index.php" class="footer-logo-link">
-                    <img src="img/logo/fulltransparentlogo.png" alt="Opus in te Logo" class="footer-logo-image">
+                    <img src="img/logo/logo_transparent.png" alt="Opus in te Logo" class="footer-logo-image">
                 </a>
             </div>
             <div class="footer-col">

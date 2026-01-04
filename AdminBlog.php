@@ -23,7 +23,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 <body class="admin-body">
     <div id="loading-screen">
         <div class="loading-logo-wrapper">
-            <img src="/img/logo/loading.gif" alt="Loading..." class="loading-logo" />
+            <img src="/img/logo/loader.gif" alt="Loading..." class="loading-logo" />
         </div>
     </div>
 
@@ -31,7 +31,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <header class="admin-header">
         <div class="container">
             <a href="/admin-panel" class="logo-link">
-                <img src="/img/logo/headlogo.png" alt="Opus in te Logo" style="height: 50px;">
+                <img src="/img/logo/logo_header.png" alt="Opus in te Logo" style="height: 50px;">
             </a>
             <nav class="admin-nav">
                 <ul>
