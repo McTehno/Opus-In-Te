@@ -154,8 +154,8 @@ mysql --version
      require_once __DIR__ . '/connect.php';
      if (session_status() === PHP_SESSION_NONE) { session_start(); }
      const ADMIN_EMAIL = 'admin@opusinte.com';
-     // Hash for password "secret_pass" from seed data; change for production.
-     const ADMIN_PASSWORD_HASH = '$2y$10$OO1uzp5XBHcIE586kEIieOdLQcgULd8s3lopiGCj5VOlCc7iJ3tKq';
+     // Generate your own bcrypt/argon hash, e.g. password_hash('your_admin_password', PASSWORD_BCRYPT)
+     const ADMIN_PASSWORD_HASH = '[YOUR_ADMIN_PASSWORD_HASH]';
      ```
    - `backend/mail_config.php` (not tracked): SMTP credentials. Defaults target MailHog.
      ```php
@@ -204,7 +204,7 @@ Schema highlights (see `db_properties/opus.sql` and ER diagram):
 - **Receipt** placeholder table for future billing attachments
 
 Seeded accounts (from `opus.sql`):
-- Admin DB record: `admin@opusinte.com` / password hash for `secret_pass` (use via `admin_config.php`).
+- Admin DB record: `admin@opusinte.com` / password `secret_pass` (replace via `admin_config.php` for production).
 - Worker: `doctor@opusinte.com` (`worker_pass`)
 - Client: `client@gmail.com` (`client_pass`)
 - Additional workers: `mihajlo@opusinte.com`, `elena@opusinte.com` (`pass_123`)
@@ -219,7 +219,7 @@ Seeded accounts (from `opus.sql`):
    ```bash
    cd db_properties
    mkdir -p data/www data/mysql
-   rsync -a --exclude 'data' --exclude 'db_properties' .. data/www
+   rsync -a --exclude=data --exclude=db_properties ../ data/www/
    ```
    (Adjust the rsync/excludes as needed; the compose file mounts `./data/www`.)
 
@@ -236,7 +236,7 @@ Seeded accounts (from `opus.sql`):
 
 4. **Import database**
    ```bash
-   docker-compose exec -i mysql mysql -uroot -psuperVarnoGeslo opus < /var/www/html/db_properties/opus.sql
+   docker-compose exec -i mysql mysql -uroot -psuperVarnoGeslo opus < opus.sql
    ```
 
 5. **Access**
@@ -465,7 +465,7 @@ For licensing inquiries: info@opusinte.ba
 Vanja Dejanović — Licensed Psychotherapist  
 Jevrejska 56, Banja Luka, Bosnia and Herzegovina  
 Email: info@opusinte.ba  
-Phone: +387 65 123 456 *(update before production)*  
+Phone: [REPLACE BEFORE PRODUCTION] +387 65 123 456  
 Website: [www.opusinte.ba](http://www.opusinte.ba)
 
 Socials: [Facebook](https://facebook.com/opusinte) · [Instagram](https://instagram.com/opus.in.te) · [TikTok](https://tiktok.com/@opusinte) · [Twitter/X](https://twitter.com/opusinte)
