@@ -51,6 +51,11 @@ require_once 'backend/role_check.php';
                 </ul>
             </nav>
             <div class="header-actions">
+                <button class="mobile-menu-toggle" aria-label="Otvori navigaciju" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <a href="booking.php" class="cta-button nav-cta">Zakažite termin</a>
                 <a href="Login.php" class="login-icon" aria-label="Korisnički nalog"><i
                         class="fa-solid fa-circle-user"></i></a>

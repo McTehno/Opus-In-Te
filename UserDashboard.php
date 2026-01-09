@@ -93,6 +93,11 @@ $appointments_json = json_encode($appointments);
                 </ul>
             </nav>
             <div class="header-actions">
+                <button class="mobile-menu-toggle" aria-label="Otvori navigaciju" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <a href="/zakazivanje" class="cta-button nav-cta">Zakažite Termin</a>
                 <a href="/odjava" id="logout-link" class="login-icon" aria-label="Odjava"><i
                         class="fa-solid fa-right-from-bracket"></i></a>

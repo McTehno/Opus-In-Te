@@ -58,6 +58,11 @@ require_once 'backend/edit_profile.php';
                 </ul>
             </nav>
             <div class="header-actions">
+                <button class="mobile-menu-toggle" aria-label="Otvori navigaciju" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <a href="booking.php" class="cta-button nav-cta">Zakažite Termin</a>
                 <a href="backend/logout.php" id="logout-link" class="login-icon" aria-label="Odjava"><i
                         class="fa-solid fa-right-from-bracket"></i></a>

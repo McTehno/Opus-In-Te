@@ -163,16 +163,21 @@
     .main-nav {
         position: fixed;
         top: 0;
-        left: 0;
-        width: 100%;
+        right: 0;
+        left: auto;
+        width: 75%;
+        max-width: 320px;
         height: 100vh;
         background-color: var(--white);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start; /* Changed from center */
         align-items: center;
-        transform: translateX(-100%);
-        transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         z-index: 999;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        padding: 80px 30px 40px 30px; /* Added padding to space out content */
+        overflow-y: auto;
     }
 
     .main-nav.active {
@@ -183,16 +188,31 @@
         flex-direction: column;
         align-items: center;
         gap: 20px;
+        width: 100%;
+        margin-bottom: auto; /* Pushes button to bottom if space permits */
+        margin-top: 40px;
     }
 
     .main-nav ul li {
         margin-left: 0;
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
     }
 
     .main-nav ul li a {
-        font-size: 1.3rem;
+        font-family: var(--font-heading); /* Use heading font for menu */
+        font-size: 1.5rem;
         color: var(--charcoal) !important;
-        padding: 15px 30px;
+        padding: 10px 0;
+        display: block;
+        position: relative;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .main-nav ul li a:hover {
+        color: var(--soft-gold) !important;
+        transform: translateX(5px);
     }
 
     /* Mobile overlay */
@@ -202,7 +222,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(44, 44, 44, 0.6); /* Darker overlay */
+        backdrop-filter: blur(5px); /* Modern blur effect */
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -232,13 +253,62 @@
     .main-nav .mobile-nav-cta {
         display: block;
         margin-top: 30px;
-        padding: 15px 40px;
-        font-size: 1.1rem;
+        padding: 15px 30px;
+        font-size: 1rem;
+        width: 100%; /* Make it wider but contained */
+        max-width: 250px;
+        text-align: center;
+        background-color: var(--soft-gold);
+        color: var(--white) !important;
+        border: none;
+        box-shadow: 0 4px 15px rgba(212, 185, 129, 0.4);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .main-nav .mobile-nav-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(212, 185, 129, 0.6);
     }
 
-    /* Hero section */
+    /* Hero section - Full Screen only on Home */
     .hero-section {
-        height: 85vh;
+        height: 100vh;
+    }
+
+    /* Normal height for other page titles on mobile */
+    .page-title-section,
+    .page-title-section-usluge,
+    .page-title-section-blog {
+        height: auto;
+        min-height: 250px; /* Ensure some height but not full screen */
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .page-title-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Contact Page Special Case */
+    .page-title-section-kontakt {
+        height: auto;
+        min-height: 250px;
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .page-title-section-kontakt .page-title-content {
+        height: 100%;
+        justify-content: center;
     }
 
     .hero-content h1 {

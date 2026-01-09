@@ -44,6 +44,11 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
                 </ul>
             </nav>
             <div class="header-actions">
+                <button class="mobile-menu-toggle" aria-label="Otvori navigaciju" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <a href="/zakazivanje" class="cta-button nav-cta">Zakažite termin</a>
                 <a href="/prijava" class="login-icon" aria-label="Korisnički nalog"><i
                         class="fa-solid fa-circle-user"></i></a>
