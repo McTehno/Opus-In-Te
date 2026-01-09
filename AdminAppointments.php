@@ -78,12 +78,6 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 0;">Upravljanje Terminima</h1>
                 <div class="action-buttons">
-                    <a href="/admin/izvoz/excel" target="_blank" class="action-btn btn-export-excel">
-                        <i class="fa-solid fa-file-excel"></i>
-                    </a>
-                    <a href="/admin/izvoz/pdf" target="_blank" class="action-btn btn-export-pdf">
-                        <i class="fa-solid fa-file-pdf"></i>
-                    </a>
                     <button id="createAppointmentBtn" class="btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> Novi Termin</button>
                 </div>
             </div>
@@ -95,8 +89,16 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="text" id="searchInput" placeholder="Pretraži po doktoru ili pacijentu...">
                 </div>
 
-                <!-- Filters Toggle (Mobile) -->
-                <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
+                <div class="controls-actions">
+                     <a href="/admin/izvoz/excel" target="_blank" class="action-btn btn-export-excel" title="Izvezi u Excel">
+                        <i class="fa-solid fa-file-excel"></i>
+                    </a>
+                    <a href="/admin/izvoz/pdf" target="_blank" class="action-btn btn-export-pdf" title="Izvezi u PDF">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </a>
+                    <!-- Filters Toggle (Mobile) -->
+                    <button id="toggleFilters" class="filter-toggle-btn"><i class="fa-solid fa-filter"></i> Filteri</button>
+                </div>
             </div>
 
             <div class="blog-layout">

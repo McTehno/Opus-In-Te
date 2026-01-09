@@ -87,6 +87,7 @@
     /* Blog layout */
     .blog-layout {
         flex-direction: column;
+        align-items: stretch; /* Fix for items not filling width */
     }
 
     .blog-sidebar {
@@ -94,6 +95,10 @@
         position: static;
         max-height: none;
         margin-bottom: 20px;
+    }
+
+    .blog-grid-container {
+        width: 100%;
     }
 
     .blog-grid {
@@ -110,9 +115,16 @@
     }
 
     /* Services table */
-    .services-table th:nth-child(n+4),
-    .services-table td:nth-child(n+4) {
+    .services-table th:nth-child(n+4):not(:last-child),
+    .services-table td:nth-child(n+4):not(:last-child) {
         display: none;
+    }
+    
+    .services-table th:last-child,
+    .services-table td:last-child {
+        display: table-cell;
+        text-align: right;
+        white-space: nowrap;
     }
 }
 
@@ -235,22 +247,49 @@
         display: none;
     }
 
+    .appointments-list-container {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    #appointmentsList {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 15px;
+        width: 100%;
+    }
+
+    @media (max-width: 650px) {
+        #appointmentsList {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .full-appointments-list .appointment-item {
         flex-direction: column;
         position: relative;
-        padding: 20px 0;
+        padding: 15px;
+        background: #fff;
+        border: 1px solid #eee; /* Light border */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
     }
 
     .full-appointments-list .appointment-item > div {
         width: 100%;
-        padding: 5px 0;
+        padding: 2px 0;
     }
 
     .col-actions {
-        text-align: left !important;
+        text-align: right !important; /* Align buttons to right */
         margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid #eee;
+        padding-top: 10px;
+        border-top: 1px solid #f0f0f0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
     }
 
     /* Search bar */
@@ -261,6 +300,33 @@
     .search-bar {
         max-width: 100%;
         margin-bottom: 10px;
+    }
+
+    .controls-actions {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .controls-actions .action-btn {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .controls-actions #toggleFilters {
+        flex: 1;
+        margin: 0; /* Override default margins if any */
+        height: 44px;
     }
 
     /* Services page */
@@ -278,7 +344,14 @@
 
     /* Blog page */
     .blog-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    @media (max-width: 500px) {
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .blog-card-image {
