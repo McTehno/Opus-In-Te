@@ -153,6 +153,45 @@
    3. MOBILE BREAKPOINT (max-width: 768px)
    =========================================== */
 
+   @media (max-width: 768px) {
+    /* The Toggle Button */
+    .mobile-sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--white);
+        border: 2px solid var(--soft-gold);
+        color: var(--soft-gold);
+        border-radius: 8px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    /* Transform Sidebar into a Slide-in Drawer */
+    .blog-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 85%;
+        height: 100%;
+        background-color: var(--white);
+        z-index: 2001;
+        padding: 80px 30px 40px;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        transform: translateX(100%); /* Hidden by default */
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        overflow-y: auto;
+    }
+
+    .blog-sidebar.active {
+        transform: translateX(0); /* Slide in */
+    }}
+
 @media (max-width: 768px) {
     /* Show mobile menu toggle */
     .mobile-menu-toggle {

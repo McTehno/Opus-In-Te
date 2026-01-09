@@ -447,3 +447,25 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('mobile-sidebar-toggle');
+    const sidebar = document.getElementById('blog-sidebar');
+    
+    // Create an overlay element dynamically
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-nav-overlay'; // Reusing your existing overlay class
+    document.body.appendChild(overlay);
+
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    });
+
+    overlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; 
+    });
+});

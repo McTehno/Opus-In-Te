@@ -62,7 +62,9 @@ require_once 'backend/role_check.php';
         <section class="blog-content-section">
             <div class="container blog-container">
                 <div class="blog-posts-main">
-                    
+                    <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
+                        <i class="fas fa-filter"></i> Pretraga i Kategorije
+                    </button>
                     <div class="blog-controls">
                         <div class="sort-dropdown">
                             <button id="sort-btn" class="sort-btn">
