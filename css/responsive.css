@@ -466,9 +466,18 @@
     }
 
     .booking-step {
-        left: 20px;
-        right: 20px;
-        top: 20px;
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    .booking-step.active {
+        display: block;
     }
 
     .step-title {
@@ -500,12 +509,23 @@
     /* Location picker */
     .location-picker {
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
     }
 
     .location-btn {
         width: 100%;
-        padding: 30px;
+        padding: 15px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .location-btn i {
+        font-size: 1.5rem;
+    }
+
+    .location-btn span {
+        font-size: 1.2rem;
     }
 
     /* Service accordion */
@@ -527,9 +547,9 @@
 
     .appointment-slot {
         padding: 12px;
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+        flex-direction: row;
+        gap: 15px;
+        text-align: left;
     }
 
     .therapist-photo img {
