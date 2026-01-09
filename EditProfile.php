@@ -26,6 +26,7 @@ require_once 'backend/edit_profile.php';
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/notifications.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,6 +171,7 @@ require_once 'backend/edit_profile.php';
 
 
     <script src="js/edit_profile.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/loading_screen.js"></script>
 

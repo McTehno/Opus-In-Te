@@ -15,6 +15,7 @@ require_once 'backend/role_check.php';
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/notifications.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,6 +196,7 @@ require_once 'backend/role_check.php';
     </footer>
 
     <script src="js/kontakt_animations.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/contact_form.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

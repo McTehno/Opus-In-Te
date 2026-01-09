@@ -11,6 +11,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opus in te | Psihološko savjetovanje | Banja Luka</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -154,6 +155,7 @@ require_once 'backend/role_check.php'; // Redirect admins/workers
     </footer>
 
     <script src="js/navbar.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/loading_screen.js"></script>
     <script src="js/hero_animation.js"></script>
 </body>

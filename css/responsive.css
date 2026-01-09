@@ -1,0 +1,943 @@
+/* ===========================================
+   RESPONSIVE CSS - Mobile & Tablet Styles
+   Opus in te - Psychology Practice Website
+   =========================================== */
+
+@import 'variables.css';
+
+/* ===========================================
+   1. MOBILE NAVIGATION
+   =========================================== */
+
+/* Mobile Menu Toggle Button (Hamburger) */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--charcoal);
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Hamburger Animation when active */
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Transparent header hamburger styling */
+.main-header:not(.scrolled) .mobile-menu-toggle span {
+    background-color: var(--white);
+}
+
+.main-header.scrolled .mobile-menu-toggle span {
+    background-color: var(--charcoal);
+}
+
+/* ===========================================
+   2. TABLET BREAKPOINT (max-width: 1024px)
+   =========================================== */
+
+@media (max-width: 1024px) {
+    /* Container adjustments */
+    .container {
+        padding: 0 30px;
+    }
+
+    /* Navigation spacing */
+    .main-nav ul li {
+        margin-left: 20px;
+    }
+
+    /* Hero section */
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    /* Services grid */
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    /* Intro section */
+    .intro-container {
+        gap: 40px;
+    }
+
+    /* Blog container */
+    .blog-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .blog-sidebar {
+        order: -1;
+    }
+
+    /* Contact container */
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* About me container */
+    .about-me-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-me-text {
+        margin-left: 0;
+        padding: 40px;
+    }
+
+    /* Dashboard container */
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .user-profile-panel {
+        order: -1;
+    }
+
+    /* Booking date-time container */
+    .date-time-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .calendar-panel {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 30px;
+    }
+
+    /* Blog detail header */
+    .detail-header {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .detail-image-wrapper {
+        width: 100%;
+    }
+}
+
+/* ===========================================
+   3. MOBILE BREAKPOINT (max-width: 768px)
+   =========================================== */
+
+@media (max-width: 768px) {
+    /* Show mobile menu toggle */
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Hide desktop navigation */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: var(--white);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        z-index: 999;
+    }
+
+    .main-nav.active {
+        transform: translateX(0);
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .main-nav ul li {
+        margin-left: 0;
+    }
+
+    .main-nav ul li a {
+        font-size: 1.3rem;
+        color: var(--charcoal) !important;
+        padding: 15px 30px;
+    }
+
+    /* Mobile overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 998;
+    }
+
+    .mobile-nav-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Header adjustments */
+    .main-header .container {
+        padding: 0 15px;
+    }
+
+    .logo-image {
+        height: 60px;
+    }
+
+    /* Hide nav CTA on mobile, show in mobile menu */
+    .header-actions .nav-cta {
+        display: none;
+    }
+
+    /* Mobile menu CTA button */
+    .main-nav .mobile-nav-cta {
+        display: block;
+        margin-top: 30px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+    }
+
+    /* Hero section */
+    .hero-section {
+        height: 85vh;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+        padding: 0 20px;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+
+    .hero-content .cta-button {
+        padding: 12px 30px;
+    }
+
+    /* Intro section */
+    .intro-section {
+        padding: 60px 0;
+    }
+
+    .intro-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .intro-text h2 {
+        font-size: 2rem;
+    }
+
+    /* Services section */
+    .services-section {
+        padding: 60px 0;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .service-card {
+        padding: 30px 25px;
+    }
+
+    /* Final CTA section */
+    .final-cta-section {
+        padding: 60px 0;
+    }
+
+    .final-cta-section h2 {
+        font-size: 2rem;
+    }
+
+    /* Footer */
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-col {
+        width: 100%;
+    }
+
+    .footer-logo-image {
+        height: 10ch;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    /* Page title sections */
+    .page-title-section h1,
+    .page-title-section-usluge h1,
+    .page-title-section-blog h1 {
+        font-size: 2.2rem;
+    }
+
+    .page-title-content {
+        height: 20vh;
+    }
+
+    /* Accordion */
+    .accordion-header {
+        padding: 20px;
+        font-size: 1.2rem;
+    }
+
+    /* Login/Register forms */
+    .login-form-wrapper {
+        padding: 30px 25px;
+        margin: 20px;
+        max-width: 100%;
+    }
+
+    .login-form-wrapper h2 {
+        font-size: 2rem;
+    }
+
+    /* Booking modal */
+    .booking-modal {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+        border-radius: 10px;
+    }
+
+    .booking-content {
+        padding: 25px 20px;
+        min-height: auto;
+    }
+
+    .booking-step {
+        left: 20px;
+        right: 20px;
+        top: 20px;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    /* Progress bar */
+    .progress-bar-container {
+        padding: 0 15px;
+        overflow-x: auto;
+    }
+
+    .step-label {
+        font-size: 0.7rem;
+    }
+
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .progress-bar-line {
+        left: 10%;
+        width: 80%;
+    }
+
+    /* Location picker */
+    .location-picker {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .location-btn {
+        width: 100%;
+        padding: 30px;
+    }
+
+    /* Service accordion */
+    .service-accordion {
+        max-width: 100%;
+    }
+
+    .service-option {
+        padding: 12px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    /* Time slots */
+    .time-slots-list {
+        max-height: 250px;
+    }
+
+    .appointment-slot {
+        padding: 12px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .therapist-photo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Details form */
+    .details-form {
+        max-width: 100%;
+    }
+
+    .form-next-btn {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .form-next-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Confirmation */
+    .final-confirmation-wrapper {
+        padding: 20px 10px;
+    }
+
+    .final-confirmation-icon {
+        font-size: 3.5rem;
+    }
+
+    /* Contact page */
+    .page-title-section-kontakt {
+        padding: 15vh 0;
+    }
+
+    .booking-prompt {
+        height: auto;
+        padding: 20px;
+    }
+
+    .contact-main-section {
+        padding: 60px 0;
+    }
+
+    .contact-info h3,
+    .contact-form-wrapper h3 {
+        font-size: 1.8rem;
+    }
+
+    .contact-form-wrapper {
+        padding: 30px 25px;
+    }
+
+    #map-container {
+        height: 300px;
+    }
+
+    /* Blog page */
+    .blog-content-section {
+        padding: 60px 0;
+    }
+
+    .blog-grid {
+        margin: 0;
+        width: 100%;
+    }
+
+    .grid-item {
+        width: 100%;
+        padding: 0;
+    }
+
+    .featured-post-card .card-title {
+        font-size: 1.6rem;
+    }
+
+    .featured-post-card .card-image-container {
+        height: 250px;
+    }
+
+    .blog-card .card-image-container {
+        height: 180px;
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    /* Blog detail */
+    #detail-title {
+        font-size: 2rem;
+    }
+
+    .detail-meta-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .detail-body-content {
+        font-size: 1rem;
+    }
+
+    /* Sidebar widgets */
+    .sidebar-widget {
+        padding: 20px;
+    }
+
+    .widget-title {
+        font-size: 1.3rem;
+    }
+
+    /* Blog controls */
+    .blog-controls {
+        justify-content: center;
+    }
+
+    /* About me page */
+    .about-me-header {
+        padding: 80px 0;
+    }
+
+    .about-me-main {
+        padding: 60px 0;
+    }
+
+    .about-me-image {
+        margin-bottom: -30px;
+    }
+
+    .pull-quote-section {
+        padding: 60px 0;
+    }
+
+    .pull-quote-section blockquote {
+        font-size: 1.6rem;
+        padding-left: 20px;
+    }
+
+    .qualifications-list li {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    /* User Dashboard */
+    .dashboard-welcome {
+        padding: 60px 0;
+    }
+
+    .dashboard-welcome h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard-content {
+        padding: 40px 0;
+    }
+
+    .dashboard-container {
+        padding: 25px;
+    }
+
+    .user-profile-panel {
+        padding: 20px;
+    }
+
+    .user-profile-panel h3 {
+        font-size: 1.4rem;
+    }
+
+    .appointment-panel {
+        min-height: 400px;
+    }
+
+    .calendar-view h3,
+    .appointment-list-view h3 {
+        font-size: 1.4rem;
+    }
+
+    .calendar-header h4 {
+        font-size: 1.2rem;
+    }
+
+    .calendar-day {
+        padding: 6px 0;
+        font-size: 0.85rem;
+    }
+
+    /* Appointment cards */
+    .appointment-card {
+        flex-direction: column;
+    }
+
+    .appointment-left {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        min-width: auto;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .appointment-line {
+        display: none;
+    }
+
+    /* Edit profile */
+    .edit-profile-card {
+        flex-direction: column;
+        margin: 20px auto;
+    }
+
+    .profile-card-sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 30px 20px;
+    }
+
+    .profile-card-form {
+        padding: 30px 25px;
+    }
+
+    .profile-card-form h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Modals */
+    .modal-content {
+        max-width: 95%;
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .modal-image {
+        max-height: 70vh;
+    }
+
+    /* Loading screen adjustments */
+    .loading-logo-wrapper {
+        width: 100px;
+        height: 80px;
+    }
+
+    .loading-logo {
+        width: 120px;
+    }
+
+    #loading-screen p {
+        font-size: 1rem;
+    }
+}
+
+/* ===========================================
+   4. SMALL MOBILE BREAKPOINT (max-width: 480px)
+   =========================================== */
+
+@media (max-width: 480px) {
+    /* Container */
+    .container {
+        padding: 0 15px;
+    }
+
+    /* Hero section */
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    /* Section titles */
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .page-title-section h1,
+    .page-title-section-usluge h1,
+    .page-title-section-blog h1 {
+        font-size: 1.8rem;
+    }
+
+    /* CTA buttons */
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+
+    /* Form inputs */
+    .form-group input,
+    .form-group textarea {
+        padding: 12px 14px;
+        font-size: 0.95rem;
+    }
+
+    /* Login form */
+    .login-form-wrapper h2 {
+        font-size: 1.6rem;
+    }
+
+    .login-btn,
+    .back-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    /* Booking */
+    .step-label {
+        font-size: 0.6rem;
+        display: none;
+    }
+
+    .step-circle {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    .location-btn {
+        padding: 25px;
+    }
+
+    .location-btn i {
+        font-size: 2rem;
+    }
+
+    .location-btn span {
+        font-size: 1.2rem;
+    }
+
+    /* Calendar */
+    .calendar-day {
+        padding: 5px 0;
+        font-size: 0.8rem;
+    }
+
+    .day-name {
+        font-size: 0.7rem;
+    }
+
+    /* Dashboard */
+    .dashboard-welcome h1 {
+        font-size: 1.6rem;
+    }
+
+    .dashboard-container {
+        padding: 15px;
+    }
+
+    /* Footer */
+    .footer-bottom {
+        font-size: 0.7rem;
+    }
+
+    /* Blog */
+    .featured-post-card .card-title {
+        font-size: 1.4rem;
+    }
+
+    .blog-card .card-title {
+        font-size: 1.2rem;
+    }
+
+    #detail-title {
+        font-size: 1.6rem;
+    }
+
+    /* About */
+    .pull-quote-section blockquote {
+        font-size: 1.3rem;
+    }
+}
+
+/* ===========================================
+   5. LANDSCAPE MOBILE (max-height: 500px)
+   =========================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        height: auto;
+        min-height: 100vh;
+        padding: 100px 0 50px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .main-nav {
+        padding-top: 60px;
+    }
+
+    .main-nav ul {
+        gap: 10px;
+    }
+
+    .main-nav ul li a {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* ===========================================
+   6. LARGE SCREENS (min-width: 1400px)
+   =========================================== */
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1300px;
+    }
+
+    .hero-content h1 {
+        font-size: 4.2rem;
+    }
+
+    .services-grid {
+        gap: 50px;
+    }
+}
+
+/* ===========================================
+   7. PRINT STYLES
+   =========================================== */
+
+@media print {
+    .main-header,
+    .main-footer,
+    .mobile-menu-toggle,
+    .cta-button,
+    #loading-screen {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        color: black;
+        background: white;
+    }
+
+    .hero-section {
+        height: auto;
+        page-break-after: always;
+    }
+}
+
+/* ===========================================
+   8. TOUCH DEVICE OPTIMIZATIONS
+   =========================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .main-nav ul li a {
+        padding: 12px 20px;
+    }
+
+    .cta-button {
+        padding: 14px 28px;
+    }
+
+    /* Remove hover effects that don't work on touch */
+    .service-card:hover {
+        transform: none;
+    }
+
+    .blog-card:hover {
+        transform: none;
+    }
+
+    /* Add active states for touch feedback */
+    .cta-button:active {
+        transform: scale(0.98);
+    }
+
+    .service-card:active,
+    .blog-card:active {
+        transform: scale(0.99);
+    }
+
+    .location-btn:active {
+        transform: scale(0.98);
+        border-color: var(--soft-gold);
+    }
+}
+
+/* ===========================================
+   9. REDUCED MOTION PREFERENCES
+   =========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ===========================================
+   10. DARK MODE SUPPORT (Optional)
+   =========================================== */
+
+@media (prefers-color-scheme: dark) {
+    /* Uncomment to enable dark mode support */
+    /*
+    :root {
+        --off-white: #1a1a1a;
+        --light-gray: #2d2d2d;
+        --charcoal: #f0f0f0;
+        --white: #2d2d2d;
+    }
+    */
+}

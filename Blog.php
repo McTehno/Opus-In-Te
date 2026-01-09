@@ -15,6 +15,7 @@ require_once 'backend/role_check.php';
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -179,6 +180,7 @@ require_once 'backend/role_check.php';
 
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/loading_screen.js"></script>
     <script src="js/blog.js"></script>
 </body>

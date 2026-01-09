@@ -120,6 +120,7 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Opus in te</title>
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin_responsive.css">
     <link rel="stylesheet" href="/css/admin_modals.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -289,6 +290,7 @@ $recent_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         };
     </script>
     <script src="/js/admin.js"></script>
+    <script src="/js/admin_mobile_nav.js"></script>
     <script src="/js/loading_screen.js"></script>
 </body>
 </html>
