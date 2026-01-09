@@ -3131,4 +3131,6 @@ main {
     display: none !important;
 }
 
-
+.mobile-sidebar-toggle {
+    display: none;
+}
