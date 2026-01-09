@@ -1,0 +1,484 @@
+/* ===========================================
+   ADMIN RESPONSIVE CSS - Mobile & Tablet Styles
+   Opus in te - Admin Panel
+   =========================================== */
+
+@import 'variables.css';
+
+/* ===========================================
+   1. ADMIN MOBILE NAVIGATION
+   =========================================== */
+
+/* Mobile Menu Toggle Button */
+.admin-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+.admin-mobile-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--charcoal);
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.admin-mobile-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.admin-mobile-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.admin-mobile-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ===========================================
+   2. TABLET BREAKPOINT (max-width: 1024px)
+   =========================================== */
+
+@media (max-width: 1024px) {
+    /* Container adjustments */
+    .container {
+        width: 95%;
+    }
+
+    /* Charts grid */
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stats cards */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Admin header nav spacing */
+    .admin-nav ul {
+        gap: 15px;
+    }
+
+    .admin-nav a {
+        font-size: 0.8rem;
+    }
+
+    /* Appointments column widths */
+    .col-doctor { width: 25%; }
+    .col-patient { width: 20%; }
+    .col-info { width: 25%; }
+    .col-location { width: 15%; }
+    .col-status { width: 15%; }
+    .col-actions { width: 15%; }
+
+    /* Blog layout */
+    .blog-layout {
+        flex-direction: column;
+    }
+
+    .blog-sidebar {
+        width: 100%;
+        position: static;
+        max-height: none;
+        margin-bottom: 20px;
+    }
+
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Blog detail */
+    .blog-detail-top {
+        flex-direction: column;
+    }
+
+    .blog-detail-image-wrapper {
+        width: 100%;
+    }
+
+    /* Services table */
+    .services-table th:nth-child(n+4),
+    .services-table td:nth-child(n+4) {
+        display: none;
+    }
+}
+
+/* ===========================================
+   3. MOBILE BREAKPOINT (max-width: 768px)
+   =========================================== */
+
+@media (max-width: 768px) {
+    /* Show mobile toggle */
+    .admin-mobile-toggle {
+        display: flex;
+    }
+
+    /* Admin header adjustments */
+    .admin-header .container {
+        padding: 0 15px;
+    }
+
+    /* Hide desktop nav on mobile */
+    .admin-nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--white);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+
+    .admin-nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .admin-nav ul {
+        flex-direction: column;
+        padding: 20px;
+        gap: 0;
+    }
+
+    .admin-nav ul li {
+        border-bottom: 1px solid #eee;
+    }
+
+    .admin-nav ul li:last-child {
+        border-bottom: none;
+    }
+
+    .admin-nav a {
+        display: block;
+        padding: 15px 0;
+        font-size: 1rem;
+    }
+
+    /* Body padding */
+    body.admin-body {
+        padding-top: 80px;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card .stat-number {
+        font-size: 2rem;
+    }
+
+    /* Chart containers */
+    .chart-container {
+        padding: 15px;
+        overflow-x: auto;
+    }
+
+    .chart-wrapper {
+        min-width: 300px;
+        height: 250px;
+    }
+
+    /* Recent appointments */
+    .recent-appointments {
+        padding: 15px;
+    }
+
+    .appointments-header {
+        display: none;
+    }
+
+    .appointment-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .doctor-info,
+    .patient-info,
+    .appt-details,
+    .appt-type-col,
+    .appt-time {
+        width: 100%;
+        padding: 0;
+    }
+
+    .doctor-info {
+        margin-bottom: 10px;
+    }
+
+    /* Appointments page columns */
+    .appointments-header-row {
+        display: none;
+    }
+
+    .full-appointments-list .appointment-item {
+        flex-direction: column;
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .full-appointments-list .appointment-item > div {
+        width: 100%;
+        padding: 5px 0;
+    }
+
+    .col-actions {
+        text-align: left !important;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    /* Search bar */
+    .appointments-controls {
+        flex-direction: column;
+    }
+
+    .search-bar {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Services page */
+    .services-stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .services-table-container {
+        overflow-x: auto;
+    }
+
+    .services-table {
+        min-width: 600px;
+    }
+
+    /* Blog page */
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .blog-card-image {
+        height: 180px;
+    }
+
+    .blog-card-content {
+        padding: 15px;
+    }
+
+    .blog-title {
+        font-size: 1.2rem;
+    }
+
+    /* Blog detail */
+    .blog-detail-container {
+        padding: 20px;
+    }
+
+    .blog-detail-info h1 {
+        font-size: 1.6rem;
+    }
+
+    .blog-detail-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .blog-action-btn {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+
+    .detail-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Filters */
+    .filter-group {
+        margin-bottom: 20px;
+    }
+
+    .filter-input {
+        padding: 10px 12px;
+    }
+
+    /* Modal adjustments */
+    .modal-content {
+        width: 95%;
+        max-width: none;
+        margin: 10px;
+    }
+
+    .edit-modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Calendar in modal */
+    .calendar-grid {
+        gap: 3px;
+    }
+
+    .calendar-day {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .time-slots-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Export buttons */
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    /* Loading screen */
+    .loading-logo-wrapper {
+        width: 100px;
+        height: 80px;
+    }
+
+    .loading-logo {
+        width: 120px;
+    }
+}
+
+/* ===========================================
+   4. SMALL MOBILE BREAKPOINT (max-width: 480px)
+   =========================================== */
+
+@media (max-width: 480px) {
+    /* Container padding */
+    .container {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    /* Stat cards */
+    .stat-card .stat-number {
+        font-size: 1.6rem;
+    }
+
+    .stat-card h3 {
+        font-size: 0.85rem;
+    }
+
+    /* Chart wrapper */
+    .chart-wrapper {
+        height: 200px;
+    }
+
+    /* Button sizes */
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 18px;
+        font-size: 0.85rem;
+    }
+
+    /* Blog cards */
+    .blog-card-image {
+        height: 150px;
+    }
+
+    /* Time slots */
+    .time-slots-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Services table */
+    .services-table th,
+    .services-table td {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===========================================
+   5. TOUCH DEVICE OPTIMIZATIONS
+   =========================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .admin-nav a {
+        padding: 15px 10px;
+    }
+
+    .action-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Blog card touch feedback */
+    .blog-card:active {
+        transform: scale(0.99);
+    }
+
+    /* Button touch feedback */
+    .btn-primary:active,
+    .btn-secondary:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ===========================================
+   6. PRINT STYLES
+   =========================================== */
+
+@media print {
+    .admin-header,
+    .admin-footer,
+    .admin-mobile-toggle,
+    .action-btn,
+    #loading-screen {
+        display: none !important;
+    }
+
+    body.admin-body {
+        padding-top: 0;
+    }
+
+    .stats-grid,
+    .charts-grid {
+        display: block;
+    }
+
+    .stat-card,
+    .chart-container {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}

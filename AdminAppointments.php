@@ -38,6 +38,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upravljanje Terminima | Opus in te</title>
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin_responsive.css">
     <link rel="stylesheet" href="/css/admin_modals.css">
     <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -408,6 +409,7 @@ $workers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         const appointmentTypes = <?php echo json_encode($appointment_types); ?>;
     </script>
     <script src="/js/admin_appointments.js"></script>
+    <script src="/js/admin_mobile_nav.js"></script>
     <script src="/js/loading_screen.js"></script>
     <script src="/js/notifications.js"></script>
 </body>

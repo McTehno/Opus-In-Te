@@ -62,6 +62,7 @@ $appointments_json = json_encode($appointments);
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -208,6 +209,7 @@ $appointments_json = json_encode($appointments);
     </footer>
 
     <script src="js/dashboard_calendar.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/loading_screen.js"></script>
 </body>
 

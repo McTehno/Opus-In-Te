@@ -80,6 +80,7 @@ $types = $pdo->query("SELECT * FROM Appointment_Type")->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/worker.css">
+    <link rel="stylesheet" href="css/worker_responsive.css">
 
 </head>
 <body class="worker-dashboard">

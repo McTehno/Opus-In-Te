@@ -1,0 +1,485 @@
+/* ===========================================
+   WORKER RESPONSIVE CSS - Mobile & Tablet Styles
+   Opus in te - Worker Panel
+   =========================================== */
+
+@import 'variables.css';
+
+/* ===========================================
+   1. WORKER MOBILE NAVIGATION
+   =========================================== */
+
+/* Mobile Menu Toggle Button */
+.worker-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.worker-mobile-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--charcoal);
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* ===========================================
+   2. TABLET BREAKPOINT (max-width: 1024px)
+   =========================================== */
+
+@media (max-width: 1024px) {
+    /* Worker main */
+    .worker-main {
+        padding: 1.5rem;
+    }
+
+    /* Dashboard title */
+    .dashboard-title {
+        font-size: 2rem;
+    }
+
+    /* Appointments grid */
+    .appointments-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Calendar panel */
+    .calendar-panel {
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    /* Booking container */
+    .booking-container {
+        padding: 0 1rem;
+    }
+
+    /* Datetime container */
+    .datetime-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Progress bar */
+    .progress-bar-container {
+        max-width: 100%;
+    }
+}
+
+/* ===========================================
+   3. MOBILE BREAKPOINT (max-width: 768px)
+   =========================================== */
+
+@media (max-width: 768px) {
+    /* Worker header */
+    .worker-header {
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap;
+    }
+
+    .worker-logo img {
+        height: 40px;
+    }
+
+    .worker-info {
+        gap: 1rem;
+    }
+
+    .worker-name {
+        font-size: 0.9rem;
+    }
+
+    /* Worker main */
+    .worker-main {
+        padding: 1rem;
+    }
+
+    /* Dashboard header row */
+    .dashboard-header-row {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .dashboard-title {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    .btn-new-appointment {
+        justify-content: center;
+        padding: 0.7rem 1.2rem;
+    }
+
+    /* Calendar panel */
+    .calendar-panel {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+
+    .calendar-header {
+        margin-bottom: 1rem;
+    }
+
+    .calendar-header h4 {
+        font-size: 1.2rem;
+    }
+
+    .calendar-header button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+
+    /* Calendar grid */
+    .calendar-grid {
+        gap: 5px;
+        min-height: 250px;
+    }
+
+    .calendar-day-header {
+        font-size: 0.65rem;
+    }
+
+    .calendar-day {
+        height: 35px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+
+    /* Appointments grid */
+    .appointments-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Appointment card */
+    .appointment-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .client-name {
+        font-size: 1.1rem;
+    }
+
+    .appointment-status {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .info-row {
+        margin-bottom: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .edit-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Back to calendar button */
+    .back-to-calendar-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+
+    .modal-footer {
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    /* === Worker Booking Page === */
+    
+    /* Booking header */
+    .booking-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .booking-header h2 {
+        font-size: 1.4rem;
+    }
+
+    /* Progress bar - hide on small screens */
+    .progress-bar-container {
+        display: none;
+    }
+
+    /* Booking content */
+    .booking-content {
+        padding: 1.5rem;
+        border-radius: 12px;
+        min-height: 350px;
+    }
+
+    .close-booking-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.2rem;
+    }
+
+    /* Step title */
+    .step-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Services accordion */
+    .accordion-item {
+        border-radius: 6px;
+    }
+
+    .accordion-header {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+
+    .accordion-content {
+        padding: 0.8rem;
+    }
+
+    .service-card {
+        padding: 0.6rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .service-info {
+        text-align: center;
+    }
+
+    .service-price {
+        font-size: 0.9rem;
+    }
+
+    /* Calendar in booking */
+    .calendar-wrapper {
+        padding: 0.8rem;
+    }
+
+    /* Slots grid */
+    .slots-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .time-slot {
+        padding: 0.4rem;
+        font-size: 0.85rem;
+    }
+
+    /* Summary card */
+    .summary-card {
+        padding: 0.8rem;
+    }
+
+    .summary-card h3 {
+        font-size: 1rem;
+    }
+
+    /* Step actions */
+    .step-actions {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .btn-prev,
+    .btn-next,
+    .btn-finish {
+        width: 100%;
+        padding: 0.7rem 1rem;
+    }
+}
+
+/* ===========================================
+   4. SMALL MOBILE BREAKPOINT (max-width: 480px)
+   =========================================== */
+
+@media (max-width: 480px) {
+    /* Worker header */
+    .worker-header {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .worker-logo img {
+        height: 35px;
+    }
+
+    .worker-name {
+        font-size: 0.8rem;
+    }
+
+    .logout-btn {
+        font-size: 1rem;
+    }
+
+    /* Dashboard title */
+    .dashboard-title {
+        font-size: 1.4rem;
+    }
+
+    /* Calendar */
+    .calendar-day {
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    .calendar-day-header {
+        font-size: 0.6rem;
+    }
+
+    /* Appointment card */
+    .appointment-card {
+        padding: 0.8rem;
+    }
+
+    .client-name {
+        font-size: 1rem;
+    }
+
+    /* Booking */
+    .booking-content {
+        padding: 1rem;
+    }
+
+    .step-title {
+        font-size: 1.2rem;
+    }
+
+    .slots-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===========================================
+   5. TOUCH DEVICE OPTIMIZATIONS
+   =========================================== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .calendar-day {
+        min-height: 40px;
+    }
+
+    .edit-btn {
+        padding: 0.7rem 1.3rem;
+    }
+
+    .time-slot {
+        padding: 0.6rem;
+    }
+
+    /* Touch feedback */
+    .appointment-card:active {
+        transform: scale(0.99);
+    }
+
+    .calendar-day:active {
+        transform: scale(0.95);
+    }
+
+    .btn-new-appointment:active,
+    .edit-btn:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ===========================================
+   6. LANDSCAPE MOBILE
+   =========================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .worker-main {
+        padding: 0.5rem 1rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .calendar-panel {
+        padding: 0.8rem;
+    }
+
+    .calendar-grid {
+        min-height: auto;
+    }
+
+    .calendar-day {
+        height: 28px;
+    }
+
+    .appointments-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===========================================
+   7. PRINT STYLES
+   =========================================== */
+
+@media print {
+    .worker-header,
+    .btn-new-appointment,
+    .edit-btn,
+    .back-to-calendar-btn,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    .worker-main {
+        padding: 0;
+    }
+
+    .appointment-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}

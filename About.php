@@ -12,6 +12,7 @@ require_once 'backend/role_check.php';
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -162,6 +163,7 @@ require_once 'backend/role_check.php';
     </footer>
 
     <script src="js/omeni_animations.js"></script>
+    <script src="js/mobile_nav.js"></script>
     <script src="js/loading_screen.js"></script>
 </body>
 

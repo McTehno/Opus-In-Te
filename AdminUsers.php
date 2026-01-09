@@ -15,6 +15,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upravljanje Korisnicima | Opus in te</title>
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin_responsive.css">
     <link rel="stylesheet" href="/css/admin_modals.css">
     <link rel="stylesheet" href="/css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -202,6 +203,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     </div>
 
     <script src="/js/admin_users.js"></script>
+    <script src="/js/admin_mobile_nav.js"></script>
     <script src="/js/loading_screen.js"></script>
     <script src="/js/notifications.js"></script>
 </body>
