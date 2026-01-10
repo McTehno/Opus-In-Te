@@ -270,79 +270,84 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderVisiblePosts(append = false) {
-        const postsToShow = filteredPosts.slice(0, visibleCount);
-        
-        // Helper to fix image paths
-        const getImgPath = (path) => {
-            if (!path) return '/img/blogplaceholder/blog_placeholder_2.jpg';
-            if (path.startsWith('C:')) return '/img/blogplaceholder/blog_placeholder_2.jpg';
-            if (path.startsWith('http')) return path;
-            if (path.startsWith('/')) return path;
-            return '/' + path;
-        };
+    const postsToShow = filteredPosts.slice(0, visibleCount);
+    
+    // Helper za poti slik
+    const getImgPath = (path) => {
+        if (!path) return '/img/blogplaceholder/blog_placeholder_2.jpg';
+        if (path.startsWith('C:')) return '/img/blogplaceholder/blog_placeholder_2.jpg';
+        if (path.startsWith('http')) return path;
+        if (path.startsWith('/')) return path;
+        return '/' + path;
+    };
 
-        if (!append) {
-            // Clear Grid
-            if (iso) {
-                iso.destroy();
-                iso = null;
-            }
-            blogGrid.innerHTML = '';
-            
-            if (postsToShow.length === 0) {
-                blogGrid.innerHTML = '<p>Nema pronađenih članaka.</p>';
-                loadMoreBtnContainer.style.display = 'none';
-                return;
-            }
-        }
-
-        // Determine which items are new (for appending)
-        let newItems = [];
-        const startIndex = append ? visibleCount - LOAD_STEP : 0;
-        const itemsToRender = filteredPosts.slice(startIndex, visibleCount);
-
-        itemsToRender.forEach(post => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'grid-item';
-            
-            wrapper.innerHTML = `
-                <article class="blog-card">
-                    <div class="card-image-container">
-                        <img src="${getImgPath(post.picture_path)}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">${post.category_names || 'Opus in te'}</span>
-                        <h3 class="card-title"><a href="BlogPost.php?id=${post.idBlog_Post}">${post.title}</a></h3>
-                        <a href="BlogPost.php?id=${post.idBlog_Post}" class="read-more-link">Pročitaj više →</a>
-                    </div>
-                </article>
-            `;
-            
-            blogGrid.appendChild(wrapper);
-            newItems.push(wrapper);
-        });
-
-        // Initialize or Update Isotope
-        if (!iso) {
-            iso = new Isotope(blogGrid, {
-                itemSelector: '.grid-item',
-                layoutMode: 'masonry',
-                percentPosition: true
-            });
-        } else {
-            if (newItems.length > 0) {
-                iso.appended(newItems);
-            }
+    if (!append) {
+        if (iso) {
+            // 1. Odstranimo stare elemente iz Isotope-a in DOM-a z animacijo
+            const items = iso.getItemElements();
+            iso.remove(items);
             iso.layout();
-        }
-
-        // Update Load More Button Visibility
-        if (visibleCount >= filteredPosts.length) {
-            loadMoreBtnContainer.style.display = 'none';
         } else {
-            loadMoreBtnContainer.style.display = 'block';
+            blogGrid.innerHTML = '';
+        }
+        
+        if (postsToShow.length === 0) {
+            blogGrid.innerHTML = '<p>Nema pronađenih članaka.</p>';
+            loadMoreBtnContainer.style.display = 'none';
+            return;
         }
     }
+
+    // Pripravimo nove elemente
+    let newItems = [];
+    const startIndex = append ? visibleCount - LOAD_STEP : 0;
+    const itemsToRender = filteredPosts.slice(startIndex, visibleCount);
+
+    itemsToRender.forEach(post => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'grid-item';
+        
+        wrapper.innerHTML = `
+            <article class="blog-card">
+                <div class="card-image-container">
+                    <img src="${getImgPath(post.picture_path)}" alt="${post.title}" loading="lazy" onload="this.classList.add('img-loaded')">
+                </div>
+                <div class="card-content">
+                    <span class="card-category">${post.category_names || 'Opus in te'}</span>
+                    <h3 class="card-title"><a href="BlogPost.php?id=${post.idBlog_Post}">${post.title}</a></h3>
+                    <a href="BlogPost.php?id=${post.idBlog_Post}" class="read-more-link">Pročitaj više →</a>
+                </div>
+            </article>
+        `;
+        
+        blogGrid.appendChild(wrapper);
+        newItems.push(wrapper);
+    });
+
+    // 2. Ključni del: ENA SAMA inicializacija ali posodobitev
+    if (!iso) {
+        iso = new Isotope(blogGrid, {
+            itemSelector: '.grid-item',
+            layoutMode: 'masonry',
+            percentPosition: true,
+            transitionDuration: '0.6s', // Za tisti "sleek" občutek
+            hiddenStyle: { opacity: 0, transform: 'scale(0.01)' },
+            visibleStyle: { opacity: 1, transform: 'scale(1)' }
+        });
+    } else {
+        // Ker smo elemente že dodali v blogGrid z appendChild, 
+        // Isotope-u samo povemo, naj jih začne upravljati in razporedi
+        iso.appended(newItems);
+        iso.layout();
+    }
+
+    // Posodobitev gumba "Učitaj više"
+    if (visibleCount >= filteredPosts.length) {
+        loadMoreBtnContainer.style.display = 'none';
+    } else {
+        loadMoreBtnContainer.style.display = 'block';
+    }
+}
 
     async function openPost(id) {
         // Fetch full post details
