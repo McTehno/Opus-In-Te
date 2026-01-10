@@ -52,6 +52,40 @@
 
 ---
 
+## Feature Map (by screen/file)
+
+### Public site
+- **Home/Services/About** (`Home.php`, `Services.php`, `About.php`) – hero animations (`js/hero_animation.js`, `js/usluge.js`), service cards, therapist bio.
+- **Blog** (`Blog.php`) – category filter, popular list, and post grid powered by `backend/fetch_posts.php` and `backend/increment_view.php`; front-end helpers in `js/blog.js`.
+- **Contact** (`Contact.php`, `js/contact_form.js`) – PHPMailer-backed form via `backend/send_contact.php`; includes scroll/hover animations (`js/kontakt_animations.js`).
+
+### Booking flow
+- **Wizard UI** (`Booking.php`, `css/booking.css`, `js/booking.js`) – 5-step flow with progress bar, calendar/time slot picker, and confetti on completion.
+- **Availability** – slots resolved server-side through `backend/get_slots.php` (per worker, duration-aware). Locations pre-mapped (Banja Luka/Prijedor/Online) to Address IDs.
+- **Booking creation** – `backend/book_appointment.php` links client+worker to `Appointment`, updates logged-in user contact info, and returns HMAC tokenized URLs.
+- **Email & QR** – PHPMailer template in `backend/book_appointment.php` includes QR pointing to `backend/confirm_appointment.php` and PDF link `backend/generate_appointment_pdf.php`.
+
+### Client & worker
+- **Client dashboard** (`UserDashboard.php`, `js/dashboard_calendar.js`) – upcoming/past visits, inline status badges, calendar view, and quick links to EditProfile/booking.
+- **Profile editing** (`EditProfile.php`, `js/edit_profile.js`) – name/email/phone/avatar updates.
+- **Worker dashboard** (`WorkerDashboard.php`, `js/worker_dashboard.js`) – calendar/list toggle, inline status/time/type edits through `backend/worker_update_appointment.php`.
+- **Worker-side booking** (`WorkerBooking.php`, `js/worker_booking.js`) – staff can reserve on behalf of clients; search existing clients via `backend/worker_search_clients.php`.
+
+### Admin back-office
+- **Dashboard KPIs** (`AdminDashboard.php`) – daily/weekly stats sourced from DB queries in file; cards styled via `css/admin.css`.
+- **Appointments module** (`AdminAppointments.php`, `js/admin_appointments.js`) – filter/search, edit/delete modals, status/price/duration display, backed by `backend/admin_fetch_appointments.php`, `admin_update_appointment.php`, `admin_delete_appointment.php`.
+- **Services** (`AdminServices.php`, `js/admin_services.js`) – CRUD through `backend/admin_fetch_services.php`, `admin_add_service.php`, `admin_update_service.php`, `admin_delete_service.php`.
+- **Blog CMS** (`AdminBlog.php`, `js/admin_blog.js`) – author picker, publish status, view count, images; uses `backend/admin_fetch_blogs.php`, `admin_get_blog.php`, `admin_update_blog.php`, `admin_delete_blog.php`, `admin_fetch_blog_authors.php`.
+- **Users** (`AdminUsers.php`, `js/admin_users.js`) – create/update/delete users and workers; file upload for avatars; endpoints `backend/admin_create_worker.php`, `admin_fetch_users.php`, `admin_update_user.php`, `admin_delete_user.php`.
+- **Exports** – `backend/admin_export_excel.php` (PHPSpreadsheet) and `backend/admin_export_pdf.php` (Dompdf) exposed at `/admin/izvoz/{excel|pdf}`.
+
+### Styling & UX
+- **CSS** lives in `css/` (public, admin, worker themes) with dedicated animation files.
+- **Icons/Fonts**: Font Awesome 6.5.2, Google Fonts (Montserrat, Playfair Display).
+- **Notifications**: `js/notifications.js` provides toast helpers across dashboards/admin.
+
+---
+
 ## Tech Stack
 
 - **Backend:** PHP 8.2+, Bramus Router, PDO (MySQL), PHPMailer, Dompdf, PHPSpreadsheet.
